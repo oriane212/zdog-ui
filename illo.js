@@ -22,6 +22,7 @@ function renderIllo() {
         color: '#636'
       });
 
+    illo.setSize(240,240);
     illo.updateRenderGraph();    
 }
 
@@ -30,6 +31,7 @@ function updateSpanValue(e) {
     let span = document.getElementById(spanid);
     span.innerText = e.target.value;
 }
+
 
 function updateAll(e) {
     updateSpanValue(e);
