@@ -1,0 +1,34 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+main {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.33fr 0.66fr;
+    grid-template-areas: 'controls results';
+}
+
+section.controls {
+    grid-area: controls;
+    background-color: #f9f9f9;
+    padding: 16px;
+}
+
+section.results {
+    grid-area: results;
+    margin: auto;
+}
+
+div.parameter {
+    margin: 12px 0 12px 0;
+}
+
+input {
+    display: block;
+}
