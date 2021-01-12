@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zdog UI</title>
+    <link rel="stylesheet" href="illo.css">
+</head>
+<body>
+    <main>
+        <section class="controls">
+            <div class="parameter">
+                <label for="diameter1">Diameter = </label>
+                <span id="diameter1value">100</span>
+                <input type="range" class="diameter" id="diameter1" name="diameter1"
+                       min="0" max="200" value="100" step="1">
+            </div>
+            <div class="parameter">
+                <label for="stroke1">Stroke = </label>
+                <span id="stroke1value">20</span>
+                <input type="range" class="stroke" id="stroke1" name="stroke1"
+                       min="0" max="40" value="20" step="1" list="tickmarks_stroke">
+            </div>
+        </section>
+
+        <section class="results">
+            <canvas id="illo" width="240" height="240"></canvas>
+        </section>
+    </main>
+    
+   
+</body>
+
+<script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
+<script src="illo.js"></script>
+</html>
