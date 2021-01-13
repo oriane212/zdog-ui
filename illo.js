@@ -3,7 +3,8 @@ controls.addEventListener('input', updateAll);
 
 const inputs_ellipse = {
     diameter: document.getElementById('diameter1'),
-    stroke: document.getElementById('stroke1')
+    stroke: document.getElementById('stroke1'),
+    color: document.getElementById('color1'),
 }
 
 function renderIllo() {
@@ -19,7 +20,7 @@ function renderIllo() {
         addTo: illo,
         diameter: inputs_ellipse.diameter.value,
         stroke: inputs_ellipse.stroke.value,
-        color: '#636'
+        color: inputs_ellipse.color.value
       });
 
     illo.setSize(240,240);
