@@ -1,5 +1,14 @@
-const controls = document.querySelector('.controls');
-controls.addEventListener('input', updateAll);
+// Input Elements
+
+const inputs_illo = {
+    dragRotate: document.getElementById('dragRotate'),
+    animate: document.getElementById('animate')
+    /*
+    rotate_x: document.getElementById('rotate_x'),
+    rotate_y: document.getElementById('rotate_y'),
+    rotate_z: document.getElementById('rotate_z')
+    */
+}
 
 const inputs_ellipse = {
     diameter: document.getElementById('diameter1'),
@@ -7,24 +16,55 @@ const inputs_ellipse = {
     color: document.getElementById('color1'),
 }
 
-function renderIllo() {
+//Event Listeners
 
-    // create illo
-    let illo = new Zdog.Illustration({
-        // set canvas with selector
+const controls_illo = document.querySelector('.controls_illo');
+controls_illo.addEventListener('input', reRenderIllo);
+
+const controls_shape = document.querySelector('.controls_shape');
+controls_shape.addEventListener('input', updateAll);
+
+
+// create illo
+let illo = new Zdog.Illustration({
+    element: '#illo',
+    dragRotate: inputs_illo.dragRotate.checked
+});
+
+illo.setSize(240, 240);
+
+//let isSpinning = inputs_illo.animate.checked;
+
+// add circle
+new Zdog.Ellipse({
+    addTo: illo,
+    diameter: inputs_ellipse.diameter.value,
+    stroke: inputs_ellipse.stroke.value,
+    color: inputs_ellipse.color.value
+    //translate: { z: 10 }
+});
+
+
+// Functions
+
+function reRenderIllo() {
+
+    illo = new Zdog.Illustration({
         element: '#illo',
-      });
+        dragRotate: inputs_illo.dragRotate.checked
+    });
 
-      // add circle
+    illo.setSize(240, 240);
+
+    // add circle
     new Zdog.Ellipse({
         addTo: illo,
         diameter: inputs_ellipse.diameter.value,
         stroke: inputs_ellipse.stroke.value,
         color: inputs_ellipse.color.value
-      });
-
-    illo.setSize(240,240);
-    illo.updateRenderGraph();    
+        //translate: { z: 10 }
+    });
+    
 }
 
 function updateSpanValue(e) {
@@ -33,10 +73,22 @@ function updateSpanValue(e) {
     span.innerText = e.target.value;
 }
 
-
 function updateAll(e) {
     updateSpanValue(e);
-    renderIllo();
+    reRenderIllo();
 }
 
-renderIllo();
+function checkAnimate() {
+    if (inputs_illo.animate.checked) {
+        illo.rotate.y += 0.03;
+    }
+    illo.updateRenderGraph();
+    requestAnimationFrame(checkAnimate);
+}
+
+function init() {
+    illo.updateRenderGraph();
+    checkAnimate();
+}
+
+init();

@@ -1,41 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zdog UI</title>
     <link rel="stylesheet" href="illo.css">
 </head>
+
 <body>
     <main>
         <section class="controls">
-            <div class="parameter">
-                <label for="diameter1">Diameter = </label>
-                <span id="diameter1value">100</span>
-                <input type="range" class="diameter" id="diameter1" name="diameter1"
-                       min="0" max="200" value="100" step="1">
-            </div>
-            <div class="parameter">
-                <label for="stroke1">Stroke = </label>
-                <span id="stroke1value">20</span>
-                <input type="range" class="stroke" id="stroke1" name="stroke1"
-                       min="0" max="40" value="20" step="1" list="tickmarks_stroke">
-            </div>
-            <div class="parameter">
-                <label for="color1">Color = </label>
-                <span id="color1value">#663366</span>
-                <input type="color" class="color" id="color1" name="color1" value="#663366">
-            </div>
+            <section class="controls_illo">
+                <div class="parameter">
+                    <input type="checkbox" id="dragRotate" name="parameter_illo" value="dragRotate">
+                    <label for="dragRotate">Drag Rotate</label>
+                </div>
+                <div class="parameter">
+                    <input type="checkbox" id="animate" name="parameter_illo" value="animate">
+                    <label for="animate">Animate</label>
+                </div>
+            </section>
+            <section class="controls_shape">
+                <div class="parameter">
+                    <label for="diameter1">Diameter = </label>
+                    <span id="diameter1value">100</span>
+                    <input type="range" class="diameter" id="diameter1" name="parameter_shape1" min="0" max="200" value="100"
+                        step="1">
+                </div>
+                <div class="parameter">
+                    <label for="stroke1">Stroke = </label>
+                    <span id="stroke1value">20</span>
+                    <input type="range" class="stroke" id="stroke1" name="parameter_shape1" min="0" max="40" value="20" step="1"
+                        list="tickmarks_stroke">
+                </div>
+                <div class="parameter">
+                    <label for="color1">Color = </label>
+                    <span id="color1value">#663366</span>
+                    <input type="color" class="color" id="color1" name="parameter_shape1" value="#663366">
+                </div>
+            </section>
         </section>
 
         <section class="results">
             <canvas id="illo"></canvas>
         </section>
     </main>
-    
-   
+
+
 </body>
 
 <script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
 <script src="illo.js"></script>
+
 </html>
