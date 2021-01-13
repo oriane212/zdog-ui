@@ -64,6 +64,8 @@ function reRenderIllo() {
         color: inputs_ellipse.color.value
         //translate: { z: 10 }
     });
+
+    illo.updateRenderGraph();
     
 }
 
@@ -81,8 +83,8 @@ function updateAll(e) {
 function checkAnimate() {
     if (inputs_illo.animate.checked) {
         illo.rotate.y += 0.03;
+        illo.updateRenderGraph();
     }
-    illo.updateRenderGraph();
     requestAnimationFrame(checkAnimate);
 }
 
