@@ -23,6 +23,8 @@ controls_illo.addEventListener('change', handleControls_Illo);
 const controls_shape = document.querySelector('.controls_shape');
 controls_shape.addEventListener('input', handleControls_Shape);
 
+const illustration = document.querySelector('.illustration');
+
 
 // create illo
 let illo = new Zdog.Illustration({
@@ -49,6 +51,13 @@ function setInputMaxByCanvasSize(inputEl) {
     let smallerDim = Math.min(parseInt(canvas_width.value), parseInt(canvas_height.value));
     inputEl.setAttribute('max', smallerDim);
     updateSpanValue(inputEl, true);
+}
+
+function resetIllustrationSectionByCanvasSize() {
+    let w = parseInt(canvas_width.value);
+    let h = parseInt(canvas_height.value);
+
+    illustration.setAttribute("style", `width:${w}; height:${h};`)
 }
 
 function reRenderIllo() {
@@ -86,6 +95,7 @@ function handleControls_Illo(e) {
     if (e.target.id === 'canvas_width' | e.target.id === 'canvas_height') {
         setInputMaxByCanvasSize(inputs_ellipse.diameter);
         setInputMaxByCanvasSize(inputs_ellipse.stroke);
+        resetIllustrationSectionByCanvasSize()
     }
     if (e.target.id === 'animate') {
         if (inputs_illo.animate.checked) {
@@ -116,6 +126,7 @@ function checkAnimate() {
 }
 
 function init() {
+    resetIllustrationSectionByCanvasSize();
     illo.updateRenderGraph();
     checkAnimate();
 }
