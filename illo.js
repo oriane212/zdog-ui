@@ -79,9 +79,8 @@ function handleControls_Illo(e) {
             inputs_illo.rotate_x.disabled = true;
             inputs_illo.rotate_y.disabled = true;
         }
-    } else if (e.target.id === 'dragRotate') {
-        reRenderIllo();
     }
+    reRenderIllo();
 }
 
 function handleControls_Shape(e) {
