@@ -41,6 +41,10 @@ div.subparameter {
     margin: 12px 0 12px 24px;
 }
 
+input:disabled {
+    color: #7c7c7c;
+}
+
 .controls_shape input {
     display: block;
     margin: 6px 0 10px 0;

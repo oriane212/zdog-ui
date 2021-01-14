@@ -16,10 +16,10 @@ const inputs_ellipse = {
 //Event Listeners
 
 const controls_illo = document.querySelector('.controls_illo');
-controls_illo.addEventListener('input', reRenderIllo);
+controls_illo.addEventListener('input', handleControls_Illo);
 
 const controls_shape = document.querySelector('.controls_shape');
-controls_shape.addEventListener('input', updateAll);
+controls_shape.addEventListener('input', handleControls_Shape);
 
 
 // create illo
@@ -70,7 +70,21 @@ function updateSpanValue(e) {
     span.innerText = e.target.value;
 }
 
-function updateAll(e) {
+function handleControls_Illo(e) {
+    if (e.target.id === 'animate') {
+        if (inputs_illo.animate.checked) {
+            inputs_illo.rotate_x.disabled = false;
+            inputs_illo.rotate_y.disabled = false;
+        } else {
+            inputs_illo.rotate_x.disabled = true;
+            inputs_illo.rotate_y.disabled = true;
+        }
+    } else if (e.target.id === 'dragRotate') {
+        reRenderIllo();
+    }
+}
+
+function handleControls_Shape(e) {
     updateSpanValue(e);
     reRenderIllo();
 }
