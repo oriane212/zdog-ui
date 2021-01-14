@@ -83,6 +83,8 @@ function updateAll(e) {
 function checkAnimate() {
     if (inputs_illo.animate.checked) {
         illo.rotate.y += 0.03;
+    } 
+    if (inputs_illo.animate.checked | inputs_illo.dragRotate.checked) {
         illo.updateRenderGraph();
     }
     requestAnimationFrame(checkAnimate);
