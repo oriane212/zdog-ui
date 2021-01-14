@@ -2,12 +2,9 @@
 
 const inputs_illo = {
     dragRotate: document.getElementById('dragRotate'),
-    animate: document.getElementById('animate')
-    /*
+    animate: document.getElementById('animate'),
     rotate_x: document.getElementById('rotate_x'),
-    rotate_y: document.getElementById('rotate_y'),
-    rotate_z: document.getElementById('rotate_z')
-    */
+    rotate_y: document.getElementById('rotate_y')
 }
 
 const inputs_ellipse = {
@@ -41,7 +38,6 @@ new Zdog.Ellipse({
     diameter: inputs_ellipse.diameter.value,
     stroke: inputs_ellipse.stroke.value,
     color: inputs_ellipse.color.value
-    //translate: { z: 10 }
 });
 
 
@@ -62,7 +58,6 @@ function reRenderIllo() {
         diameter: inputs_ellipse.diameter.value,
         stroke: inputs_ellipse.stroke.value,
         color: inputs_ellipse.color.value
-        //translate: { z: 10 }
     });
 
     illo.updateRenderGraph();
@@ -82,7 +77,8 @@ function updateAll(e) {
 
 function checkAnimate() {
     if (inputs_illo.animate.checked) {
-        illo.rotate.y += 0.03;
+        illo.rotate.x += parseFloat(inputs_illo.rotate_x.value);
+        illo.rotate.y += parseFloat(inputs_illo.rotate_y.value);
     } 
     if (inputs_illo.animate.checked | inputs_illo.dragRotate.checked) {
         illo.updateRenderGraph();

@@ -17,9 +17,18 @@
                     <label for="dragRotate">Drag Rotate</label>
                 </div>
                 <div class="parameter">
-                    <input type="checkbox" id="animate" name="parameter_illo" value="animate">
+                    <input type="checkbox" id="animate" name="parameter_illo" value="animate" checked>
                     <label for="animate">Animate</label>
                 </div>
+                <div class="subparameter">
+                    <label for="rotate_x">Rotate x: </label>
+                    <input type="number" id="rotate_x" name="parameter_illo" value="0" min="-1" max="1" step="0.01">
+                </div>
+                <div class="subparameter">
+                    <label for="rotate_y">Rotate y: </label>
+                    <input type="number" id="rotate_y" name="parameter_illo" value="0.03" min="-1" max="1" step="0.01">
+                </div>
+                
             </section>
             <section class="controls_shape">
                 <div class="parameter">

@@ -37,6 +37,10 @@ div.parameter {
     margin: 12px 0 12px 0;
 }
 
+div.subparameter {
+    margin: 12px 0 12px 24px;
+}
+
 .controls_shape input {
     display: block;
     margin: 6px 0 10px 0;
