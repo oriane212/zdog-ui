@@ -1,6 +1,8 @@
 // Input Elements
 
 const inputs_illo = {
+    canvas_width: document.getElementById('canvas_width'),
+    canvas_height: document.getElementById('canvas_height'),
     dragRotate: document.getElementById('dragRotate'),
     animate: document.getElementById('animate'),
     rotate_x: document.getElementById('rotate_x'),
@@ -16,7 +18,7 @@ const inputs_ellipse = {
 //Event Listeners
 
 const controls_illo = document.querySelector('.controls_illo');
-controls_illo.addEventListener('input', handleControls_Illo);
+controls_illo.addEventListener('change', handleControls_Illo);
 
 const controls_shape = document.querySelector('.controls_shape');
 controls_shape.addEventListener('input', handleControls_Shape);
@@ -28,7 +30,7 @@ let illo = new Zdog.Illustration({
     dragRotate: inputs_illo.dragRotate.checked
 });
 
-illo.setSize(240, 240);
+illo.setSize(parseInt(canvas_width.value), parseInt(canvas_height.value));
 
 //let isSpinning = inputs_illo.animate.checked;
 
@@ -43,6 +45,12 @@ new Zdog.Ellipse({
 
 // Functions
 
+function setInputMaxByCanvasSize(inputEl) {
+    let smallerDim = Math.min(parseInt(canvas_width.value), parseInt(canvas_height.value));
+    inputEl.setAttribute('max', smallerDim);
+    updateSpanValue(inputEl, true);
+}
+
 function reRenderIllo() {
 
     illo = new Zdog.Illustration({
@@ -50,7 +58,7 @@ function reRenderIllo() {
         dragRotate: inputs_illo.dragRotate.checked
     });
 
-    illo.setSize(240, 240);
+    illo.setSize(parseInt(canvas_width.value), parseInt(canvas_height.value));
 
     // add circle
     new Zdog.Ellipse({
@@ -64,13 +72,21 @@ function reRenderIllo() {
     
 }
 
-function updateSpanValue(e) {
-    const spanid = e.target.id + 'value';
+function updateSpanValue(e, forceSet=false) {
+    let elem = e.target;
+    if (forceSet) {
+        elem = e;
+    }
+    const spanid = elem.id + 'value';
     let span = document.getElementById(spanid);
-    span.innerText = e.target.value;
+    span.innerText = elem.value;
 }
 
 function handleControls_Illo(e) {
+    if (e.target.id === 'canvas_width' | e.target.id === 'canvas_height') {
+        setInputMaxByCanvasSize(inputs_ellipse.diameter);
+        setInputMaxByCanvasSize(inputs_ellipse.stroke);
+    }
     if (e.target.id === 'animate') {
         if (inputs_illo.animate.checked) {
             inputs_illo.rotate_x.disabled = false;

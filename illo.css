@@ -49,3 +49,7 @@ input:disabled {
     display: block;
     margin: 6px 0 10px 0;
 }
+
+canvas {
+    border: 1px dotted lightgray;
+}

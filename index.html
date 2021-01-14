@@ -13,6 +13,14 @@
         <section class="controls">
             <section class="controls_illo">
                 <div class="parameter">
+                    <label for="canvas_width">Canvas width: </label>
+                    <input type="number" id="canvas_width" name="parameter_illo" value="240" min="36" max="1080" step="1">
+                </div>
+                <div class="parameter">
+                    <label for="canvas_height">Canvas height: </label>
+                    <input type="number" id="canvas_height" name="parameter_illo" value="240" min="36" max="1080" step="1">
+                </div>
+                <div class="parameter">
                     <input type="checkbox" id="dragRotate" name="parameter_illo" value="dragRotate">
                     <label for="dragRotate">Drag Rotate</label>
                 </div>
@@ -34,13 +42,13 @@
                 <div class="parameter">
                     <label for="diameter1">Diameter = </label>
                     <span id="diameter1value">100</span>
-                    <input type="range" class="diameter" id="diameter1" name="parameter_shape1" min="0" max="200" value="100"
+                    <input type="range" class="diameter" id="diameter1" name="parameter_shape1" min="0" max="240" value="100"
                         step="1">
                 </div>
                 <div class="parameter">
                     <label for="stroke1">Stroke = </label>
                     <span id="stroke1value">20</span>
-                    <input type="range" class="stroke" id="stroke1" name="parameter_shape1" min="0" max="40" value="20" step="1"
+                    <input type="range" class="stroke" id="stroke1" name="parameter_shape1" min="0" max="240" value="20" step="1"
                         list="tickmarks_stroke">
                 </div>
                 <div class="parameter">
