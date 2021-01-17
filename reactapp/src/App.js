@@ -1,31 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-//import './App.css';
-import './illo.css';
+import './zdogui.css';
 import NumberInput from './components/NumberInput';
+import CheckBox from './components/CheckBox';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       canvas_height: '240',
-      canvas_width: '240'
+      canvas_width: '240',
+      dragRotate: false,
+      animate: true,
+      rotate_x: '0.03',
+      rotate_y: '0'
     }
-    this.resetIllustrationSize = this.resetIllustrationSize.bind(this);
+    this.updateValue = this.updateValue.bind(this);
+    this.toggleCheckBox = this.toggleCheckBox.bind(this);
   }
 
-  resetIllustrationSize(e) {
-    console.log(`testing testing ${e.target.value}`);
-    if (e.target.id === 'canvas_height') {
-      this.setState({
-        canvas_height: `${e.target.value}`
-      });
-    } else {
-      this.setState({
-        canvas_width: `${e.target.value}`
-      });
-    }
-    
+  updateValue(e) {
+    const id = e.target.id;
+    this.setState({
+      [id]: e.target.value
+    })
+  }
+
+  toggleCheckBox(e) {
+    const id = e.target.id;
+    this.setState({
+      [id]: e.target.checked
+    })
   }
 
   render() {
@@ -34,25 +38,18 @@ class App extends React.Component {
       <main>
         <section className="controls">
           <section className="controls_illo">
-            <NumberInput id='canvas_width' label='Canvas width' value={this.state.canvas_width} min='36' max='1080' step='1' onChange={this.resetIllustrationSize}></NumberInput>
-            <NumberInput id='canvas_height' label='Canvas height' value={this.state.canvas_height} min='36' max='1080' step='1' onChange={this.resetIllustrationSize}></NumberInput>
 
-            <div className="parameter">
-              <input type="checkbox" id="dragRotate" name="parameter_illo" value="dragRotate" />
-              <label htmlFor="dragRotate">Drag Rotate</label>
-            </div>
-            <div className="parameter">
-              <input type="checkbox" id="animate" name="parameter_illo" value="animate" checked />
-              <label htmlFor="animate">Animate</label>
-            </div>
-            <div className="subparameter">
-              <label htmlFor="rotate_x">Rotate x: </label>
-              <input type="number" id="rotate_x" name="parameter_illo" value="0" min="-1" max="1" step="0.01" />
-            </div>
-            <div className="subparameter">
-              <label htmlFor="rotate_y">Rotate y: </label>
-              <input type="number" id="rotate_y" name="parameter_illo" value="0.03" min="-1" max="1" step="0.01" />
-            </div>
+            <NumberInput id='canvas_width' label='Canvas width' value={this.state.canvas_width} min='36' max='1080' step='1' disabled={false} onChange={this.updateValue}></NumberInput>
+
+            <NumberInput id='canvas_height' label='Canvas height' value={this.state.canvas_height} min='36' max='1080' step='1' disabled={false} onChange={this.updateValue}></NumberInput>
+
+            <CheckBox id="dragRotate" label="Drag Rotate" name="dragRotate" checked={this.state.dragRotate} value={this.state.dragRotate} onChange={this.toggleCheckBox}></CheckBox>
+
+            <CheckBox id="animate" label="Animate" name="animate" checked={this.state.animate} value={this.state.animate} onChange={this.toggleCheckBox}></CheckBox>
+
+            <NumberInput id="rotate_x" label="Rotate x" value={this.state.rotate_x} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue}></NumberInput>
+
+            <NumberInput id="rotate_y" label="Rotate y" value={this.state.rotate_y} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue}></NumberInput>
 
           </section>
           <section className="controls_shape">

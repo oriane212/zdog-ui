@@ -54,7 +54,7 @@ div.parameter {
     margin: 12px 0 12px 0;
 }
 
-div.subparameter {
+div.parameter > div.parameter {
     margin: 12px 0 12px 24px;
 }
 
