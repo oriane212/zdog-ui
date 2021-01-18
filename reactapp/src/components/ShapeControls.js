@@ -1,5 +1,7 @@
 import React from 'react';
 import Shape from './Shape';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 class ShapeControls extends React.Component {
     constructor(props) {
@@ -24,6 +26,15 @@ class ShapeControls extends React.Component {
 
         return (
             <section className="controls_shape">
+                <header>
+                    <select name="selectShape" id="selectShape">
+                        <option value="">Add a shape</option>
+                        <option value="Ellipse">Ellipse</option>
+                    </select>
+                    <div id="addShapeBtn">
+                        <FontAwesomeIcon icon={faPlus} />
+                    </div>
+                </header>
                 {shapeComponents}
             </section>
         );
