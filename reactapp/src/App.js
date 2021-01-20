@@ -14,18 +14,12 @@ class App extends React.Component {
       animate: true,
       rotate_x: '0.03',
       rotate_y: '0',
-      shapes: [
-        {
-          shapeid: 0,
-          shapeClass: 'Ellipse',
-          diameter: 100,
-          stroke: 20
-        }
-      ]
+      shapes: []
     }
     this.updateValue = this.updateValue.bind(this);
     this.toggleCheckBox = this.toggleCheckBox.bind(this);
     this.updateShapes = this.updateShapes.bind(this);
+    this.addShape = this.addShape.bind(this);
   }
 
   updateValue(e) {
@@ -49,6 +43,12 @@ class App extends React.Component {
     console.log(e.target.value);
   }
 
+  addShape(newshapearry) {
+    this.setState({
+      shapes: newshapearry
+    })
+  }
+
   render() {
     return (
 
@@ -56,21 +56,26 @@ class App extends React.Component {
         <section className="controls">
           <section className="controls_illo">
 
-            <NumberInput id='canvas_width' label='Canvas width' value={this.state.canvas_width} min='36' max='1080' step='1' disabled={false} onChange={this.updateValue}></NumberInput>
+            <div className="controlsContainer">
+              <NumberInput id='canvas_width' label='Canvas width' value={this.state.canvas_width} min='36' max='1080' step='1' disabled={false} onChange={this.updateValue}></NumberInput>
 
-            <NumberInput id='canvas_height' label='Canvas height' value={this.state.canvas_height} min='36' max='1080' step='1' disabled={false} onChange={this.updateValue}></NumberInput>
+              <NumberInput id='canvas_height' label='Canvas height' value={this.state.canvas_height} min='36' max='1080' step='1' disabled={false} onChange={this.updateValue}></NumberInput>
 
-            <CheckBox id="dragRotate" label="Drag Rotate" name="dragRotate" checked={this.state.dragRotate} onChange={this.toggleCheckBox}></CheckBox>
+              <CheckBox id="dragRotate" label="Drag Rotate" name="dragRotate" checked={this.state.dragRotate} onChange={this.toggleCheckBox}></CheckBox>
 
-            <CheckBox id="animate" label="Animate" name="animate" checked={this.state.animate} onChange={this.toggleCheckBox}></CheckBox>
+              <CheckBox id="animate" label="Animate" name="animate" checked={this.state.animate} onChange={this.toggleCheckBox}></CheckBox>
 
-            <NumberInput id="rotate_x" label="Rotate x" value={this.state.rotate_x} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue}></NumberInput>
+              <NumberInput id="rotate_x" label="Rotate x" value={this.state.rotate_x} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue} paramlevel="2"></NumberInput>
 
-            <NumberInput id="rotate_y" label="Rotate y" value={this.state.rotate_y} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue}></NumberInput>
+              <NumberInput id="rotate_y" label="Rotate y" value={this.state.rotate_y} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue} paramlevel="2"></NumberInput>
+            </div>
+
+
 
           </section>
 
-          <ShapeControls appstate={this.state} onChange={this.updateShapes}></ShapeControls>
+
+          <ShapeControls appstate={this.state} onAdd={this.addShape} onChange={this.updateShapes}></ShapeControls>
 
         </section>
 
