@@ -31,9 +31,9 @@ class Shape extends React.Component {
                 label={paramclass}
                 name="parameter"
                 value={paramvalue}
-                min="0"
+                min={0}
                 max={this.canvasMin}
-                step="1"
+                step={1}
                 disabled={false}
                 onChange={this.props.onChange}
             ></RangeInput>
