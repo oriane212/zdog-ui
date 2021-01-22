@@ -49,12 +49,20 @@ section.code {
 }
 
 .controls_illo {
+    /*
     background-color: #4a4a4a;
     color: white;
+    */
 }
 
-div.parameter {
+.parameter {
     margin: 12px 0 12px 0;
+    display: block;
+}
+
+.sub-parameter {
+    margin: 12px 0 12px 24px;
+    display: block;
 }
 
 div.paramlevel2 {
@@ -95,11 +103,9 @@ input:disabled {
 
 header {
     display: grid;
-    grid-template-columns: 0.55fr 0.45fr;
+    grid-template-columns: 0.5fr 0.5fr;
     grid-template-areas: 'selectShape addShapeBtn';
-    height: 44px;
-    padding: 0 12px 0 0;
-    background-color: #383838;
+    padding: 16px;
     border: none;
 }
 

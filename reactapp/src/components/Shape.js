@@ -1,4 +1,5 @@
 import React from 'react';
+import generateID from '../generateID';
 import RangeInput from './RangeInput';
 
 class Shape extends React.Component {
@@ -27,6 +28,7 @@ class Shape extends React.Component {
     createRangeInput(paramclass, paramvalue) {
         return (
             <RangeInput 
+                key={generateID()}
                 id={`${paramclass}1`} 
                 label={paramclass}
                 name="parameter"

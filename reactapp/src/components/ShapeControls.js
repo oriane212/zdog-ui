@@ -1,6 +1,6 @@
 import React from 'react';
 import Shape from './Shape';
-import { Button, FormControl } from '@material-ui/core';
+import { Button, FormControl, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -66,6 +66,9 @@ class ShapeControls extends React.Component {
             <section className="controls_shape">
                 <header>
                     <FormControl>
+                        <InputLabel id="new-shape-label">
+                            New Shape
+                        </InputLabel>
                         <Select value={this.state.selectShapeValue} onChange={this.handle_selectShape}>
                             <MenuItem value="Ellipse">Ellipse</MenuItem>
                             <MenuItem value="Rectangle">Rectangle</MenuItem>
@@ -73,7 +76,10 @@ class ShapeControls extends React.Component {
                         </Select>
                     </FormControl>
                     <div className="btnContainer">
-                        <Button color="primary" onClick={this.handle_onAdd} startIcon={<AddIcon />}>Add Shape</Button>
+                        <IconButton onClick={this.handle_onAdd} aria-label="add">
+                            <AddIcon color="primary" fontSize="small"/>
+                        </IconButton>
+                        
                     </div>
                 </header>
                 <div className="controlsContainer">
@@ -95,3 +101,4 @@ export default ShapeControls;
                     </select>
                     */
 //<button id="addShapeBtn" onClick={this.handle_onAdd}>Add</button>
+//<Button color="primary" onClick={this.handle_onAdd} startIcon={<AddIcon />}>Add Shape</Button>
