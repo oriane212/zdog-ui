@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './zdogui.css';
 import ShapeControls from './components/ShapeControls';
 import { FormControl, FormControlLabel, Input, InputLabel } from '@material-ui/core';
@@ -6,68 +6,32 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      canvas_height: '240',
-      canvas_width: '240',
-      dragRotate: false,
-      animate: true,
-      rotate_x: .06,
-      rotate_y: 0,
-      shapes: []
-    }
-    this.updateValue = this.updateValue.bind(this);
-    this.toggleCheckBox = this.toggleCheckBox.bind(this);
-    this.updateShapes = this.updateShapes.bind(this);
-    this.addShape = this.addShape.bind(this);
-    this.setValwParentID = this.setValwParentID.bind(this);
-    
-  }
+function App(props) {
+  
+  const [canvas_w, setCanvas_w] = useState(240);
+  const [canvas_h, setCanvas_h] = useState(240);
+  const [dragRotate, setDragRotate] = useState(false);
+  const [animate, setAnimate] = useState(true);
+  const [rotate_x, setRotate_x] = useState(.06);
+  const [rotate_y, setRotate_y] = useState(0);
+  //const [shapes, setShapes] = useState([]);
 
-  updateValue(e, v) {
-    const id = e.target.id;
-    let value = e.target.value;
-
-    console.log(e.target, value);
-
-    this.setState({
-      [id]: value
-    })
-  }
-
-  // works for Material UI Sliders
-  setValwParentID(e, val) {
-    let parent = e.target.parentElement;
-    let parentID = parent.getAttribute('id');
-    console.log(parentID);
-    this.setState({
-      [parentID]: val
-    })
-  }
-
-  toggleCheckBox(e) {
-    const id = e.target.id;
-    this.setState({
-      [id]: e.target.checked
-    })
-  }
-
-  updateShapes(e) {
+  /*
+  function updateShapes(e) {
 
     // TODO
 
     console.log(e.target.value);
   }
+  */
 
-  addShape(newshapearry) {
+  /*
+  function addShape(newshapearry) {
     this.setState({
       shapes: newshapearry
     })
   }
-
-  render() {
+  */
 
     return (
 
@@ -80,14 +44,14 @@ class App extends React.Component {
               <div className="parameter">
                 <FormControl>
                   <InputLabel htmlFor="canvas_width">Canvas width</InputLabel>
-                  <Input id="canvas_width" value={this.state.canvas_width} disabled={false} onChange={this.updateValue} />
+                  <Input id="canvas_width" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(e.target.value)} />
                 </FormControl>
               </div>
 
               <div className="parameter">
                 <FormControl>
                   <InputLabel htmlFor="canvas_height">Canvas height</InputLabel>
-                  <Input id="canvas_height" value={this.state.canvas_height} disabled={false} onChange={this.updateValue} />
+                  <Input id="canvas_height" value={canvas_h} disabled={false} onChange={(e,v) => setCanvas_h(e.target.value)} />
                 </FormControl>
               </div>
 
@@ -95,7 +59,7 @@ class App extends React.Component {
               <div className="parameter">
                 <FormControlLabel
                   label="Drag Rotate"
-                  control={<Checkbox checked={this.state.dragRotate} onChange={this.toggleCheckBox} name="dragRotate" id="dragRotate" color="primary" />}
+                  control={<Checkbox checked={dragRotate} onChange={() => setDragRotate(!dragRotate)} name="dragRotate" id="dragRotate" color="primary" />}
                 />
               </div>
 
@@ -103,20 +67,20 @@ class App extends React.Component {
               <div className="parameter">
                 <FormControlLabel
                   label="Animate"
-                  control={<Checkbox checked={this.state.animate} onChange={this.toggleCheckBox} name="animate" id="animate" color="default" />}
+                  control={<Checkbox checked={animate} onChange={() => setAnimate(!animate)} name="animate" id="animate" color="default" />}
                 />
               </div>
 
 
 
               <div className="sub-parameter">
-                <Typography id="rotate_x_label">Rotate y = {this.state.rotate_x}</Typography>
-                <Slider id="rotate_x" value={this.state.rotate_x} min={0} max={1} step={0.01} onChange={this.setValwParentID} aria-labelledby="rotate_x_label" disabled={!this.state.animate} />
+                <Typography id="rotate_x_label">Rotate x = {rotate_x}</Typography>
+                <Slider id="rotate_x" value={rotate_x} min={0} max={1} step={0.01} onChange={(e,v) => setRotate_x(v)} aria-labelledby="rotate_x_label" disabled={!animate} />
               </div>
 
               <div className="sub-parameter">
-                <Typography id="rotate_y_label">Rotate y = {this.state.rotate_y}</Typography>
-                <Slider id="rotate_y" value={this.state.rotate_y} min={0} max={1} step={0.01} onChange={this.setValwParentID} aria-labelledby="rotate_y_label" disabled={!this.state.animate} />
+                <Typography id="rotate_y_label">Rotate y = {rotate_y}</Typography>
+                <Slider id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e,v) => setRotate_y(v)} aria-labelledby="rotate_y_label" disabled={!animate} />
               </div>
 
 
@@ -125,15 +89,15 @@ class App extends React.Component {
 
           </section>
 
-
-          <ShapeControls appstate={this.state} onAdd={this.addShape} onChange={this.updateShapes}></ShapeControls>
+          
+          
 
         </section>
 
         <section className="results">
 
-          <section className="illustration" width={this.state.canvas_width} height={this.state.canvas_height}>
-            <canvas id="illo" width={this.state.canvas_width} height={this.state.canvas_height}></canvas>
+          <section className="illustration" width={canvas_w} height={canvas_h}>
+            <canvas id="illo" width={canvas_w} height={canvas_h}></canvas>
           </section>
           <section id="container"></section>
 
@@ -142,31 +106,9 @@ class App extends React.Component {
       </main>
 
     );
-  }
+  
 }
 
 export default App;
 
-/*
-
-<NumberInput id="rotate_x" label="Rotate x" value={this.state.rotate_x} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue} paramlevel="2"></NumberInput>
-
-              <NumberInput id="rotate_y" label="Rotate y" value={this.state.rotate_y} min="-1" max="1" step="0.01" disabled={!this.state.animate} onChange={this.updateValue} paramlevel="2"></NumberInput>
-
-              */
-
-
-/*
-<Typography id="rotate_y_label">Rotate y = {this.state.rotate_y}</Typography>
-<Slider id="rotate_y" value={this.state.rotate_y} min={0} max={1} step={0.01} onChange={this.updateValue} aria-labelledby="rotate_y_label" disabled={!this.state.animate}/>
-
-<FormControl>
-<Typography id="rotate_x_label">Rotate x = {this.state.rotate_x}</Typography>
-<Slider id="rotate_x" value={this.state.rotate_x} min={0.00} max={1.00} step={0.01} onChange={this.updateValue} disabled={!this.state.animate}/>
-</FormControl>
-
-<CheckBox id="dragRotate" label="Drag Rotate" name="dragRotate" checked={this.state.dragRotate} onChange={this.toggleCheckBox}></CheckBox>
-
-<CheckBox id="animate" label="Animate" name="animate" checked={this.state.animate} onChange={this.toggleCheckBox}></CheckBox>
-
-*/
+// <ShapeControls appstate={{values, shapes}} onAdd={this.addShape} onChange={this.updateShapes}></ShapeControls>
