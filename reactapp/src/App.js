@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './zdogui.css';
 import Controls from './components/Controls';
+import Viewer from './components/Viewer';
 
 
 function App(props) {
@@ -8,10 +9,10 @@ function App(props) {
   const stateVars = {
     canvas_w: useState(240),
     canvas_h: useState(240),
-    dragRotate: useState(false),
+    dragRotate: useState(true),
     animate: useState(true),
-    rotate_x: useState(.06),
-    rotate_y: useState(0),
+    rotate_x: useState(0),
+    rotate_y: useState(.06),
     shapes: useState([])
   }
 
@@ -20,18 +21,8 @@ function App(props) {
     <React.Fragment>
 
     <main>
-      
       <Controls stateVars={stateVars}></Controls>
-
-      <section className="results">
-
-        <section className="illustration" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}>
-          <canvas id="illo" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}></canvas>
-        </section>
-        
-
-      </section>
-
+      <Viewer stateVars={stateVars}></Viewer>
     </main>
 
   <section id="container"></section>

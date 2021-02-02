@@ -17,7 +17,7 @@ function ShapeControls(props) {
 
     const shapeparams = {
         'Ellipse': {
-            diameter: 200,
+            diameter: 100,
             stroke: 20
         }
     }
