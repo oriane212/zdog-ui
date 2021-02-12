@@ -44,13 +44,13 @@ function Controls(props) {
                 <div className="controlsContainer">
 
                     <FormControl className={classes.parameter}>
-                        <InputLabel htmlFor="canvas_width">Canvas width</InputLabel>
-                        <Input id="canvas_width" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(e.target.value)} />
+                        <InputLabel htmlFor="canvas_w">Canvas width</InputLabel>
+                        <Input id="canvas_w" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(e.target.value)} />
                     </FormControl>
 
                     <FormControl className={classes.parameter}>
-                        <InputLabel htmlFor="canvas_height">Canvas height</InputLabel>
-                        <Input id="canvas_height" value={canvas_h} disabled={false} onChange={(e, v) => setCanvas_h(e.target.value)} />
+                        <InputLabel htmlFor="canvas_h">Canvas height</InputLabel>
+                        <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => setCanvas_h(e.target.value)} />
                     </FormControl>
 
                     <FormControl className={classes.parameter}>
@@ -81,7 +81,7 @@ function Controls(props) {
 
             </section>
 
-            <ShapeControls stateShapes={stateVars.shapes}></ShapeControls>
+            <ShapeControls addNewZdogShape={props.addNewZdogShape} stateShapes={stateVars.shapes}></ShapeControls>
 
 
         </section>

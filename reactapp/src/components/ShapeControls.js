@@ -6,7 +6,8 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import generateID from '../generateID';
-import Ellipse from './Ellipse';
+// import Ellipse from './Ellipse';
+import ShapeLayer from './ShapeLayer';
 
 function ShapeControls(props) {
 
@@ -15,13 +16,16 @@ function ShapeControls(props) {
     const stateShapes = props.stateShapes;
     const [shapes, setShapes] = [stateShapes[0], stateShapes[1]];
 
+    /*
     const shapeparams = {
         'Ellipse': {
             diameter: 100,
             stroke: 20
         }
     }
+    */
 
+    /*
     function copyShapes() {
         let newshapearry = [];
         newshapearry.push(shapes);
@@ -34,35 +38,50 @@ function ShapeControls(props) {
         flattened[index] = shape;
         setShapes(flattened);
     }
+    */
 
-    // currently only works for Ellipse
+
+    /*
     function handle_onAdd(e) {
-        if (selectShapeValue === 'Ellipse') {
+        //if (selectShapeValue === 'Ellipse') {
             let newshape = {
                 //shapeid: 0,
                 shapeClass: selectShapeValue,
-                params: shapeparams[selectShapeValue]
+                //params: shapeparams[selectShapeValue]
+                params: []
             }
             let flattened = copyShapes();
             flattened.push(newshape);
             setShapes(flattened);
-        }
+        //}
     }
+    */
 
     let shapeComponents = [];
     if (shapes.length > 0) {
         shapeComponents = shapes.map((shape, i) => {
+            return (
+            <div key={generateID()}>shape {i} is {selectShapeValue}</div>
+               /*
+                <ShapeLayer key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></ShapeLayer>
+                */
+            )
+            /*
             if (shape.shapeClass === 'Ellipse') {
                 return (
                     <Ellipse key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></Ellipse>
                 )
-            }
+            }*/
             /*
             return (
                 <Shape key={generateID()} id={shape.shapeid} appstate={this.props.appstate} onChange={this.handle_onChange}></Shape>
             )
             */
         })
+    }
+
+    function handle_onAdd() {
+        props.addNewZdogShape(selectShapeValue);
     }
 
     return (

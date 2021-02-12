@@ -107,6 +107,7 @@ header {
     grid-template-areas: 'selectShape addShapeBtn';
     padding: 16px;
     border: none;
+    background-color: #e4e4e4;
 }
 
 select#selectShape {
