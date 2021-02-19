@@ -81,7 +81,7 @@ function Controls(props) {
 
             </section>
 
-            <ShapeControls addNewZdogShape={props.addNewZdogShape} stateShapes={stateVars.shapes}></ShapeControls>
+            <ShapeControls addNewZdogShape={props.addNewZdogShape} stateShapes={props.shapes}></ShapeControls>
 
 
         </section>
