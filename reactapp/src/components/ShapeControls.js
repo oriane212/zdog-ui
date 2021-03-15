@@ -11,77 +11,68 @@ import ShapeLayer from './ShapeLayer';
 
 function ShapeControls(props) {
 
+    const stateVars = props.stateVars;
+    //const shapeCount = stateVars.shapeCount[0];
+    const addedShapeClasses = stateVars.addedShapeClasses[0];
+
+    const zdogDefaultPropValPairs = props.zdogDefaultPropValPairs;
+
+
     const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
-    const stateShapes = props.stateShapes;
-    const [shapes, setShapes] = [stateShapes[0], stateShapes[1]];
+    /* const stateShapes = props.stateShapes;
+    const [shapes, setShapes] = [stateShapes[0], stateShapes[1]]; */
 
-    /*
-    const shapeparams = {
-        'Ellipse': {
-            diameter: 100,
-            stroke: 20
+
+    //let shapeComponents = [];
+
+    let shapeComponents = addedShapeClasses.map((string, i) => {
+
+        // QUICK TEST
+        /* let defaultShapePairsArry = zdogDefaultPropValPairs[string];
+        let shapeProps = defaultShapePairsArry.map((pair) => pair[0]); */
+        let shapeProps = ['diameter', 'stroke'];
+
+        return (
+            <ShapeLayer key={generateID()} stateVars={stateVars} i={i} shapeClass={string} shapeProps={shapeProps}/>
+        )
+    })
+
+
+    // use stateVars.shapeCount[0] with propValPairs object for creating shape components (instead of using a shapes array we once had)
+    /* if (shapeCount > 0) {
+        for (let i=0; i<shapeCount; i++) {
+        
+            return (
+                <ShapeLayer key={generateID()} stateVars={stateVars} i={i} />
+            )
+
+            // put this in ShapeLayer
+
+            let shapeClassAtIndex = stateVars[`shapeClass_${i}`];
+            let defaultShapePairsArry = zdogDefaultPropValPairs[shapeClassAtIndex];
+
+            defaultShapePairsArry.forEach((pair) => {
+                let prop = pair[0];
+                let stateVal = stateVars[`${prop}_${i}`];
+            })
+
         }
-    }
-    */
+    } */
 
-    /*
-    function copyShapes() {
-        let newshapearry = [];
-        newshapearry.push(shapes);
-        let flattened = newshapearry.flat();
-        return flattened;
-    }
-
-    function handle_onChange(shape, index) {
-        let flattened = copyShapes();
-        flattened[index] = shape;
-        setShapes(flattened);
-    }
-    */
-
-
-    /*
-    function handle_onAdd(e) {
-        //if (selectShapeValue === 'Ellipse') {
-            let newshape = {
-                //shapeid: 0,
-                shapeClass: selectShapeValue,
-                //params: shapeparams[selectShapeValue]
-                params: []
-            }
-            let flattened = copyShapes();
-            flattened.push(newshape);
-            setShapes(flattened);
-        //}
-    }
-    */
-
-    let shapeComponents = [];
-    if (shapes.length > 0) {
+    /* if (shapes.length > 0) {
         shapeComponents = shapes.map((shape, i) => {
             return (
-            <div key={generateID()}>shape {i} is {selectShapeValue}</div>
-               /*
-                <ShapeLayer key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></ShapeLayer>
-                */
+            <ShapeLayer key={generateID()} shape={shape} i={i} stateShapes={props.stateShapes} stateVars={stateVars}/>
+            //<div key={generateID()}>Shape {i+1} ({shape.shapeClass})</div>
             )
-            /*
-            if (shape.shapeClass === 'Ellipse') {
-                return (
-                    <Ellipse key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></Ellipse>
-                )
-            }*/
-            /*
-            return (
-                <Shape key={generateID()} id={shape.shapeid} appstate={this.props.appstate} onChange={this.handle_onChange}></Shape>
-            )
-            */
         })
-    }
+    } */
 
     function handle_onAdd() {
-        props.addNewZdogShape(selectShapeValue);
+        //props.addNewZdogShape(selectShapeValue);
+        //props.addShape(selectShapeValue);
+        props.handleAddShape(selectShapeValue);
     }
 
     return (

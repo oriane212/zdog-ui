@@ -5,6 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import ShapeControls from './ShapeControls';
+import generateID from '../generateID';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -26,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Controls(props) {
 
+    const classes = useStyles();
+
     const stateVars = props.stateVars;
     const [canvas_w, setCanvas_w] = [stateVars.canvas_w[0], stateVars.canvas_w[1]];
     const [canvas_h, setCanvas_h] = [stateVars.canvas_h[0], stateVars.canvas_h[1]];
@@ -35,7 +38,36 @@ function Controls(props) {
     const [rotate_y, setRotate_y] = [stateVars.rotate_y[0], stateVars.rotate_y[1]];
     //const [shapes, setShapes] = [stateVars.shapes[0], stateVars.shapes[1]];
 
-    const classes = useStyles();
+    // QUICK TEST
+    //const [diameter_0, setDiameter_0] = stateVars.diameter_0;
+
+    let parameters = ['stroke'];
+
+    let iterativeComponents = []; 
+    stateVars.addedShapeClasses[0].forEach((string, i) => {
+        parameters.forEach((prop) => {
+            let elID = prop + '_' + i;
+            let elID_label = elID+'_label';
+            let stateVal = stateVars[elID][0];
+            let sliderComponent = (
+                <FormControl id={elID} key={generateID()} className={classes.parameter}>
+                        <Typography id={elID_label}>{prop} = {stateVal}</Typography>
+                        <Slider className={classes.slider} value={stateVal} min={0} max={200} step={1} onChange={(e,v) => stateVars[elID][1](v)} aria-labelledby={elID_label} />
+                    </FormControl>
+            )
+            iterativeComponents.push(sliderComponent);
+        })
+        // below has a smooth slider!!
+        /* return (
+            <FormControl id='diameter_0' className={classes.parameter}>
+                        <Typography id='diameter_0_label'>diameter = {diameter_0}</Typography>
+                        <Slider className={classes.slider} value={diameter_0} min={0} max={200} step={1} onChange={(e,v) => setDiameter_0(v)} aria-labelledby='diameter_0_label' />
+                    </FormControl>
+        ) */
+    });
+
+
+    
 
     return (
 
@@ -45,7 +77,7 @@ function Controls(props) {
 
                     <FormControl className={classes.parameter}>
                         <InputLabel htmlFor="canvas_w">Canvas width</InputLabel>
-                        <Input id="canvas_w" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(e.target.value)} />
+                        <Input id="canvas_w" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(Number(e.target.value))} />
                     </FormControl>
 
                     <FormControl className={classes.parameter}>
@@ -77,11 +109,15 @@ function Controls(props) {
                         <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => setRotate_y(v)} aria-labelledby="rotate_y_label" disabled={!animate} />
                     </FormControl>
 
+
+                    {iterativeComponents}
+
                 </div>
 
             </section>
 
-            <ShapeControls addNewZdogShape={props.addNewZdogShape} stateShapes={props.shapes}></ShapeControls>
+            <ShapeControls stateVars={stateVars} handleAddShape={props.handleAddShape} zdogDefaultPropValPairs={props.zdogDefaultPropValPairs}
+            /* addShape={props.addShape} addNewZdogShape={props.addNewZdogShape} stateShapes={props.shapes} */></ShapeControls>
 
 
         </section>

@@ -8,7 +8,9 @@ let illo = '';
 function Viewer(props) {
 
     const stateVars = props.stateVars;
-    const shapes = props.shapes;
+    //const shapes = props.shapes;
+    const addedShapeClasses = stateVars.addedShapeClasses[0];
+    const zdogDefaultPropValPairs = props.zdogDefaultPropValPairs;
     
     const refDragRotate = useRef(stateVars.dragRotate[0]);
     refDragRotate.current = stateVars.dragRotate[0];
@@ -35,12 +37,40 @@ function Viewer(props) {
         })
     
         illo.setSize(stateVars.canvas_w[0], stateVars.canvas_h[0]);
+
+        
+        addedShapeClasses.forEach((string, i) => {
+
+            // create data for shape
+            let data = {
+                addTo: illo
+            };
+
+            // QUICK TEST
+            //let pairs = zdogDefaultPropValPairs[string];
+            let pairs = [['diameter', '150'], ['stroke', '20']];
+            pairs.forEach((pair) => {
+                let prop = pair[0];
+                let val = stateVars[`${prop}_${i}`][0];
+                data[prop] = val;
+            })
+
+            // create zDog shape
+            new Zdog[string](data);
+
+            /* new Zdog.Ellipse({
+                diameter: stateVars.diameter_0[0]
+            }); */
+        })
+
+
     
-        shapes[0].forEach((shape) => {
+        /* shapes[0].forEach((shape) => {
           console.log(shape);
           shape.data.addTo = illo;
-          new Zdog.Ellipse(shape.data);
-        })
+          let zdogshape = new Zdog[shape.shapeClass](shape.data);
+          console.log(zdogshape);
+        }) */
     
         illo.updateRenderGraph();
     
