@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Shape from './Shape';
-import { Button, FormControl, IconButton } from '@material-ui/core';
+import { Button, FormControl, Input, IconButton, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -9,12 +9,36 @@ import generateID from '../generateID';
 // import Ellipse from './Ellipse';
 import ShapeLayer from './ShapeLayer';
 
+const useStyles = makeStyles((theme) => ({
+    slider: {
+        width: 200
+    },
+    checkbox: {
+        'padding-bottom': 12
+    },
+    parameter: {
+        display: 'block',
+        margin: 16
+    },
+    subparameter: {
+        'margin-left': 32,
+        'margin-top': 3,
+        'margin-bottom': 3
+    }
+}));
+
 function ShapeControls(props) {
+
+    let inputRef = useRef();
+
+    let currentActiveRef = '';
 
     const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
     const stateShapes = props.stateShapes;
     const [shapes, setShapes] = [stateShapes[0], stateShapes[1]];
+
+    const classes = useStyles();
 
     /*
     const shapeparams = {
@@ -25,7 +49,7 @@ function ShapeControls(props) {
     }
     */
 
-    /*
+    
     function copyShapes() {
         let newshapearry = [];
         newshapearry.push(shapes);
@@ -33,12 +57,12 @@ function ShapeControls(props) {
         return flattened;
     }
 
-    function handle_onChange(shape, index) {
+    /* function handle_onChange(shape, index) {
         let flattened = copyShapes();
         flattened[index] = shape;
         setShapes(flattened);
-    }
-    */
+    } */
+    
 
 
     /*
@@ -57,11 +81,41 @@ function ShapeControls(props) {
     }
     */
 
+    function handleTest(e) {
+        //console.log('selectionStart: ' + inputRef.current.selectionStart);
+
+        //inputRef = e.target;
+        currentActiveRef = inputRef;
+        console.log('currentActive: ', currentActiveRef);
+        
+        let [parameter, shapeindex] = e.target.id.split('_');
+
+        let flattened = copyShapes();
+        flattened[shapeindex].data[parameter] = e.target.value;
+
+        setShapes(flattened);
+
+        //refocus(inputRef);
+        //inputRef.current.focus();
+    }
+
+    function refocus(ref) {
+        ref.current.focus();
+    }
+
     let shapeComponents = [];
     if (shapes.length > 0) {
         shapeComponents = shapes.map((shape, i) => {
+
             return (
-            <div key={generateID()}>shape {i} is {selectShapeValue}</div>
+            <div key={generateID()}>
+                <div>shape {i} is {shape.shapeClass}</div>
+                <FormControl className={classes.parameter}>
+                        <InputLabel htmlFor="diameter_0">test diameter</InputLabel>
+                        <Input inputRef={inputRef} id="diameter_0" value={shape.data.diameter} disabled={false} onChange={(e) => handleTest(e)} />
+                    </FormControl>
+            </div>
+            
                /*
                 <ShapeLayer key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></ShapeLayer>
                 */
@@ -83,6 +137,16 @@ function ShapeControls(props) {
     function handle_onAdd() {
         props.addNewZdogShape(selectShapeValue);
     }
+
+    useEffect(() => {
+
+        if (shapes.length > 0) {
+            console.log(inputRef);
+            refocus(inputRef);
+        }
+
+
+    }, [shapes]);
 
     return (
         <section className="controls_shape">

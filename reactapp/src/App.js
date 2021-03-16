@@ -41,7 +41,7 @@ function App(props) {
       let newshape = {
         shapeClass: 'Ellipse',
         data: {
-          addTo: '',
+          //addTo: '',
           diameter: valuesarry[i],
           stroke: 20
         }

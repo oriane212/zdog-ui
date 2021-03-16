@@ -33,6 +33,7 @@ function Controls(props) {
     const [animate, setAnimate] = [stateVars.animate[0], stateVars.animate[1]];
     const [rotate_x, setRotate_x] = [stateVars.rotate_x[0], stateVars.rotate_x[1]];
     const [rotate_y, setRotate_y] = [stateVars.rotate_y[0], stateVars.rotate_y[1]];
+
     //const [shapes, setShapes] = [stateVars.shapes[0], stateVars.shapes[1]];
 
     const classes = useStyles();
