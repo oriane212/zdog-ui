@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import Shape from './Shape';
 import { Button, FormControl, Input, IconButton, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -29,14 +29,36 @@ const useStyles = makeStyles((theme) => ({
 
 function ShapeControls(props) {
 
-    let inputRef = useRef();
+    let inputRef1 = useRef();
+    let inputRef2 = useRef();
 
-    let currentActiveRef = '';
+    //let inputRefs = useRef(new Array(1));
+    
+    /* let inputRefs = new Array(3).fill(useRef(null));
+    console.log(inputRefs); */
+
+    let inputNum = useRef(0);
+    //let focusRef = useRef('');
+
+    /* let refIndex = useState('');
+    let arrayOfRefs = Array(10).fill('test');
+    console.log(arrayOfRefs);
+
+    arrayOfRefs.fill(useRef());
+    console.log(arrayOfRefs); */
+
+    /* let uiEls = useRef(new Array());
+    let refIndex = useState(''); */
+
+    //let currentActiveRef = '';
 
     const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
     const stateShapes = props.stateShapes;
     const [shapes, setShapes] = [stateShapes[0], stateShapes[1]];
+
+    // TODO
+    //let arrayOfRefs = Object.keys(shapes[0].data).map((param) => useRef());
 
     const classes = useStyles();
 
@@ -49,7 +71,7 @@ function ShapeControls(props) {
     }
     */
 
-    
+
     function copyShapes() {
         let newshapearry = [];
         newshapearry.push(shapes);
@@ -62,7 +84,7 @@ function ShapeControls(props) {
         flattened[index] = shape;
         setShapes(flattened);
     } */
-    
+
 
 
     /*
@@ -85,10 +107,24 @@ function ShapeControls(props) {
         //console.log('selectionStart: ' + inputRef.current.selectionStart);
 
         //inputRef = e.target;
-        currentActiveRef = inputRef;
-        console.log('currentActive: ', currentActiveRef);
+        //currentActiveRef = inputRef;
+        //console.log('currentActive: ', currentActiveRef);
+
+        //focusRef.current = e.target;
         
+
         let [parameter, shapeindex] = e.target.id.split('_');
+
+        if (parameter === 'diameter') {
+            inputNum.current = 1;
+        } else {
+            inputNum.current = 2;
+        }
+
+        /* refIndex[1](shapeindex);
+        console.log(refIndex[0]); */
+
+        console.log(e.target);
 
         let flattened = copyShapes();
         flattened[shapeindex].data[parameter] = e.target.value;
@@ -108,17 +144,27 @@ function ShapeControls(props) {
         shapeComponents = shapes.map((shape, i) => {
 
             return (
-            <div key={generateID()}>
-                <div>shape {i} is {shape.shapeClass}</div>
-                <FormControl className={classes.parameter}>
-                        <InputLabel htmlFor="diameter_0">test diameter</InputLabel>
-                        <Input inputRef={inputRef} id="diameter_0" value={shape.data.diameter} disabled={false} onChange={(e) => handleTest(e)} />
-                    </FormControl>
-            </div>
-            
-               /*
-                <ShapeLayer key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></ShapeLayer>
-                */
+                
+
+                    <div key={generateID()}>
+                        <div>shape {i} is {shape.shapeClass}</div>
+                        <FormControl className={classes.parameter}>
+                            <InputLabel htmlFor="diameter_0">test diameter</InputLabel>
+                            <Input inputRef={inputRef1} id="diameter_0" value={shape.data.diameter} disabled={false} onChange={(e) => handleTest(e)} />
+                        </FormControl>
+                        <FormControl className={classes.parameter}>
+                            <InputLabel htmlFor="stroke_0">test stroke</InputLabel>
+                            <Input inputRef={inputRef2} id="stroke_0" value={shape.data.stroke} disabled={false} onChange={(e) => handleTest(e)} />
+                        </FormControl>
+                    </div>
+
+                    
+
+              
+
+                /*
+                 <ShapeLayer key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></ShapeLayer>
+                 */
             )
             /*
             if (shape.shapeClass === 'Ellipse') {
@@ -141,8 +187,15 @@ function ShapeControls(props) {
     useEffect(() => {
 
         if (shapes.length > 0) {
-            console.log(inputRef);
-            refocus(inputRef);
+            //console.log(inputRef);
+            //refocus(uiEls[refIndex[0]]);
+            if (inputNum.current === 1) {
+                refocus(inputRef1);
+                //inputRefs[1].current.focus();
+            } else if (inputNum.current === 2) {
+                refocus(inputRef2);
+                //inputRefs[2].current.focus();
+            }
         }
 
 
@@ -192,3 +245,6 @@ export default ShapeControls;
 <MenuItem value="Rectangle">Rectangle</MenuItem>
                         <MenuItem value="Triangle">Triangle</MenuItem>
                         */
+
+
+                        /* (el) => inputRefs[1].current = el */
