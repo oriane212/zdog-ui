@@ -41,6 +41,7 @@ section.results {
 section.illustration {
     margin: auto;
     padding: 36px;
+    position: fixed;
 }
 
 section.code {

@@ -39,7 +39,7 @@ function Viewer(props) {
         shapes[0].forEach((shape) => {
           console.log(shape);
           shape.data.addTo = illo;
-          new Zdog.Ellipse(shape.data);
+          new Zdog[shape.shapeClass](shape.data);
         })
     
         illo.updateRenderGraph();

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import './zdogui.css';
 import Controls from './components/Controls';
 import Viewer from './components/Viewer';
-
+import {shapeProperties} from './shapeProperties';
 
 import Zdog from 'zdog';
 
+const zdogDefaultShapes = {
+  'Ellipse' : new Zdog.Ellipse()
+}
 
 let valuesarry = [200, 120, 40, 80, 160];
 
@@ -30,30 +33,53 @@ function App(props) {
   }
 
 
+  function getDefaultValsForShapeProperties(defaultShapes, shapeClass) {
+
+    let zdogShape = defaultShapes[shapeClass];
+    let props_basic = shapeProperties['basic'];
+    let props_shape = shapeProperties[shapeClass];
+    let data = {};
+
+    props_basic.forEach((prop) => {
+      let defaultVal = zdogShape[prop];
+      data[prop] = defaultVal;
+    })
+
+    props_shape.forEach((prop) => {
+      let defaultVal = zdogShape[prop];
+      data[prop] = defaultVal;
+    })
+
+    return data;
+
+  }
+
+
   function addNewZdogShape(shapeClass) {
 
     if (shapeClass === 'Ellipse') {
 
       let flattened = copyShapes();
 
-      let i = Math.floor(Math.random() * valuesarry.length);
+      //let i = Math.floor(Math.random() * valuesarry.length);
 
       let newshape = {
         shapeClass: 'Ellipse',
-        data: {
+        data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
+        /* data: {
           //addTo: '',
           diameter: valuesarry[i],
           stroke: 20
-        }
+        } */
       }
 
-      valuesarry.splice(i, 1);
-      console.log(valuesarry);
+      //valuesarry.splice(i, 1);
+      //console.log(valuesarry);
 
       flattened.push(newshape);
       addedShapes[1](flattened);
 
-      console.log('inside addNewZdogShape: ');
+      //console.log('inside addNewZdogShape: ');
 
     }
   }
@@ -67,11 +93,9 @@ function App(props) {
     <React.Fragment>
 
       <main>
-        <Controls addNewZdogShape={addNewZdogShape} stateVars={stateVars} shapes={addedShapes}></Controls>
+        <Controls addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
       </main>
-
-      <section id="container"></section>
 
     </React.Fragment>
 

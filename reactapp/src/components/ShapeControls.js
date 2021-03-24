@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Shape from './Shape';
 import { Button, FormControl, Input, IconButton, makeStyles } from '@material-ui/core';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
 import AddIcon from '@material-ui/icons/Add';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -8,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import generateID from '../generateID';
 // import Ellipse from './Ellipse';
 import ShapeLayer from './ShapeLayer';
+
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -29,63 +32,34 @@ const useStyles = makeStyles((theme) => ({
 
 function ShapeControls(props) {
 
-    let inputRef1 = useRef();
+    /* let inputRef1 = useRef();
     let inputRef2 = useRef();
 
-    //let inputRefs = useRef(new Array(1));
-    
-    /* let inputRefs = new Array(3).fill(useRef(null));
-    console.log(inputRefs); */
+    let inputNum = useRef(0); */
 
-    let inputNum = useRef(0);
-    //let focusRef = useRef('');
-
-    /* let refIndex = useState('');
-    let arrayOfRefs = Array(10).fill('test');
-    console.log(arrayOfRefs);
-
-    arrayOfRefs.fill(useRef());
-    console.log(arrayOfRefs); */
-
-    /* let uiEls = useRef(new Array());
-    let refIndex = useState(''); */
-
-    //let currentActiveRef = '';
+    /* const shapeLayers = {
+        'Ellipse': (<Ellipse />)
+    } */
 
     const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
-    const stateShapes = props.stateShapes;
-    const [shapes, setShapes] = [stateShapes[0], stateShapes[1]];
-
-    // TODO
-    //let arrayOfRefs = Object.keys(shapes[0].data).map((param) => useRef());
+    const addedShapes = props.addedShapes;
+    const [shapes, setShapes] = [addedShapes[0], addedShapes[1]];
 
     const classes = useStyles();
 
-    /*
-    const shapeparams = {
-        'Ellipse': {
-            diameter: 100,
-            stroke: 20
-        }
-    }
-    */
-
-
-    function copyShapes() {
+    /* function copyShapes() {
         let newshapearry = [];
         newshapearry.push(shapes);
         let flattened = newshapearry.flat();
         return flattened;
-    }
+    } */
 
     /* function handle_onChange(shape, index) {
         let flattened = copyShapes();
         flattened[index] = shape;
         setShapes(flattened);
     } */
-
-
 
     /*
     function handle_onAdd(e) {
@@ -103,68 +77,41 @@ function ShapeControls(props) {
     }
     */
 
-    function handleTest(e) {
-        //console.log('selectionStart: ' + inputRef.current.selectionStart);
-
-        //inputRef = e.target;
-        //currentActiveRef = inputRef;
-        //console.log('currentActive: ', currentActiveRef);
-
-        //focusRef.current = e.target;
+    /*   function handleTest(e) {
         
+          let [parameter, shapeindex] = e.target.id.split('_');
+  
+          if (parameter === 'diameter') {
+              inputNum.current = 1;
+          } else {
+              inputNum.current = 2;
+          }
+  
+          console.log(e.target);
+  
+          let flattened = copyShapes();
+          flattened[shapeindex].data[parameter] = e.target.value;
+  
+          setShapes(flattened);
+      } */
 
-        let [parameter, shapeindex] = e.target.id.split('_');
 
-        if (parameter === 'diameter') {
-            inputNum.current = 1;
-        } else {
-            inputNum.current = 2;
-        }
-
-        /* refIndex[1](shapeindex);
-        console.log(refIndex[0]); */
-
-        console.log(e.target);
-
-        let flattened = copyShapes();
-        flattened[shapeindex].data[parameter] = e.target.value;
-
-        setShapes(flattened);
-
-        //refocus(inputRef);
-        //inputRef.current.focus();
-    }
-
-    function refocus(ref) {
+    /* function refocus(ref) {
         ref.current.focus();
     }
+ */
 
-    let shapeComponents = [];
+    let shapeLayers = [];
     if (shapes.length > 0) {
-        shapeComponents = shapes.map((shape, i) => {
+        shapeLayers = shapes.map((shape, i) => {
 
             return (
                 
+                <ShapeLayer key={generateID()} index={i} shape={shape} addedShapes={addedShapes} />
 
-                    <div key={generateID()}>
-                        <div>shape {i} is {shape.shapeClass}</div>
-                        <FormControl className={classes.parameter}>
-                            <InputLabel htmlFor="diameter_0">test diameter</InputLabel>
-                            <Input inputRef={inputRef1} id="diameter_0" value={shape.data.diameter} disabled={false} onChange={(e) => handleTest(e)} />
-                        </FormControl>
-                        <FormControl className={classes.parameter}>
-                            <InputLabel htmlFor="stroke_0">test stroke</InputLabel>
-                            <Input inputRef={inputRef2} id="stroke_0" value={shape.data.stroke} disabled={false} onChange={(e) => handleTest(e)} />
-                        </FormControl>
-                    </div>
 
-                    
+                /*  <ShapeLayer key={generateID()} index={i} shape={shape} addedShapes={addedShapes}></ShapeLayer> */
 
-              
-
-                /*
-                 <ShapeLayer key={generateID()} index={i} shape={shape} stateShapes={stateShapes} onChange={handle_onChange}></ShapeLayer>
-                 */
             )
             /*
             if (shape.shapeClass === 'Ellipse') {
@@ -184,7 +131,7 @@ function ShapeControls(props) {
         props.addNewZdogShape(selectShapeValue);
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
 
         if (shapes.length > 0) {
             //console.log(inputRef);
@@ -199,7 +146,7 @@ function ShapeControls(props) {
         }
 
 
-    }, [shapes]);
+    }, [shapes]); */
 
     return (
         <section className="controls_shape">
@@ -221,7 +168,15 @@ function ShapeControls(props) {
                 </div>
             </header>
             <div className="controlsContainer">
-                {shapeComponents}
+                <List component="div" aria-labelledby="nested-list-subheader"
+                    subheader={
+                        <ListSubheader component="div" id="nested-list-subheader">
+                            Shapes
+                        </ListSubheader>
+                    } className={classes.root}>
+                    {shapeLayers}
+                </List>
+
             </div>
 
         </section>
@@ -247,4 +202,4 @@ export default ShapeControls;
                         */
 
 
-                        /* (el) => inputRefs[1].current = el */
+/* (el) => inputRefs[1].current = el */
