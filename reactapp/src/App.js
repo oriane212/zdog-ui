@@ -77,6 +77,7 @@ function App(props) {
       //let i = Math.floor(Math.random() * valuesarry.length);
 
       let newshape = {
+        open: true,
         shapeClass: 'Ellipse',
         data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
         /* data: {

@@ -76,10 +76,13 @@ function ShapeLayer(props) {
 
     const classes = useStyles();
 
-    const [open, setOpen] = React.useState(true);
+    /* const [open, setOpen] = React.useState(shape.open); */
 
     const handleClick = () => {
-        setOpen(!open);
+        //setOpen(!open);
+        let flattened = copyShapes();
+        flattened[index].open = !flattened[index].open;
+        setShapes(flattened);
     };
 
     let shapeParameters = [];
@@ -244,15 +247,15 @@ function ShapeLayer(props) {
 
 
     /* TO FIX:
-        - all open after each update to shapes - needs to remmember which were open and closed
+        x all open after each update to shapes - needs to remmember which were open and closed
         - no input refocus
         x rm Material UI List click animation
-        - input styles
+        .. input styles
     */
 
     /* TO ADD:
-        - other shape properties
-        - additional specific shape properties
+        .. other shape properties
+        .. additional specific shape properties
 
         features
         - remove a layer
@@ -260,20 +263,20 @@ function ShapeLayer(props) {
         - undo last change?
 
         minor
-        - replace stars with icons that match shapeclass?
+        .. replace stars with icons that match shapeclass?
     */
 
     return (
 
         <React.Fragment>
             <ListItem button onClick={handleClick}>
-                <ListItemIcon>
+                {/* <ListItemIcon>
                     <StarBorder />
-                </ListItemIcon>
+                </ListItemIcon> */}
                 <ListItemText primary={(index + 1) + ': ' + shape.shapeClass} />
-                {open ? <ExpandLess /> : <ExpandMore />}
+                {shape.open ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={shape.open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem button className={classes.nested} disableRipple>
                         <div>
