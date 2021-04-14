@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './zdogui.css';
 import Controls from './components/Controls';
 import Viewer from './components/Viewer';
-import {shapeProperties} from './shapeProperties';
+import { shapeProperties } from './shapeProperties';
 
 import Zdog from 'zdog';
 
 const zdogDefaultShapes = {
-  'Ellipse' : new Zdog.Ellipse()
+  'Ellipse': new Zdog.Ellipse()
 }
 
 let valuesarry = [200, 120, 40, 80, 160];
@@ -40,9 +40,22 @@ function App(props) {
     let props_shape = shapeProperties[shapeClass];
     let data = {};
 
-    props_basic.forEach((prop) => {
+   /*  props_basic.forEach((prop) => {
       let defaultVal = zdogShape[prop];
       data[prop] = defaultVal;
+    }) */
+
+    props_basic.forEach((prop) => {
+      if (prop === 'translate') {
+        data[prop] = new Zdog.Vector({});
+        /* data[prop]['x'] = zdogShape[prop]['x'];
+        data[prop].y = zdogShape[prop].y;
+        data[prop].z = zdogShape[prop].z; */
+      } else {
+        let defaultVal = zdogShape[prop];
+        data[prop] = defaultVal;
+      }
+      
     })
 
     props_shape.forEach((prop) => {

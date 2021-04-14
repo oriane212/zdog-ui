@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
         width: 200
     },
     checkbox: {
-        'padding-bottom': 12
+        'padding-bottom': 12,
+        'font-size': 'small'
     },
     parameter: {
         display: 'block',

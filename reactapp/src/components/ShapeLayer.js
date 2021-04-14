@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../zdogui.css';
-import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles } from '@material-ui/core';
+import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,6 +10,10 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import Ellipse from './Ellipse';
+
+import Zdog from 'zdog';
+
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -20,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     },
     parameter: {
         display: 'block',
-        margin: 16
+        margin: 16,
+        fontSize: 'small'
     },
     subparameter: {
         'margin-left': 32,
@@ -29,6 +34,19 @@ const useStyles = makeStyles((theme) => ({
     },
     nested: {
         paddingLeft: theme.spacing(4),
+    },
+    '.MuiTypography-body1': {
+        fontSize: '0.5rem'
+    },
+    label: {
+        fontSize: 'small',
+        'margin-bottom': 4
+    },
+    labelsm: {
+        fontSize: 'small'
+    },
+    textField: {
+        width: 55,
     },
 }));
 
@@ -42,7 +60,10 @@ function ShapeLayer(props) {
     const inputRefs = {
         "stroke": useRef(),
         "fill": useRef(),
-        "diameter": useRef()
+        "color": useRef(),
+        "translate_x": useRef(),
+        "translate_y": useRef(),
+        "translate_z": useRef()
     }
 
     /* const inputRef_stroke = useRef();
@@ -50,7 +71,7 @@ function ShapeLayer(props) {
 
     const inputRef_diameter = useRef(); */
 
-    
+
     //let [inputFocus, setInputFocus] = useState('');
 
     const classes = useStyles();
@@ -68,6 +89,10 @@ function ShapeLayer(props) {
         newshapearry.push(shapes);
         let flattened = newshapearry.flat();
         return flattened;
+    }
+
+    function handleVectorUpdate(e) {
+        updateShapes(e, 'vector');
     }
 
     function handleCheckboxClick(e) {
@@ -116,21 +141,44 @@ function ShapeLayer(props) {
     } */
 
     function updateShapes(e, controlType) {
-        let splitElID = e.target.id.split('_');
-        let property = splitElID[0];
 
-
-
-        let shapeindex = splitElID[1];
         let flattened = copyShapes();
-        if (controlType === 'checkbox') {
-            flattened[shapeindex].data[property] = !flattened[shapeindex].data[property];
-        } else if (controlType === 'textinput') {
-            //let stringval = e.target.value;
-            flattened[shapeindex].data[property] = Number(e.target.value);
-        } /* else if (controlType === 'slider') {
-            flattened[shapeindex].data[property] = v;
-        } */
+        let splitElID = e.target.id.split('_');
+
+        if (controlType === 'vector') {
+
+            let val = Number(e.target.value);
+
+            let property = splitElID[0];
+            let axis = splitElID[1];
+            let shapeindex = splitElID[2];
+      
+            let shapeProp = flattened[shapeindex].data[property];
+
+            if (axis === 'x') {
+                shapeProp.set({ x : val, y: shapeProp.y, z: shapeProp.z });
+            } else if (axis === 'y') {
+                shapeProp.set({ x: shapeProp.x, y : val, z: shapeProp.z });
+            } else {
+                shapeProp.set({ x: shapeProp.x, y: shapeProp.y, z : val });
+            }
+            
+
+        } else {
+
+            let property = splitElID[0];
+            let shapeindex = splitElID[1];
+
+            if (controlType === 'checkbox') {
+                flattened[shapeindex].data[property] = !flattened[shapeindex].data[property];
+            } else if (controlType === 'textinput') {
+                //let stringval = e.target.value;
+                //flattened[shapeindex].data[property] = Number(e.target.value);
+                flattened[shapeindex].data[property] = e.target.value;
+            }
+
+        }
+
 
         setShapes(flattened);
 
@@ -198,7 +246,7 @@ function ShapeLayer(props) {
     /* TO FIX:
         - all open after each update to shapes - needs to remmember which were open and closed
         - no input refocus
-        - rm Material UI List click animation
+        x rm Material UI List click animation
         - input styles
     */
 
@@ -227,24 +275,52 @@ function ShapeLayer(props) {
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItem button className={classes.nested}>
+                    <ListItem button className={classes.nested} disableRipple>
                         <div>
+
                             <FormControl className={classes.parameter}>
-                                <InputLabel htmlFor={'stroke_' + index}>stroke</InputLabel>
-                                <Input inputRef={inputRefs['stroke']} id={'stroke_' + index} value={shape.data.stroke} disabled={false} onChange={(e) => handleInputUpdate(e)} />
+                                <label htmlFor={'color_' + index} className="MuiTypography-body1">Color</label>
+                                <input type="color" id={'color_' + index} name={'color_' + index} value={shape.data.color} onChange={(e) => handleInputUpdate(e)}></input>
                             </FormControl>
 
                             <FormControl className={classes.parameter}>
                                 <FormControlLabel
-                                    label="fill"
-                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.checkbox} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />}
+                                    label="Fill"
+                                    className={classes.labelsm}
+                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />}
                                 />
                             </FormControl>
 
                             <FormControl className={classes.parameter}>
-                                <InputLabel htmlFor={'diameter_' + index}>diameter</InputLabel>
-                                <Input inputRef={inputRefs['diameter']} id={'diameter_' + index} value={shape.data.diameter} disabled={false} onChange={(e) => handleInputUpdate(e)} />
+                                <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
+                                <Input inputRef={inputRefs['stroke']} id={'stroke_' + index} value={shape.data.stroke} disabled={false} onChange={(e) => handleInputUpdate(e)} />
                             </FormControl>
+
+                            <div className={classes.parameter}>
+
+                                <p className={classes.label}>Translate</p>
+
+                                <FormControl className={classes.textField}>
+                                    <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
+                                    <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={inputRefs['translate_x']} id={'translate_x_' + index} value={shape.data.translate.x} disabled={false} onChange={(e) => handleVectorUpdate(e)} />
+                                </FormControl>
+
+                                <FormControl className={classes.textField}>
+                                    <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
+                                    <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={inputRefs['translate_y']} id={'translate_y_' + index} value={shape.data.translate.y} disabled={false} onChange={(e) => handleVectorUpdate(e)} />
+                                </FormControl>
+
+                                <FormControl className={classes.textField}>
+                                    <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
+                                    <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={inputRefs['translate_z']} id={'translate_z_' + index} value={shape.data.translate.z} disabled={false} onChange={(e) => handleVectorUpdate(e)} />
+                                </FormControl>
+
+                            </div>
+
+
+
+                            <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} />
+
                         </div>
 
                     </ListItem>
@@ -260,6 +336,31 @@ function ShapeLayer(props) {
 export default ShapeLayer;
 
 /*
+<FormControl className={classes.parameter}>
+                                <InputLabel className={classes.labelsm} htmlFor={'color_' + index}>color</InputLabel>
+                                <input type="color" id={'color_' + index} name={'color_' + index} value={shape.data.color} onChange={(e) => handleInputUpdate(e)}></input>
+                            </FormControl>
+                            */
+
+/*
+<FormControl className={classes.parameter}>
+    <FormControlLabel
+        label="Fill"
+        className={classes.label}
+        control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm}  checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />}
+    />
+</FormControl>
+*/
+
+/*
+<FormControl className={classes.parameter}>
+    <InputLabel className={classes.labelsm} htmlFor={'fill_' + index}>fill</InputLabel>
+    <Checkbox inputRef={inputRefs['fill']} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />
+</FormControl>
+*/
+
+/*
+
 
 <FormControl className={classes.parameter}>
 <InputLabel htmlFor="canvas_width">Canvas width</InputLabel>

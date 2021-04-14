@@ -2,7 +2,7 @@
 
 export let shapeProperties = {
     'basic': [
-        'addTo', /* 'color', */ 'stroke', /* 'closed', */ 'fill'/* , 'translate', 'scale', 'zoom' */
+        'addTo', 'color', 'stroke', /* 'closed', */ 'fill', 'translate'/*, 'scale', 'zoom' */
     ],
     'Ellipse': [
         'diameter'/* , 'width', 'height', 'quarters' */

@@ -143,10 +143,10 @@ button#addShapeBtn:hover {
     background-color: white;
 }
 
-.controls_shape input {
+/* .controls_shape input {
     display: block;
     margin: 6px 0 10px 0;
-}
+} */
 
 canvas {
     border: 1px dotted lightgray;
@@ -158,4 +158,11 @@ canvas {
     position: relative;
     top: 0;
     background-color: black;
+}
+
+input[type='color'] {
+    position: relative;
+    /*top: 20px;*/
+    left: 12px;
+    border: none;
 }
