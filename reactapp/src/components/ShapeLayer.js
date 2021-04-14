@@ -11,6 +11,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Ellipse from './Ellipse';
+import Rect from './Rect';
 
 import Zdog from 'zdog';
 
@@ -187,6 +188,13 @@ function ShapeLayer(props) {
 
     }
 
+    let shapeSpecificControls;
+    if (shape.shapeClass === 'Ellipse') {
+        shapeSpecificControls = <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} />
+    } else if (shape.shapeClass === 'Rect') {
+        shapeSpecificControls = <Rect shape={shape} index={index} inputHandler={handleInputUpdate} />
+    }
+
     useEffect(() => {
 
         if (shapes.length > 0) {
@@ -321,8 +329,8 @@ function ShapeLayer(props) {
                             </div>
 
 
-
-                            <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} />
+                            {shapeSpecificControls}
+                            
 
                         </div>
 

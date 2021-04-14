@@ -7,7 +7,8 @@ import { shapeProperties } from './shapeProperties';
 import Zdog from 'zdog';
 
 const zdogDefaultShapes = {
-  'Ellipse': new Zdog.Ellipse()
+  'Ellipse': new Zdog.Ellipse(),
+  'Rect': new Zdog.Rect()
 }
 
 let valuesarry = [200, 120, 40, 80, 160];
@@ -70,7 +71,7 @@ function App(props) {
 
   function addNewZdogShape(shapeClass) {
 
-    if (shapeClass === 'Ellipse') {
+    //if (shapeClass === 'Ellipse') {
 
       let flattened = copyShapes();
 
@@ -78,7 +79,7 @@ function App(props) {
 
       let newshape = {
         open: true,
-        shapeClass: 'Ellipse',
+        shapeClass: shapeClass,
         data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
         /* data: {
           //addTo: '',
@@ -95,7 +96,7 @@ function App(props) {
 
       //console.log('inside addNewZdogShape: ');
 
-    }
+    //}
   }
 
 

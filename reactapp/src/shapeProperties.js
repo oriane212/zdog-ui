@@ -6,5 +6,8 @@ export let shapeProperties = {
     ],
     'Ellipse': [
         'diameter'/* , 'width', 'height', 'quarters' */
+    ],
+    'Rect': [
+        'width', 'height'
     ]
 }

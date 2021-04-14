@@ -156,8 +156,9 @@ function ShapeControls(props) {
                     <InputLabel id="new-shape-label">
                         New Shape
                         </InputLabel>
-                    <Select value={selectShapeValue} onChange={setSelectShapeValue}>
+                    <Select value={selectShapeValue} onChange={(e) => setSelectShapeValue(e.target.value)}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
+                        <MenuItem value="Rect">Rect</MenuItem>
                     </Select>
                 </FormControl>
                 <div className="btnContainer">
