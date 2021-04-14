@@ -144,12 +144,19 @@ function ShapeLayer(props) {
         ref.current.focus();
     } */
 
+    function handleSelect(e) {
+        console.log(e.target);
+        updateShapes(e, 'select');
+    }
+
     function updateShapes(e, controlType) {
 
         let flattened = copyShapes();
-        let splitElID = e.target.id.split('_');
+        
 
         if (controlType === 'vector') {
+
+            let splitElID = e.target.id.split('_');
 
             let val = Number(e.target.value);
 
@@ -168,8 +175,24 @@ function ShapeLayer(props) {
             }
             
 
+        } else if (controlType === 'select') {
+
+            console.log('inside select');
+            let splitElName = e.target.name.split('_');
+            let property = splitElName[0];
+            let shapeindex = splitElName[1];
+
+            flattened[shapeindex].data[property] = e.target.value;
+    
+            /* let property = splitElID[0];
+            let menuitem = splitElID[1];
+            let shapeindex = splitElID[2];
+
+            flattened[shapeindex].data[property] = menuitem; */
+
         } else {
 
+            let splitElID = e.target.id.split('_');
             let property = splitElID[0];
             let shapeindex = splitElID[1];
 
@@ -190,7 +213,7 @@ function ShapeLayer(props) {
 
     let shapeSpecificControls;
     if (shape.shapeClass === 'Ellipse') {
-        shapeSpecificControls = <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} />
+        shapeSpecificControls = <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} selectHandler={handleSelect}/>
     } else if (shape.shapeClass === 'Rect') {
         shapeSpecificControls = <Rect shape={shape} index={index} inputHandler={handleInputUpdate} />
     }
