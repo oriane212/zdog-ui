@@ -6,6 +6,7 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 import ShapeControls from './ShapeControls';
 
+
 const useStyles = makeStyles((theme) => ({
     slider: {
         width: 200
@@ -42,6 +43,7 @@ function Controls(props) {
     return (
 
         <section className="controls">
+
             <section className="controls_illo">
                 <div className="controlsContainer">
 

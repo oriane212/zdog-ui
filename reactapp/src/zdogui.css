@@ -16,6 +16,7 @@ main {
     display: grid;
     grid-template-columns: 0.33fr 0.66fr;
     grid-template-areas: 'controls results';
+    margin-top: 96px;
 }
 
 section.controls {
@@ -105,9 +106,12 @@ input:disabled {
 header {
     display: grid;
     grid-template-columns: 0.5fr 0.5fr;
-    grid-template-areas: 'selectShape addShapeBtn';
     padding: 16px;
     border: none;
+}
+
+.controls_shape header {
+    grid-template-areas: 'selectShape addShapeBtn';
     background-color: #e4e4e4;
 }
 
@@ -143,7 +147,7 @@ button#addShapeBtn:hover {
     background-color: white;
 }
 
-/* .controls_shape input {
+/* .controls_shape input { 
     display: block;
     margin: 6px 0 10px 0;
 } */

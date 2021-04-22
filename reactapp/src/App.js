@@ -5,6 +5,21 @@ import Viewer from './components/Viewer';
 import { shapeProperties } from './shapeProperties';
 
 import Zdog from 'zdog';
+import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles } from '@material-ui/core';
+import CodeIcon from '@material-ui/icons/Code';
+
+
+
+const useStyles = makeStyles((theme) => ({
+  bar: {
+      backgroundColor: "#2b2b2b"
+  },
+  getCode: {
+    right: 16,
+    position: "absolute",
+    backgroundColor: "#444444"
+  }
+}));
 
 const zdogDefaultShapes = {
   'Ellipse': new Zdog.Ellipse(),
@@ -26,6 +41,8 @@ function App(props) {
 
   const addedShapes = useState([]);
 
+  const classes = useStyles();
+
   function copyShapes() {
     let newshapearry = [];
     newshapearry.push(addedShapes[0]);
@@ -41,10 +58,10 @@ function App(props) {
     let props_shape = shapeProperties[shapeClass];
     let data = {};
 
-   /*  props_basic.forEach((prop) => {
-      let defaultVal = zdogShape[prop];
-      data[prop] = defaultVal;
-    }) */
+    /*  props_basic.forEach((prop) => {
+       let defaultVal = zdogShape[prop];
+       data[prop] = defaultVal;
+     }) */
 
     props_basic.forEach((prop) => {
       if (prop === 'translate') {
@@ -56,7 +73,7 @@ function App(props) {
         let defaultVal = zdogShape[prop];
         data[prop] = defaultVal;
       }
-      
+
     })
 
     props_shape.forEach((prop) => {
@@ -73,28 +90,28 @@ function App(props) {
 
     //if (shapeClass === 'Ellipse') {
 
-      let flattened = copyShapes();
+    let flattened = copyShapes();
 
-      //let i = Math.floor(Math.random() * valuesarry.length);
+    //let i = Math.floor(Math.random() * valuesarry.length);
 
-      let newshape = {
-        open: true,
-        shapeClass: shapeClass,
-        data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
-        /* data: {
-          //addTo: '',
-          diameter: valuesarry[i],
-          stroke: 20
-        } */
-      }
+    let newshape = {
+      open: true,
+      shapeClass: shapeClass,
+      data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
+      /* data: {
+        //addTo: '',
+        diameter: valuesarry[i],
+        stroke: 20
+      } */
+    }
 
-      //valuesarry.splice(i, 1);
-      //console.log(valuesarry);
+    //valuesarry.splice(i, 1);
+    //console.log(valuesarry);
 
-      flattened.push(newshape);
-      addedShapes[1](flattened);
+    flattened.push(newshape);
+    addedShapes[1](flattened);
 
-      //console.log('inside addNewZdogShape: ');
+    //console.log('inside addNewZdogShape: ');
 
     //}
   }
@@ -107,7 +124,18 @@ function App(props) {
 
     <React.Fragment>
 
+      <AppBar elevation={0} position="fixed" className={classes.bar}>
+        <Toolbar>
+          <Typography variant="h6">
+            Zdog UI
+            </Typography>
+          <Button color="inherit" aria-label="get code" className={classes.getCode}><CodeIcon /></Button>
+        </Toolbar>
+      </AppBar>
+
       <main>
+
+
         <Controls addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
       </main>
@@ -119,3 +147,27 @@ function App(props) {
 }
 
 export default App;
+
+
+/* <AppBar position="static" color="secondary">
+          <Toolbar>
+            <Typography variant="h6" >
+              Zdog UI
+            </Typography>
+              <IconButton edge="end" color="inherit" aria-label="get code">
+              <CodeIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        */
+
+/*
+<header>
+<Typography variant="h6">
+Zdog UI
+</Typography>
+  <IconButton edge="end" color="inherit" aria-label="get code">
+  <CodeIcon />
+</IconButton>
+</header>
+*/
