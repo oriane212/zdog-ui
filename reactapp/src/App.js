@@ -5,19 +5,23 @@ import Viewer from './components/Viewer';
 import { shapeProperties } from './shapeProperties';
 
 import Zdog from 'zdog';
-import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles } from '@material-ui/core';
+import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog } from '@material-ui/core';
 import CodeIcon from '@material-ui/icons/Code';
 
+import { CodeJar } from 'codejar';
+import Prism from 'prismjs';
 
 
 const useStyles = makeStyles((theme) => ({
   bar: {
-      backgroundColor: "#2b2b2b"
+    backgroundColor: "#2b2b2b"
   },
   getCode: {
     right: 16,
     position: "absolute",
-    backgroundColor: "#444444"
+    backgroundColor: "#3a3939",
+    paddingLeft: 16,
+    paddingRight: 16
   }
 }));
 
@@ -40,6 +44,8 @@ function App(props) {
   }
 
   const addedShapes = useState([]);
+
+  const [open, setOpen] = useState(false);
 
   const classes = useStyles();
 
@@ -116,8 +122,62 @@ function App(props) {
     //}
   }
 
+  function getCode() {
+    console.log('getting code');
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
 
   console.log('testing outside return');
+
+  useEffect(() => {
+    if (open) {
+      console.log('open');
+      setTimeout(() => {
+        let div = document.getElementById('editor');
+        if (div !== null) {
+          function myhighlight(div) {
+            const code = 'let foo = bar';
+            div.innerHTML = code;
+          }
+          let jar = CodeJar(div, Prism.highlightElement);
+          console.log('jar');
+          // Update code
+          function replacer(key, value) {
+            return value;
+          }
+
+          let addedShapesString = '';
+          
+          if (addedShapes[0].length > 0) {
+            let flattened = copyShapes();
+            flattened.forEach(shape => {
+              let data = shape.data;
+              data.addTo = '#illo';
+              let newstring = JSON.stringify(data);
+              addedShapesString = addedShapesString.concat(newstring);
+            })
+            jar.updateCode(addedShapesString);
+          }
+          //let addedShapesString = JSON.stringify(addedShapes[0]);
+          console.log(addedShapesString);
+          //jar.updateCode(addedShapesString);
+
+          // Get code
+          let mycode = jar.toString();
+          console.log(mycode);
+
+          // Listen to updates
+          jar.onUpdate((code) => {
+            console.log(code);
+          });
+        }
+      }, 1000);
+    }
+  }, [open]);
 
 
   return (
@@ -129,7 +189,11 @@ function App(props) {
           <Typography variant="h6">
             Zdog UI
             </Typography>
-          <Button color="inherit" aria-label="get code" className={classes.getCode}><CodeIcon /></Button>
+          <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Code</Button>
+          <Dialog onClose={handleClose} open={open}>
+            <div id="editor">Getting code...</div>
+            {/* <Typography>testing testing</Typography> */}
+          </Dialog>
         </Toolbar>
       </AppBar>
 
