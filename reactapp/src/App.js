@@ -10,6 +10,7 @@ import CodeIcon from '@material-ui/icons/Code';
 
 import { CodeJar } from 'codejar';
 import Prism from 'prismjs';
+import createScript from './createScript';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -144,27 +145,13 @@ function App(props) {
             div.innerHTML = code;
           }
           let jar = CodeJar(div, Prism.highlightElement);
-          console.log('jar');
-          // Update code
-          function replacer(key, value) {
-            return value;
-          }
-
-          let addedShapesString = '';
           
           if (addedShapes[0].length > 0) {
             let flattened = copyShapes();
-            flattened.forEach(shape => {
-              let data = shape.data;
-              data.addTo = '#illo';
-              let newstring = JSON.stringify(data);
-              addedShapesString = addedShapesString.concat(newstring);
-            })
-            jar.updateCode(addedShapesString);
+            let scriptString = createScript(stateVars, flattened);
+            jar.updateCode(scriptString);
+
           }
-          //let addedShapesString = JSON.stringify(addedShapes[0]);
-          console.log(addedShapesString);
-          //jar.updateCode(addedShapesString);
 
           // Get code
           let mycode = jar.toString();
