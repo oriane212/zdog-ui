@@ -138,12 +138,21 @@ function App(props) {
     if (open) {
       console.log('open');
       setTimeout(() => {
+
+        let divHTML = document.getElementById('editorHTML');
+        let jarHTML = CodeJar(divHTML, Prism.highlightElement);
+
+        let snippet = `<canvas id="illo" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}"></canvas>`;
+
+        jarHTML.updateCode(snippet);
+
         let div = document.getElementById('editor');
+
         if (div !== null) {
-          function myhighlight(div) {
+          /* function myhighlight(div) {
             const code = 'let foo = bar';
             div.innerHTML = code;
-          }
+          } */
           let jar = CodeJar(div, Prism.highlightElement);
           
           if (addedShapes[0].length > 0) {
@@ -178,6 +187,7 @@ function App(props) {
             </Typography>
           <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Code</Button>
           <Dialog onClose={handleClose} open={open}>
+            <div id="editorHTML">Canvas element...</div>
             <div id="editor">Getting code...</div>
             {/* <Typography>testing testing</Typography> */}
           </Dialog>
