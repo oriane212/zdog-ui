@@ -1,7 +1,17 @@
 export default function createScript(illoVars, shapesCopy) {
     
     let scriptString = `
-// Script.js
+// script.js
+
+/* 
+    * Each shape still needs to be added to your Zdog illustration!
+
+    * To do this, remove the quotations around "illo" next to each "addTo": 
+        ** "addTo": "illo" --> "addTo": illo
+
+    * This will set each shape's 'addTo' property to your Zdog illustration stored in a variable, illo.
+*/
+
 
 // create illo
 let illo = new Zdog.Illustration({
@@ -19,7 +29,7 @@ let illo = new Zdog.Illustration({
         data.addTo = 'illo';
         let dataString = JSON.stringify(data, null, '\t');
         let newShapeString = `
-new Zdog[${shape.shapeClass}](${dataString})
+new Zdog['${shape.shapeClass}'](${dataString})
         `;
         
         scriptString = scriptString.concat(newShapeString);
