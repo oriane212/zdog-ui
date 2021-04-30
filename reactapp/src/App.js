@@ -5,7 +5,7 @@ import Viewer from './components/Viewer';
 import { shapeProperties } from './shapeProperties';
 
 import Zdog from 'zdog';
-import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog } from '@material-ui/core';
+import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog, Container } from '@material-ui/core';
 import CodeIcon from '@material-ui/icons/Code';
 
 import { CodeJar } from 'codejar';
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#3a3939",
     paddingLeft: 16,
     paddingRight: 16
+  },
+  container: {
+    paddingTop: 24
   }
 }));
 
@@ -186,10 +189,14 @@ function App(props) {
             Zdog UI
             </Typography>
           <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Code</Button>
-          <Dialog onClose={handleClose} open={open}>
-            <div id="editorHTML">Canvas element...</div>
-            <div id="editor">Getting code...</div>
-            {/* <Typography>testing testing</Typography> */}
+          <Dialog maxWidth="md" onClose={handleClose} open={open}>
+            <Container className={classes.container}>
+              <Typography variant="h8">HTML</Typography>
+              <div id="editorHTML">Canvas element...</div>
+              <Typography variant="h8">JavaScript</Typography>
+              <div id="editor">Getting code...</div>
+            </Container>
+            
           </Dialog>
         </Toolbar>
       </AppBar>

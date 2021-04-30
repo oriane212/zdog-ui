@@ -183,7 +183,8 @@ input[type='color'] {
     padding: 10px;
     tab-size: 4;
     min-width: 550px;
-    max-width: 800px;
+    max-width: 950px;
+    margin: 24px 0;
 }
 
 #editorHTML {
