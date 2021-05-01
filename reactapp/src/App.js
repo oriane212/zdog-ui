@@ -191,9 +191,9 @@ function App(props) {
           <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Code</Button>
           <Dialog maxWidth="md" onClose={handleClose} open={open}>
             <Container className={classes.container}>
-              <Typography variant="h8">HTML</Typography>
+              <Typography>HTML</Typography>
               <div id="editorHTML">Canvas element...</div>
-              <Typography variant="h8">JavaScript</Typography>
+              <Typography>JavaScript</Typography>
               <div id="editor">Getting code...</div>
             </Container>
             

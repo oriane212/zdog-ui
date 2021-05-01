@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../zdogui.css';
-import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment } from '@material-ui/core';
+import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment, Button, IconButton, Dialog, Typography, Container } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,8 +10,12 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Ellipse from './Ellipse';
 import Rect from './Rect';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 import Zdog from 'zdog';
 
@@ -49,6 +53,16 @@ const useStyles = makeStyles((theme) => ({
     textField: {
         width: 55,
     },
+    delete: {
+        margin: 16,
+        color: 'red'
+    },
+    myprimary: {
+        color: "black"
+    },
+    confirmDialog: {
+        padding: 40
+    }
 }));
 
 
@@ -57,6 +71,8 @@ function ShapeLayer(props) {
     const index = props.index;
     const shape = props.shape;
     const [shapes, setShapes] = props.addedShapes;
+
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
     const inputRefs = {
         "stroke": useRef(),
@@ -85,6 +101,23 @@ function ShapeLayer(props) {
         flattened[index].open = !flattened[index].open;
         setShapes(flattened);
     };
+
+    function handleDelete() {
+        setConfirmDialogOpen(true);
+    }
+
+    function handleConfirm() {
+        let flattened = copyShapes();
+        flattened.splice(index, 1);
+        setShapes(flattened);
+        handleClose();
+    }
+
+    function handleClose() {
+        setConfirmDialogOpen(false);
+    }
+
+
 
     let shapeParameters = [];
 
@@ -152,7 +185,7 @@ function ShapeLayer(props) {
     function updateShapes(e, controlType) {
 
         let flattened = copyShapes();
-        
+
 
         if (controlType === 'vector') {
 
@@ -163,17 +196,17 @@ function ShapeLayer(props) {
             let property = splitElID[0];
             let axis = splitElID[1];
             let shapeindex = splitElID[2];
-      
+
             let shapeProp = flattened[shapeindex].data[property];
 
             if (axis === 'x') {
-                shapeProp.set({ x : val, y: shapeProp.y, z: shapeProp.z });
+                shapeProp.set({ x: val, y: shapeProp.y, z: shapeProp.z });
             } else if (axis === 'y') {
-                shapeProp.set({ x: shapeProp.x, y : val, z: shapeProp.z });
+                shapeProp.set({ x: shapeProp.x, y: val, z: shapeProp.z });
             } else {
-                shapeProp.set({ x: shapeProp.x, y: shapeProp.y, z : val });
+                shapeProp.set({ x: shapeProp.x, y: shapeProp.y, z: val });
             }
-            
+
 
         } else if (controlType === 'select') {
 
@@ -183,7 +216,7 @@ function ShapeLayer(props) {
             let shapeindex = splitElName[1];
 
             flattened[shapeindex].data[property] = e.target.value;
-    
+
             /* let property = splitElID[0];
             let menuitem = splitElID[1];
             let shapeindex = splitElID[2];
@@ -213,7 +246,7 @@ function ShapeLayer(props) {
 
     let shapeSpecificControls;
     if (shape.shapeClass === 'Ellipse') {
-        shapeSpecificControls = <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} selectHandler={handleSelect}/>
+        shapeSpecificControls = <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} selectHandler={handleSelect} />
     } else if (shape.shapeClass === 'Rect') {
         shapeSpecificControls = <Rect shape={shape} index={index} inputHandler={handleInputUpdate} />
     }
@@ -282,6 +315,8 @@ function ShapeLayer(props) {
         - no input refocus
         x rm Material UI List click animation
         .. input styles
+
+        - safari: webpage reload on color picker (??)
     */
 
     /* TO ADD:
@@ -300,12 +335,31 @@ function ShapeLayer(props) {
     return (
 
         <React.Fragment>
-            <ListItem button onClick={handleClick}>
+            <ListItem /* button onClick={handleClick} */>
                 {/* <ListItemIcon>
                     <StarBorder />
                 </ListItemIcon> */}
-                <ListItemText primary={(index + 1) + ': ' + shape.shapeClass} />
-                {shape.open ? <ExpandLess /> : <ExpandMore />}
+                
+                <ListItemText primary={(index + 1) + ': ' + shape.shapeClass}/>
+                { shape.open ? 
+                    <IconButton onClick={handleClick} className={classes.myprimary} aria-label="Expand less"><ExpandLess/></IconButton> 
+                    : 
+                    <IconButton onClick={handleClick} className={classes.myprimary} aria-label="Expand more"><ExpandMore/></IconButton>
+                }
+                
+                <IconButton onClick={handleDelete} aria-label="delete">
+                <DeleteOutlinedIcon fontSize="small"/>
+                            </IconButton>
+                <Dialog onClose={handleClose} open={confirmDialogOpen}>
+                    <Container className={classes.confirmDialog}>
+                    <Typography>Are you sure you want to delete Shape {(index + 1)} ({shape.shapeClass})?</Typography>
+                    <div>
+                        <Button onClick={handleConfirm} color="primary">Confirm</Button>
+                        <Button onClick={handleClose}>Cancel</Button>
+                    </div>
+                    </Container>
+                    
+                </Dialog>
             </ListItem>
             <Collapse in={shape.open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
@@ -353,12 +407,15 @@ function ShapeLayer(props) {
 
 
                             {shapeSpecificControls}
+
                             
+                            {/* <Button className={classes.delete} size="small">Delete</Button> */}
 
                         </div>
-
                     </ListItem>
+
                 </List>
+
             </Collapse>
         </React.Fragment>
 
