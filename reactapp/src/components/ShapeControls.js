@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
         'margin-left': 32,
         'margin-top': 3,
         'margin-bottom': 3
+    },
+    root: {
+        backgroundColor: "#f1f1f1"
     }
 }));
 
@@ -41,7 +44,7 @@ function ShapeControls(props) {
         'Ellipse': (<Ellipse />)
     } */
 
-    const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
+    //const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
     const addedShapes = props.addedShapes;
     const [shapes, setShapes] = [addedShapes[0], addedShapes[1]];
@@ -127,9 +130,9 @@ function ShapeControls(props) {
         })
     }
 
-    function handle_onAdd() {
+    /* function handle_onAdd() {
         props.addNewZdogShape(selectShapeValue);
-    }
+    } */
 
     /* useEffect(() => {
 
@@ -151,30 +154,31 @@ function ShapeControls(props) {
     return (
         <section className="controls_shape">
 
-            <header>
+            {/* <header>
                 <FormControl>
                     <InputLabel id="new-shape-label">
-                        New Shape
+                        Shape
                         </InputLabel>
                     <Select value={selectShapeValue} onChange={(e) => setSelectShapeValue(e.target.value)}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
                         <MenuItem value="Rect">Rect</MenuItem>
                     </Select>
                 </FormControl>
+                
                 <div className="btnContainer">
                     <IconButton onClick={handle_onAdd} aria-label="add">
                         <AddIcon color="primary" fontSize="small" />
                     </IconButton>
-
                 </div>
-            </header>
+            </header> */}
+
             <div className="controlsContainer">
                 <List component="div" aria-labelledby="nested-list-subheader"
-                    subheader={
+                    /* subheader={
                         <ListSubheader component="div" id="nested-list-subheader">
                             Shapes
                         </ListSubheader>
-                    } className={classes.root}>
+                    }  */className={classes.root}>
                     {shapeLayers}
                 </List>
 
@@ -189,6 +193,10 @@ function ShapeControls(props) {
 export default ShapeControls;
 
 /*
+
+<Button onClick={handle_onAdd} color="primary" startIcon={<AddIcon />} aria-label="add shape">Add</Button>
+
+
 <select name="selectShape" id="selectShape" onChange={this.handle_selectShape}>
                         <option value="">New shape</option>
                         <option value="Ellipse">Ellipse</option>

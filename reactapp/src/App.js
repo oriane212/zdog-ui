@@ -188,7 +188,7 @@ function App(props) {
           <Typography variant="h6">
             Zdog UI
             </Typography>
-          <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Code</Button>
+          <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Get Code</Button>
           <Dialog maxWidth="md" onClose={handleClose} open={open}>
             <Container className={classes.container}>
               <Typography>HTML</Typography>

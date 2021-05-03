@@ -324,7 +324,7 @@ function ShapeLayer(props) {
         .. additional specific shape properties
 
         features
-        - remove a layer
+        x remove a layer
         - edit layer name
         - undo last change?
 
@@ -338,32 +338,34 @@ function ShapeLayer(props) {
             <ListItem /* button onClick={handleClick} */>
                 {/* <ListItemIcon>
                     <StarBorder />
-                </ListItemIcon> */}
-                
-                <ListItemText primary={(index + 1) + ': ' + shape.shapeClass}/>
-                { shape.open ? 
-                    <IconButton onClick={handleClick} className={classes.myprimary} aria-label="Expand less"><ExpandLess/></IconButton> 
-                    : 
-                    <IconButton onClick={handleClick} className={classes.myprimary} aria-label="Expand more"><ExpandMore/></IconButton>
-                }
-                
+                </ListItemIcon> */ }
+
+                <ListItemText primary={(index + 1) + ': ' + shape.shapeClass} />
+
                 <IconButton onClick={handleDelete} aria-label="delete">
-                <DeleteOutlinedIcon fontSize="small"/>
-                            </IconButton>
+                    <DeleteOutlinedIcon fontSize="small" />
+                </IconButton>
+
+                {shape.open ?
+                    <IconButton onClick={handleClick} className={classes.myprimary} aria-label="Expand less"><ExpandLess /></IconButton>
+                    :
+                    <IconButton onClick={handleClick} className={classes.myprimary} aria-label="Expand more"><ExpandMore /></IconButton>
+                }
+
                 <Dialog onClose={handleClose} open={confirmDialogOpen}>
                     <Container className={classes.confirmDialog}>
-                    <Typography>Are you sure you want to delete Shape {(index + 1)} ({shape.shapeClass})?</Typography>
-                    <div>
-                        <Button onClick={handleConfirm} color="primary">Confirm</Button>
-                        <Button onClick={handleClose}>Cancel</Button>
-                    </div>
+                        <Typography>Are you sure you want to delete Shape {(index + 1)} ({shape.shapeClass})?</Typography>
+                        <div>
+                            <Button onClick={handleConfirm} color="primary">Confirm</Button>
+                            <Button onClick={handleClose}>Cancel</Button>
+                        </div>
                     </Container>
-                    
+
                 </Dialog>
             </ListItem>
             <Collapse in={shape.open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItem button className={classes.nested} disableRipple>
+                    <ListItem /* button  */ className={classes.nested} /* disableRipple */>
                         <div>
 
                             <FormControl className={classes.parameter}>
@@ -375,7 +377,7 @@ function ShapeLayer(props) {
                                 <FormControlLabel
                                     label="Fill"
                                     className={classes.labelsm}
-                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />}
+                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} size="small" name={'fill_' + index} id={'fill_' + index} color="primary" />}
                                 />
                             </FormControl>
 
@@ -408,7 +410,7 @@ function ShapeLayer(props) {
 
                             {shapeSpecificControls}
 
-                            
+
                             {/* <Button className={classes.delete} size="small">Delete</Button> */}
 
                         </div>

@@ -105,7 +105,7 @@ input:disabled {
 
 header {
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr;
+    grid-template-columns: 0.75fr 0.25fr;
     padding: 16px;
     border: none;
 }
@@ -190,3 +190,7 @@ input[type='color'] {
 #editorHTML {
     height: 100px;
 }
+
+/* #addShapeHeader {
+    background-color: #e2e2e2;
+} */
