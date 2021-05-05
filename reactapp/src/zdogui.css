@@ -29,7 +29,7 @@ section.controls {
 
 div.controlsContainer {
     /* padding: 12px 0 12px 0; */
-    padding: 16px;
+    padding: 16px 16px 0;
     font-size: small;
 }
 
@@ -191,6 +191,7 @@ input[type='color'] {
     height: 100px;
 }
 
-/* #addShapeHeader {
-    background-color: #e2e2e2;
-} */
+#addShapeHeader {
+    background-color: #eaf2f9;
+    padding: 16px;
+}

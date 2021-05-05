@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../zdogui.css';
-import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment, Button, IconButton, Dialog, Typography, Container } from '@material-ui/core';
+import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment, Button, IconButton, Dialog, Typography, Container, TextField } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -68,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ShapeLayer(props) {
 
+    let counter = props.counter;
+
     const index = props.index;
     const shape = props.shape;
     const [shapes, setShapes] = props.addedShapes;
@@ -82,6 +84,11 @@ function ShapeLayer(props) {
         "translate_y": useRef(),
         "translate_z": useRef()
     }
+
+    //const refForFocus = useRef();
+
+    //let idRef = useRef(0);
+    //idRef.current = 'translate_x_0';
 
     /* const inputRef_stroke = useRef();
     const inputRef_fill = useRef();
@@ -138,6 +145,10 @@ function ShapeLayer(props) {
 
     }
 
+    function handleColorUpdate(e) {
+        updateShapes(e, 'color');
+    }
+
     function handleInputUpdate(e) {
 
         /* let splitElID = e.target.id.split('_');
@@ -184,8 +195,10 @@ function ShapeLayer(props) {
 
     function updateShapes(e, controlType) {
 
-        let flattened = copyShapes();
+        //setIdForFocus(e.target.id);
+        
 
+        let flattened = copyShapes();
 
         if (controlType === 'vector') {
 
@@ -207,6 +220,8 @@ function ShapeLayer(props) {
                 shapeProp.set({ x: shapeProp.x, y: shapeProp.y, z: val });
             }
 
+            counter[1](e.target.id);
+
 
         } else if (controlType === 'select') {
 
@@ -216,6 +231,7 @@ function ShapeLayer(props) {
             let shapeindex = splitElName[1];
 
             flattened[shapeindex].data[property] = e.target.value;
+            counter[1](0);
 
             /* let property = splitElID[0];
             let menuitem = splitElID[1];
@@ -231,31 +247,88 @@ function ShapeLayer(props) {
 
             if (controlType === 'checkbox') {
                 flattened[shapeindex].data[property] = !flattened[shapeindex].data[property];
+                counter[1](0);
             } else if (controlType === 'textinput') {
                 //let stringval = e.target.value;
                 //flattened[shapeindex].data[property] = Number(e.target.value);
                 flattened[shapeindex].data[property] = e.target.value;
+                counter[1](e.target.id);
+            } else if (controlType === 'color') {
+                flattened[shapeindex].data[property] = e.target.value;
+                counter[1](0);
             }
 
         }
 
+        //idRef.current++;
+        //counter[1](e.target.id);
 
         setShapes(flattened);
+
+        //console.log('idRef.current: ' + idRef.current);
+        
 
     }
 
     let shapeSpecificControls;
     if (shape.shapeClass === 'Ellipse') {
-        shapeSpecificControls = <Ellipse shape={shape} index={index} inputHandler={handleInputUpdate} selectHandler={handleSelect} />
+        shapeSpecificControls = <Ellipse counter={counter} shape={shape} index={index} inputHandler={handleInputUpdate} selectHandler={handleSelect} />
     } else if (shape.shapeClass === 'Rect') {
-        shapeSpecificControls = <Rect shape={shape} index={index} inputHandler={handleInputUpdate} />
+        shapeSpecificControls = <Rect counter={counter} shape={shape} index={index} inputHandler={handleInputUpdate} />
     }
+
+
+    function refocus(ref) {
+        ref.current.focus();
+    }
+
 
     useEffect(() => {
 
-        if (shapes.length > 0) {
+        console.log('counter: ' + counter[0]);
+        //console.log('idRef.current: ' + idRef.current);
+
+       if (shapes.length > 0 && counter[0] !== 0) {
             console.log('shapes is longer than 0');
-            console.log(inputRefs);
+            //console.log(inputRefs);
+
+            let splitID = counter[0].split('_');
+            console.log(splitID);
+
+            let property;
+            let shapeindex;
+
+            if (splitID.length === 3) {
+                console.log('equal to 3');
+                property = `${splitID[0]}_${splitID[1]}`;
+                shapeindex = splitID[2];
+            } else {
+                property = `${splitID[0]}`;
+                shapeindex = splitID[1];
+            }
+
+            console.log('property = ' + property);
+
+            if (inputRefs[property] !== undefined && Number(shapeindex) === index) {
+                inputRefs[property].current.focus(); 
+            }
+
+            
+
+            
+
+
+
+            /* let refForFocus = inputRefs[property];
+            console.log(refForFocus);
+            refocus(refForFocus); */
+
+            /* if (shapeindex === index) {
+                let refForFocus = inputRefs[property];
+                refocus(refForFocus);
+            } */
+
+            
 
             // TO FIX - inputFocus never seems to update
             //console.log(inputFocus);
@@ -287,6 +360,9 @@ function ShapeLayer(props) {
                 refocus(inputRef2);
                 //inputRefs[2].current.focus();
             } */
+
+
+
         }
 
 
@@ -311,8 +387,13 @@ function ShapeLayer(props) {
 
 
     /* TO FIX:
-        x all open after each update to shapes - needs to remmember which were open and closed
-        - no input refocus
+        x all open after each update to shapes - needs to remember which were open and closed
+        .. no input refocus
+            - shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
+            - refocus to string index or character where cursor was last
+            - negative numbers and zeros
+            - color picker issue: can no longer drag to update
+
         x rm Material UI List click animation
         .. input styles
 
@@ -370,16 +451,18 @@ function ShapeLayer(props) {
 
                             <FormControl className={classes.parameter}>
                                 <label htmlFor={'color_' + index} className="MuiTypography-body1">Color</label>
-                                <input type="color" id={'color_' + index} name={'color_' + index} value={shape.data.color} onChange={(e) => handleInputUpdate(e)}></input>
+                                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={shape.data.color} onChange={(e) => handleColorUpdate(e)} inputRef={inputRefs['color']}></input>
                             </FormControl>
 
                             <FormControl className={classes.parameter}>
                                 <FormControlLabel
                                     label="Fill"
                                     className={classes.labelsm}
-                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} size="small" name={'fill_' + index} id={'fill_' + index} color="primary" />}
+                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
                                 />
                             </FormControl>
+
+                            {/* <TextField className={classes.parameter} id={'stroke_' + index} label="Stroke" value={shape.data.stroke} onChange={handleInputUpdate} /> */}
 
                             <FormControl className={classes.parameter}>
                                 <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>

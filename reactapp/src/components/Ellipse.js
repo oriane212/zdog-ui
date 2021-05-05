@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../zdogui.css';
 import { FormControl, FormControlLabel, Input, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Ellipse(props) {
 
+    let counter = props.counter;
+
     const index = props.index;
     const shape = props.shape;
 
@@ -47,6 +49,37 @@ function Ellipse(props) {
 
     const classes = useStyles();
 
+    useEffect(() => {
+        console.log('counter: ' + counter[0]);
+        //console.log('idRef.current: ' + idRef.current);
+
+       if (counter[0] !== 0) {
+            console.log('inside Ellipse useEffect');
+            //console.log(inputRefs);
+
+            let splitID = counter[0].split('_');
+            console.log(splitID);
+
+            let property;
+            let shapeindex;
+            if (splitID.length === 3) {
+                console.log('equal to 3');
+                property = `${splitID[0]}_${splitID[1]}`;
+                shapeindex = splitID[2];
+            } else {
+                property = `${splitID[0]}`;
+                shapeindex = splitID[1];
+            }
+
+            console.log('property = ' + property);
+
+            
+
+            if (inputRefs[property] !== undefined && Number(shapeindex) === index) {
+                inputRefs[property].current.focus(); 
+            }
+       }
+    }, [])
 
 
     return (

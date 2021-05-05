@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../zdogui.css';
 import { Collapse, FormControl, FormControlLabel, IconButton, Input, InputLabel, List, ListItem, ListItemText, ListSubheader, makeStyles, MenuItem, Select } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -107,12 +107,12 @@ function Controls(props) {
                                     <div>
 
                                         <FormControl className={classes.parameter}>
-                                            <InputLabel htmlFor="canvas_w">Canvas width</InputLabel>
+                                            <InputLabel htmlFor="canvas_w">Width</InputLabel>
                                             <Input id="canvas_w" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(e.target.value)} />
                                         </FormControl>
 
                                         <FormControl className={classes.parameter}>
-                                            <InputLabel htmlFor="canvas_h">Canvas height</InputLabel>
+                                            <InputLabel htmlFor="canvas_h">Height</InputLabel>
                                             <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => setCanvas_h(e.target.value)} />
                                         </FormControl>
 
@@ -154,7 +154,7 @@ function Controls(props) {
                 </div>
 
             </section>
-                {(props.addedShapes[0].length > 0) ? <ShapeControls addNewZdogShape={props.addNewZdogShape} addedShapes={props.addedShapes}></ShapeControls> : ''}
+                {(props.addedShapes[0].length > 0) ? <ShapeControls counter={props.counter} addNewZdogShape={props.addNewZdogShape} addedShapes={props.addedShapes}></ShapeControls> : ''}
         </section>
 
     )

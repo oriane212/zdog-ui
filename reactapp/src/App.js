@@ -51,6 +51,8 @@ function App(props) {
 
   const [open, setOpen] = useState(false);
 
+  let counter = useState(0);
+
   const classes = useStyles();
 
   function copyShapes() {
@@ -178,6 +180,12 @@ function App(props) {
     }
   }, [open]);
 
+// TO DO
+  /* useEffect(() => {
+    console.log('a shapelayer input was just updated');
+    // pass this as prop to shapeLayer and add to conditional refocus
+  }, [actuallyJustUpdated]) */
+
 
   return (
 
@@ -204,7 +212,7 @@ function App(props) {
       <main>
 
 
-        <Controls addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
+        <Controls counter={counter} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
       </main>
 

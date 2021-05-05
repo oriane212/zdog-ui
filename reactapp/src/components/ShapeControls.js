@@ -110,7 +110,7 @@ function ShapeControls(props) {
 
             return (
                 
-                <ShapeLayer key={generateID()} index={i} shape={shape} addedShapes={addedShapes} />
+                <ShapeLayer counter={props.counter} key={generateID()} index={i} shape={shape} addedShapes={addedShapes} />
 
 
                 /*  <ShapeLayer key={generateID()} index={i} shape={shape} addedShapes={addedShapes}></ShapeLayer> */
