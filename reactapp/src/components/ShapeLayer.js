@@ -389,7 +389,7 @@ function ShapeLayer(props) {
     /* TO FIX:
         x all open after each update to shapes - needs to remember which were open and closed
         .. no input refocus
-            - shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
+            x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
             - refocus to string index or character where cursor was last
             - negative numbers and zeros
             - color picker issue: can no longer drag to update
