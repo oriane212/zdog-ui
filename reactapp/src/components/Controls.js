@@ -57,6 +57,7 @@ function Controls(props) {
 
     function handle_onAdd() {
         props.addNewZdogShape(selectShapeValue);
+        checkCounter();
     }
 
     function checkCounter() {
@@ -77,7 +78,7 @@ function Controls(props) {
                     <InputLabel id="new-shape-label">
                         Add a shape
                         </InputLabel>
-                    <Select value={selectShapeValue} onChange={(e) => setSelectShapeValue(e.target.value)}>
+                    <Select value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value); checkCounter()}}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
                         <MenuItem value="Rect">Rect</MenuItem>
                     </Select>

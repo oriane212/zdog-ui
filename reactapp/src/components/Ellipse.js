@@ -36,8 +36,7 @@ function Ellipse(props) {
     const index = props.index;
     const shape = props.shape;
 
-    const inputHandler = props.inputHandler;
-    const selectHandler = props.selectHandler;
+    const updateShapes = props.updateShapes;
 
     //const [selectQuartersValue, setQuartersValue] = useState(shape.data.quarters);
 
@@ -90,15 +89,15 @@ function Ellipse(props) {
             </FormControl> */}
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'width_' + index}>Width</InputLabel>
-                <Input inputRef={inputRefs['width']} id={'width_' + index} value={shape.data.width} disabled={false} onChange={(e) => inputHandler(e)} />
+                <Input inputRef={inputRefs['width']} id={'width_' + index} value={shape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput')} />
             </FormControl>
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'height_' + index}>Height</InputLabel>
-                <Input inputRef={inputRefs['height']} id={'height_' + index} value={shape.data.height} disabled={false} onChange={(e) => inputHandler(e)} />
+                <Input inputRef={inputRefs['height']} id={'height_' + index} value={shape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput')} />
             </FormControl>
             <FormControl className={classes.parameter}>
                 <InputLabel>Quarters</InputLabel>
-                        <Select name={'quarters_' + index} id={'quarters_' + index} value={shape.data.quarters} onChange={(e) => selectHandler(e)}>
+                        <Select name={'quarters_' + index} id={'quarters_' + index} value={shape.data.quarters} onChange={(e) => updateShapes(e, 'select')}>
                             <MenuItem id={'quarters_1_' + index} value="1">1</MenuItem>
                             <MenuItem id={'quarters_2_' + index} value="2">2</MenuItem>
                             <MenuItem id={'quarters_3_' + index} value="3">3</MenuItem>

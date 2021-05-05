@@ -135,38 +135,6 @@ function ShapeLayer(props) {
         return flattened;
     }
 
-    function handleVectorUpdate(e) {
-        updateShapes(e, 'vector');
-    }
-
-    function handleCheckboxClick(e) {
-        // just set the property value to the opposite of what it is (value does not have checked value)
-        updateShapes(e, 'checkbox');
-
-    }
-
-    function handleColorUpdate(e) {
-        updateShapes(e, 'color');
-    }
-
-    function handleInputUpdate(e) {
-
-        /* let splitElID = e.target.id.split('_');
-        let property = splitElID[0];  */
-
-        //let shapeindex = splitElID[1];
-
-        /* prevFocus.current = property; */
-
-        /* if (property === 'stroke') {
-            prevFocus = inputRef_stroke.current;
-        } else if (property === 'diameter') {
-            prevFocus = inputRef_diameter.current;
-        } */
-        updateShapes(e, 'textinput');
-        //updateFocus(e);
-    }
-
     /* function handleSliderUpdate(e,v) {
         // get the parent div with MuiFormControl-root class
         let parentWithID = e.target.closest('.MuiFormControl-root');
@@ -188,10 +156,7 @@ function ShapeLayer(props) {
         ref.current.focus();
     } */
 
-    function handleSelect(e) {
-        console.log(e.target);
-        updateShapes(e, 'select');
-    }
+    
 
     function updateShapes(e, controlType) {
 
@@ -272,9 +237,9 @@ function ShapeLayer(props) {
 
     let shapeSpecificControls;
     if (shape.shapeClass === 'Ellipse') {
-        shapeSpecificControls = <Ellipse counter={counter} shape={shape} index={index} inputHandler={handleInputUpdate} selectHandler={handleSelect} />
+        shapeSpecificControls = <Ellipse counter={counter} shape={shape} index={index} updateShapes={updateShapes} />
     } else if (shape.shapeClass === 'Rect') {
-        shapeSpecificControls = <Rect counter={counter} shape={shape} index={index} inputHandler={handleInputUpdate} />
+        shapeSpecificControls = <Rect counter={counter} shape={shape} index={index} updateShapes={updateShapes} />
     }
 
 
@@ -451,14 +416,14 @@ function ShapeLayer(props) {
 
                             <FormControl className={classes.parameter}>
                                 <label htmlFor={'color_' + index} className="MuiTypography-body1">Color</label>
-                                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={shape.data.color} onChange={(e) => handleColorUpdate(e)} inputRef={inputRefs['color']}></input>
+                                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={shape.data.color} onChange={(e) => updateShapes(e, 'color')} inputRef={inputRefs['color']}></input>
                             </FormControl>
 
                             <FormControl className={classes.parameter}>
                                 <FormControlLabel
                                     label="Fill"
                                     className={classes.labelsm}
-                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
+                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => updateShapes(e, 'checkbox')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
                                 />
                             </FormControl>
 
@@ -466,7 +431,7 @@ function ShapeLayer(props) {
 
                             <FormControl className={classes.parameter}>
                                 <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
-                                <Input inputRef={inputRefs['stroke']} id={'stroke_' + index} value={shape.data.stroke} disabled={false} onChange={(e) => handleInputUpdate(e)} />
+                                <Input inputRef={inputRefs['stroke']} id={'stroke_' + index} value={shape.data.stroke} disabled={false} onChange={(e) => {updateShapes(e, 'textinput'); console.log(e.target.selectionStart)}} />
                             </FormControl>
 
                             <div className={classes.parameter}>
@@ -475,17 +440,17 @@ function ShapeLayer(props) {
 
                                 <FormControl className={classes.textField}>
                                     <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
-                                    <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={inputRefs['translate_x']} id={'translate_x_' + index} value={shape.data.translate.x} disabled={false} onChange={(e) => handleVectorUpdate(e)} />
+                                    <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={inputRefs['translate_x']} id={'translate_x_' + index} value={shape.data.translate.x} disabled={false} onChange={(e) => updateShapes(e, 'vector')} />
                                 </FormControl>
 
                                 <FormControl className={classes.textField}>
                                     <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
-                                    <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={inputRefs['translate_y']} id={'translate_y_' + index} value={shape.data.translate.y} disabled={false} onChange={(e) => handleVectorUpdate(e)} />
+                                    <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={inputRefs['translate_y']} id={'translate_y_' + index} value={shape.data.translate.y} disabled={false} onChange={(e) => updateShapes(e, 'vector')} />
                                 </FormControl>
 
                                 <FormControl className={classes.textField}>
                                     <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
-                                    <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={inputRefs['translate_z']} id={'translate_z_' + index} value={shape.data.translate.z} disabled={false} onChange={(e) => handleVectorUpdate(e)} />
+                                    <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={inputRefs['translate_z']} id={'translate_z_' + index} value={shape.data.translate.z} disabled={false} onChange={(e) => updateShapes(e, 'vector')} />
                                 </FormControl>
 
                             </div>

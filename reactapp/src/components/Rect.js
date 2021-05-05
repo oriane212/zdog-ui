@@ -36,7 +36,7 @@ function Rect(props) {
     const index = props.index;
     const shape = props.shape;
 
-    const inputHandler = props.inputHandler;
+    const updateShapes = props.updateShapes;
 
     const inputRefs = {
         "width": useRef(),
@@ -82,11 +82,11 @@ function Rect(props) {
         <React.Fragment>
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'width_' + index}>Width</InputLabel>
-                <Input inputRef={inputRefs['width']} id={'width_' + index} value={shape.data.width} disabled={false} onChange={(e) => inputHandler(e)} />
+                <Input inputRef={inputRefs['width']} id={'width_' + index} value={shape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput')} />
             </FormControl>
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'height_' + index}>Height</InputLabel>
-                <Input inputRef={inputRefs['height']} id={'height_' + index} value={shape.data.height} disabled={false} onChange={(e) => inputHandler(e)} />
+                <Input inputRef={inputRefs['height']} id={'height_' + index} value={shape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput')} />
             </FormControl>
         </React.Fragment>
     )
