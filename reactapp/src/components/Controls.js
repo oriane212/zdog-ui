@@ -51,20 +51,23 @@ function Controls(props) {
 
     const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
-    let counter = props.counter;
+    let cursorFocus = props.cursorFocus;
 
     const classes = useStyles();
 
     function handle_onAdd() {
         props.addNewZdogShape(selectShapeValue);
-        checkCounter();
+        checkCursorFocus();
     }
 
-    function checkCounter() {
-        console.log('inside counter check');
-        if (counter[0] !== 0) {
-            counter[1](0);
-            console.log('counter set to 0');
+    function checkCursorFocus() {
+        console.log('inside cursor check');
+        if (cursorFocus[0]['id'] !== '') {
+            cursorFocus[1]({
+                'id': '',
+                'cursorPos': 0
+              });
+            console.log('cursorFocus reset');
         }
     }
 
@@ -78,7 +81,7 @@ function Controls(props) {
                     <InputLabel id="new-shape-label">
                         Add a shape
                         </InputLabel>
-                    <Select value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value); checkCounter()}}>
+                    <Select value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value); checkCursorFocus()}}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
                         <MenuItem value="Rect">Rect</MenuItem>
                     </Select>
@@ -120,37 +123,37 @@ function Controls(props) {
                                         <FormControl className={classes.parameter}>
                                             <InputLabel htmlFor="canvas_w">Width</InputLabel>
                                             <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
-                                                (e) => {setCanvas_w(e.target.value); checkCounter(); }
+                                                (e) => {setCanvas_w(e.target.value); checkCursorFocus(); }
                                                 }/>
                                         </FormControl>
 
                                         <FormControl className={classes.parameter}>
                                             <InputLabel htmlFor="canvas_h">Height</InputLabel>
-                                            <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => {setCanvas_h(e.target.value); checkCounter(); }} />
+                                            <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => {setCanvas_h(e.target.value); checkCursorFocus(); }} />
                                         </FormControl>
 
                                         <FormControl className={classes.parameter}>
                                             <FormControlLabel
                                                 label="Drag Rotate"
-                                                control={<Checkbox className={classes.checkbox} checked={dragRotate} onChange={() => {setDragRotate(!dragRotate); checkCounter();}} size="small" name="dragRotate" id="dragRotate" color="primary" />}
+                                                control={<Checkbox className={classes.checkbox} checked={dragRotate} onChange={() => {setDragRotate(!dragRotate); checkCursorFocus();}} size="small" name="dragRotate" id="dragRotate" color="primary" />}
                                             />
                                         </FormControl>
 
                                         <FormControl className={classes.parameter}>
                                             <FormControlLabel
                                                 label="Animate"
-                                                control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => {setAnimate(!animate); checkCounter();}} size="small" name="animate" id="animate" color="primary" />}
+                                                control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => {setAnimate(!animate); checkCursorFocus();}} size="small" name="animate" id="animate" color="primary" />}
                                             />
                                         </FormControl>
 
                                         <FormControl className={classes.subparameter}>
                                             <Typography variant="body2" id="rotate_x_label">Rotate x = {rotate_x}</Typography>
-                                            <Slider className={classes.slider} id="rotate_x" value={rotate_x} min={0} max={1} step={0.01} onChange={(e, v) => {setRotate_x(v); checkCounter();}} aria-labelledby="rotate_x_label" disabled={!animate} />
+                                            <Slider className={classes.slider} id="rotate_x" value={rotate_x} min={0} max={1} step={0.01} onChange={(e, v) => {setRotate_x(v); checkCursorFocus();}} aria-labelledby="rotate_x_label" disabled={!animate} />
                                         </FormControl>
 
                                         <FormControl className={classes.subparameter}>
                                             <Typography variant="body2" id="rotate_y_label">Rotate y = {rotate_y}</Typography>
-                                            <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => {setRotate_y(v); checkCounter();}} aria-labelledby="rotate_y_label" disabled={!animate} />
+                                            <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => {setRotate_y(v); checkCursorFocus();}} aria-labelledby="rotate_y_label" disabled={!animate} />
                                         </FormControl>
 
 
@@ -167,7 +170,7 @@ function Controls(props) {
                 </div>
 
             </section>
-                {(props.addedShapes[0].length > 0) ? <ShapeControls counter={props.counter} addNewZdogShape={props.addNewZdogShape} addedShapes={props.addedShapes}></ShapeControls> : ''}
+                {(props.addedShapes[0].length > 0) ? <ShapeControls cursorFocus={cursorFocus} addNewZdogShape={props.addNewZdogShape} addedShapes={props.addedShapes}></ShapeControls> : ''}
         </section>
 
     )

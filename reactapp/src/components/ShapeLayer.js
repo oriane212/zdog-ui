@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ShapeLayer(props) {
 
-    let counter = props.counter;
+    let cursorFocus = props.cursorFocus;
 
     const index = props.index;
     const shape = props.shape;
@@ -85,25 +85,9 @@ function ShapeLayer(props) {
         "translate_z": useRef()
     }
 
-    //const refForFocus = useRef();
-
-    //let idRef = useRef(0);
-    //idRef.current = 'translate_x_0';
-
-    /* const inputRef_stroke = useRef();
-    const inputRef_fill = useRef();
-
-    const inputRef_diameter = useRef(); */
-
-
-    //let [inputFocus, setInputFocus] = useState('');
-
     const classes = useStyles();
 
-    /* const [open, setOpen] = React.useState(shape.open); */
-
     const handleClick = () => {
-        //setOpen(!open);
         let flattened = copyShapes();
         flattened[index].open = !flattened[index].open;
         setShapes(flattened);
@@ -124,8 +108,6 @@ function ShapeLayer(props) {
         setConfirmDialogOpen(false);
     }
 
-
-
     let shapeParameters = [];
 
     function copyShapes() {
@@ -142,26 +124,9 @@ function ShapeLayer(props) {
         let id = parentWithID.getAttribute('id');
         // pass the id to updateshapes
         updateShapes(e, v, 'slider', id);
-    } */
-
-    /* function updateFocus(e) {
-        let splitElID = e.target.id.split('_');
-        let property = splitElID[0];
-        if (inputFocus !== property) {
-            setInputFocus(property);
-        }
-    } */
-
-    /* function refocus(ref) {
-        ref.current.focus();
-    } */
-
-    
+    } */    
 
     function updateShapes(e, controlType) {
-
-        //setIdForFocus(e.target.id);
-        
 
         let flattened = copyShapes();
 
@@ -185,7 +150,11 @@ function ShapeLayer(props) {
                 shapeProp.set({ x: shapeProp.x, y: shapeProp.y, z: val });
             }
 
-            counter[1](e.target.id);
+            cursorFocus[1](
+                {'id': e.target.id, 
+                'cursorPos': e.target.selectionStart
+                }
+            );
 
 
         } else if (controlType === 'select') {
@@ -196,13 +165,10 @@ function ShapeLayer(props) {
             let shapeindex = splitElName[1];
 
             flattened[shapeindex].data[property] = e.target.value;
-            counter[1](0);
-
-            /* let property = splitElID[0];
-            let menuitem = splitElID[1];
-            let shapeindex = splitElID[2];
-
-            flattened[shapeindex].data[property] = menuitem; */
+            cursorFocus[1]({
+                'id': '',
+                'cursorPos': 0
+              });
 
         } else {
 
@@ -212,52 +178,46 @@ function ShapeLayer(props) {
 
             if (controlType === 'checkbox') {
                 flattened[shapeindex].data[property] = !flattened[shapeindex].data[property];
-                counter[1](0);
+                cursorFocus[1]({
+                    'id': '',
+                    'cursorPos': 0
+                  });
             } else if (controlType === 'textinput') {
                 //let stringval = e.target.value;
                 //flattened[shapeindex].data[property] = Number(e.target.value);
                 flattened[shapeindex].data[property] = e.target.value;
-                counter[1](e.target.id);
+                cursorFocus[1](
+                    {'id': e.target.id, 
+                    'cursorPos': e.target.selectionStart
+                    }
+                );
             } else if (controlType === 'color') {
                 flattened[shapeindex].data[property] = e.target.value;
-                counter[1](0);
+                cursorFocus[1]({
+                    'id': '',
+                    'cursorPos': 0
+                  });
             }
 
         }
 
-        //idRef.current++;
-        //counter[1](e.target.id);
-
-        setShapes(flattened);
-
-        //console.log('idRef.current: ' + idRef.current);
-        
+        setShapes(flattened); 
 
     }
 
     let shapeSpecificControls;
     if (shape.shapeClass === 'Ellipse') {
-        shapeSpecificControls = <Ellipse counter={counter} shape={shape} index={index} updateShapes={updateShapes} />
+        shapeSpecificControls = <Ellipse cursorFocus={cursorFocus} refocus={refocus} shape={shape} index={index} updateShapes={updateShapes} />
     } else if (shape.shapeClass === 'Rect') {
-        shapeSpecificControls = <Rect counter={counter} shape={shape} index={index} updateShapes={updateShapes} />
+        shapeSpecificControls = <Rect cursorFocus={cursorFocus} refocus={refocus} shape={shape} index={index} updateShapes={updateShapes} />
     }
 
 
-    function refocus(ref) {
-        ref.current.focus();
-    }
+    function refocus(cursorFocus, inputRefs) {
 
+       if (cursorFocus[0]['id'] !== '') {
 
-    useEffect(() => {
-
-        console.log('counter: ' + counter[0]);
-        //console.log('idRef.current: ' + idRef.current);
-
-       if (shapes.length > 0 && counter[0] !== 0) {
-            console.log('shapes is longer than 0');
-            //console.log(inputRefs);
-
-            let splitID = counter[0].split('_');
+            let splitID = cursorFocus[0]['id'].split('_');
             console.log(splitID);
 
             let property;
@@ -274,88 +234,28 @@ function ShapeLayer(props) {
 
             console.log('property = ' + property);
 
+            let pos = cursorFocus[0]['cursorPos'];
+            console.log('pos:' + pos);
+
             if (inputRefs[property] !== undefined && Number(shapeindex) === index) {
-                inputRefs[property].current.focus(); 
+                console.log('INSIDE INPUT REFS');
+                inputRefs[property].current.focus();
+                inputRefs[property].current.setSelectionRange(pos, pos);
             }
-
-            
-
-            
-
-
-
-            /* let refForFocus = inputRefs[property];
-            console.log(refForFocus);
-            refocus(refForFocus); */
-
-            /* if (shapeindex === index) {
-                let refForFocus = inputRefs[property];
-                refocus(refForFocus);
-            } */
-
-            
-
-            // TO FIX - inputFocus never seems to update
-            //console.log(inputFocus);
-
-            /* if (typeof inputRefs[inputFocus] !== 'undefined') {
-                let ref = inputRefs[inputFocus];
-                refocus(ref);
-            } */
-
-            /* if (typeof prevFocus.current !== 'undefined') {
-                let ref = inputRefs[prevFocus.current];
-                console.log('prevFocus.current: ', prevFocus.current);
-                console.log('ref: ', ref);
-                refocus(ref);
-            } */
-            /* if (prevFocus.current !== 'init') {
-                let ref = inputRefs[prevFocus.current];
-                console.log('prevFocus.current: ', prevFocus.current);
-                console.log('ref: ', ref);
-                ref.current.focus();
-            } */
-
-            //console.log(inputRef);
-            //refocus(uiEls[refIndex[0]]);
-            /* if (inputNum.current === 1) {
-                refocus(inputRef1);
-                //inputRefs[1].current.focus();
-            } else if (inputNum.current === 2) {
-                refocus(inputRef2);
-                //inputRefs[2].current.focus();
-            } */
-
-
-
         }
+    }
 
 
+    useEffect(() => {
+        refocus(cursorFocus, inputRefs);
     }, []);
-
-    /* function handleTest(e) {
-
-        let [parameter, shapeindex] = e.target.id.split('_');
-
-       
-        console.log(e.target);
-
-        let flattened = copyShapes();
-
-        if (typeof e)
-        flattened[shapeindex].data[parameter] = e.target.value;
-
-        setShapes(flattened);
-    } */
-
-
 
 
     /* TO FIX:
         x all open after each update to shapes - needs to remember which were open and closed
         .. no input refocus
             x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
-            - refocus to string index or character where cursor was last
+            x refocus to string index or character where cursor was last
             - negative numbers and zeros
             - color picker issue: can no longer drag to update
 
@@ -416,7 +316,7 @@ function ShapeLayer(props) {
 
                             <FormControl className={classes.parameter}>
                                 <label htmlFor={'color_' + index} className="MuiTypography-body1">Color</label>
-                                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={shape.data.color} onChange={(e) => updateShapes(e, 'color')} inputRef={inputRefs['color']}></input>
+                                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={shape.data.color} onChange={(e) => updateShapes(e, 'color')} inputref={inputRefs['color']}></input>
                             </FormControl>
 
                             <FormControl className={classes.parameter}>

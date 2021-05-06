@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Rect(props) {
 
-    let counter = props.counter;
-
     const index = props.index;
     const shape = props.shape;
 
     const updateShapes = props.updateShapes;
+
+    let cursorFocus = props.cursorFocus;
 
     const inputRefs = {
         "width": useRef(),
@@ -46,35 +46,7 @@ function Rect(props) {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log('counter: ' + counter[0]);
-        //console.log('idRef.current: ' + idRef.current);
-
-       if (counter[0] !== 0) {
-            console.log('inside Ellipse useEffect');
-            //console.log(inputRefs);
-
-            let splitID = counter[0].split('_');
-            console.log(splitID);
-
-            let property;
-            let shapeindex;
-            if (splitID.length === 3) {
-                console.log('equal to 3');
-                property = `${splitID[0]}_${splitID[1]}`;
-                shapeindex = splitID[2];
-            } else {
-                property = `${splitID[0]}`;
-                shapeindex = splitID[1];
-            }
-
-            console.log('property = ' + property);
-
-            
-
-            if (inputRefs[property] !== undefined && Number(shapeindex) === index) {
-                inputRefs[property].current.focus(); 
-            }
-       }
+       props.refocus(cursorFocus, inputRefs);
     }, [])
 
 

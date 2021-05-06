@@ -51,7 +51,10 @@ function App(props) {
 
   const [open, setOpen] = useState(false);
 
-  let counter = useState(0);
+  let cursorFocus = useState({
+    'id': '',
+    'cursorPos': 0
+  });
 
   const classes = useStyles();
 
@@ -212,7 +215,7 @@ function App(props) {
       <main>
 
 
-        <Controls counter={counter} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
+        <Controls cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
       </main>
 
