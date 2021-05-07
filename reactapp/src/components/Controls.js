@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../zdogui.css';
-import { Collapse, FormControl, FormControlLabel, IconButton, Input, InputLabel, List, ListItem, ListItemText, ListSubheader, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { Button, ButtonGroup, Collapse, createMuiTheme, FormControl, FormControlLabel, IconButton, Input, InputLabel, List, ListItem, ListItemText, ListSubheader, makeStyles, MenuItem, Select } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
@@ -9,21 +9,36 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
 
+/* const themeBody2 = createMuiTheme({
+    props: {
+      MuiTypography: {
+        variantMapping: {
+          body2: 'span'
+        },
+      },
+    },
+  }); */
+
 
 const useStyles = makeStyles((theme) => ({
     slider: {
         width: 155
     },
     checkbox: {
-        'padding-bottom': 12,
-        'font-size': 'small'
+        'padding-bottom': 10
     },
     parameter: {
         display: 'block',
-        margin: 16
+        margin: 12
+    },
+    parameterCheckbox: {
+        display: 'block',
+        'margin-left': 12,
+        'margin-top': 3,
+        'margin-bottom': 3
     },
     subparameter: {
-        'margin-left': 32,
+        'margin-left': 38,
         'margin-top': 3,
         'margin-bottom': 3
     },
@@ -31,7 +46,27 @@ const useStyles = makeStyles((theme) => ({
         color: "black"
     },
     root: {
-        backgroundColor: "#f1f1f1"
+        backgroundColor: "#f1f1f1",
+        fontSize: '0.9rem'
+    },
+    addshape: {
+        height: 40,
+        width: 180
+    },
+    add: {
+        backgroundColor: 'dodgerblue',
+        color: 'white'
+    },
+    li: {
+        paddingTop: 4,
+        paddingBottom: 4
+    },
+    nested: {
+        paddingTop: 4,
+        paddingBottom: 4
+    },
+    body2: {
+        fontSize: '0.9rem'
     }
 }));
 
@@ -77,7 +112,16 @@ function Controls(props) {
 
             <div className="controlsContainer" id="addShapeHeader">
             <header>
-                <FormControl>
+                <ButtonGroup /* color="primary" */ >
+                <Select color="primary" className={classes.addshape} value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value); checkCursorFocus()}}>
+                        <MenuItem value="Ellipse">Ellipse</MenuItem>
+                        <MenuItem value="Rect">Rect</MenuItem>
+                    </Select>
+                    <Button id="add" className={classes.add} onClick={handle_onAdd} aria-label="add">
+                        <AddIcon /* color="primary" */ fontSize="small" />
+                    </Button>
+                </ButtonGroup>
+                {/* <FormControl>
                     <InputLabel id="new-shape-label">
                         Add a shape
                         </InputLabel>
@@ -91,7 +135,7 @@ function Controls(props) {
                     <IconButton onClick={handle_onAdd} aria-label="add">
                         <AddIcon color="primary" fontSize="small" />
                     </IconButton>
-                </div>
+                </div> */}
             </header>
             </div>
 
@@ -105,8 +149,8 @@ function Controls(props) {
                         </ListSubheader>
                         } */ className={classes.root}>
 
-                        <ListItem>
-                            <ListItemText primary="Canvas Illustration" />
+                        <ListItem className={classes.li}>
+                            <ListItemText primary="Canvas" />
                             {canvasLayerOpen ?
                                 <IconButton onClick={() => setCanvasLayerOpen(!canvasLayerOpen)} className={classes.myprimary} aria-label="Expand less"><ExpandLess /></IconButton>
                                 :
@@ -117,7 +161,7 @@ function Controls(props) {
                         <Collapse in={canvasLayerOpen} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
 
-                                <ListItem className={classes.nested}>
+                                <ListItem /* classes={classes.nested} */ className={classes.nested}>
                                     <div>
 
                                         <FormControl className={classes.parameter}>
@@ -132,14 +176,14 @@ function Controls(props) {
                                             <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => {setCanvas_h(e.target.value); checkCursorFocus(); }} />
                                         </FormControl>
 
-                                        <FormControl className={classes.parameter}>
+                                        <FormControl className={classes.parameterCheckbox}>
                                             <FormControlLabel
                                                 label="Drag Rotate"
                                                 control={<Checkbox className={classes.checkbox} checked={dragRotate} onChange={() => {setDragRotate(!dragRotate); checkCursorFocus();}} size="small" name="dragRotate" id="dragRotate" color="primary" />}
                                             />
                                         </FormControl>
 
-                                        <FormControl className={classes.parameter}>
+                                        <FormControl className={classes.parameterCheckbox}>
                                             <FormControlLabel
                                                 label="Animate"
                                                 control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => {setAnimate(!animate); checkCursorFocus();}} size="small" name="animate" id="animate" color="primary" />}

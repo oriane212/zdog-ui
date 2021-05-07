@@ -55,6 +55,8 @@ section.code {
     background-color: #4a4a4a;
     color: white;
     */
+    position: relative;
+    top: 110px;
 }
 
 .parameter {
@@ -113,6 +115,12 @@ header {
 .controls_shape header {
     grid-template-areas: 'selectShape addShapeBtn';
     background-color: #e4e4e4;
+}
+
+.controls_shape {
+    position: relative;
+    /* top: 115px; */
+    top: 82px;
 }
 
 select#selectShape {
@@ -192,6 +200,20 @@ input[type='color'] {
 }
 
 #addShapeHeader {
-    background-color: #eaf2f9;
+    /* background-color: #7fc0f5; */
+    background-color: #f9f9f9;
+    border-bottom: 1px solid rgb(226, 226, 226);
     padding: 16px;
+    position: fixed;
+    top: 96px;
+    z-index: 1;
+    width: 267px;
+}
+
+span.MuiTypography-body1 {
+    font-size: 0.9rem;
+}
+
+#add:hover {
+    background-color: #0064c5;
 }

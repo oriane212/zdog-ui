@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
     parameter: {
         display: 'block',
-        margin: 16
+        margin: 12
     },
     subparameter: {
         'margin-left': 32,

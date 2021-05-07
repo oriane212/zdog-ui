@@ -29,8 +29,14 @@ const useStyles = makeStyles((theme) => ({
     },
     parameter: {
         display: 'block',
-        margin: 16,
+        margin: 12,
         fontSize: 'small'
+    },
+    parameterCheckbox: {
+        display: 'block',
+        'margin-left': 12,
+        'margin-top': 3,
+        'margin-bottom': 3
     },
     subparameter: {
         'margin-left': 32,
@@ -62,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
     },
     confirmDialog: {
         padding: 40
+    },
+    li: {
+        paddingTop: 4,
+        paddingBottom: 4
     }
 }));
 
@@ -281,7 +291,7 @@ function ShapeLayer(props) {
     return (
 
         <React.Fragment>
-            <ListItem /* button onClick={handleClick} */>
+            <ListItem /* button onClick={handleClick} */ className={classes.li}>
                 {/* <ListItemIcon>
                     <StarBorder />
                 </ListItemIcon> */ }
@@ -315,15 +325,14 @@ function ShapeLayer(props) {
                         <div>
 
                             <FormControl className={classes.parameter}>
-                                <label htmlFor={'color_' + index} className="MuiTypography-body1">Color</label>
+                                <label htmlFor={'color_' + index} className="MuiTypography-body2">Color</label>
                                 <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={shape.data.color} onChange={(e) => updateShapes(e, 'color')} inputref={inputRefs['color']}></input>
                             </FormControl>
 
-                            <FormControl className={classes.parameter}>
+                            <FormControl className={classes.parameterCheckbox}>
                                 <FormControlLabel
                                     label="Fill"
-                                    className={classes.labelsm}
-                                    control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm} checked={shape.data.fill} onChange={(e) => updateShapes(e, 'checkbox')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
+                                    control={<Checkbox inputRef={inputRefs['fill']} checked={shape.data.fill} onChange={(e) => updateShapes(e, 'checkbox')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
                                 />
                             </FormControl>
 
