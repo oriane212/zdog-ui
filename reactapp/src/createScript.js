@@ -48,6 +48,15 @@ function animate() {
 
 animate();
         `
+    } else if (!illoVars.animate[0] && illoVars.dragRotate[0]) {
+        endString = `
+function animate() {
+    illo.updateRenderGraph();
+    requestAnimationFrame(animate);
+}
+        
+animate();
+        `
     } else {
         endString = `
 // update & render
