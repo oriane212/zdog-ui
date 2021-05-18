@@ -136,7 +136,7 @@ function ShapeLayer(props) {
         updateShapes(e, v, 'slider', id);
     } */    
 
-    function updateShapes(e, controlType) {
+    function updateShapes(e, controlType, id='', v='') {
 
         let flattened = copyShapes();
 
@@ -180,6 +180,15 @@ function ShapeLayer(props) {
                 'cursorPos': 0
               });
 
+        } else if (controlType === 'slider') {
+            let splitElID = id.split('_');
+            let property = splitElID[0];
+            let shapeindex = splitElID[1];
+            flattened[shapeindex].data[property] = v;
+            cursorFocus[1]({
+                'id': '',
+                'cursorPos': 0
+              });
         } else {
 
             let splitElID = e.target.id.split('_');
@@ -250,7 +259,9 @@ function ShapeLayer(props) {
             if (inputRefs[property] !== undefined && Number(shapeindex) === index) {
                 console.log('INSIDE INPUT REFS');
                 inputRefs[property].current.focus();
-                inputRefs[property].current.setSelectionRange(pos, pos);
+                if (pos !== 0) {
+                    inputRefs[property].current.setSelectionRange(pos, pos);
+                }
             }
         }
     }
