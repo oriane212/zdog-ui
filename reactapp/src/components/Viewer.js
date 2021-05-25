@@ -27,6 +27,13 @@ function Viewer(props) {
     
     let af;
 
+    /* function createObjOfShapesById(shapes) {
+        let shapesById = {};
+        shapes.forEach((shape) => {
+            shapesById[shape.id] = 
+        })
+    } */
+
     function createIllo() {
 
         illo = new Zdog.Illustration({
@@ -35,6 +42,8 @@ function Viewer(props) {
         })
     
         illo.setSize(stateVars.canvas_w[0], stateVars.canvas_h[0]);
+
+        //let shapesById = {};
     
         shapes[0].forEach((shape) => {
           console.log(shape);

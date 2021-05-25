@@ -16,7 +16,7 @@ export default function createScript(illoVars, shapesCopy) {
 // create illo
 let illo = new Zdog.Illustration({
     // set canvas with id 'illo'
-    element: '#illo',
+    element: "#illo",
     dragRotate: ${illoVars.dragRotate[0]}
 });
     `;

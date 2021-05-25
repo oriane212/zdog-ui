@@ -11,6 +11,7 @@ import CodeIcon from '@material-ui/icons/Code';
 import { CodeJar } from 'codejar';
 import Prism from 'prismjs';
 import createScript from './createScript';
+import generateID from './generateID';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +102,7 @@ function App(props) {
   }
 
 
-  function addNewZdogShape(shapeClass) {
+  function addNewZdogShape(shapeClass, parentLayer='illo') {
 
     //if (shapeClass === 'Ellipse') {
 
@@ -110,6 +111,8 @@ function App(props) {
     //let i = Math.floor(Math.random() * valuesarry.length);
 
     let newshape = {
+      id: generateID(),
+      tempAddTo: parentLayer,
       open: true,
       shapeClass: shapeClass,
       data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
@@ -140,6 +143,11 @@ function App(props) {
     setOpen(false);
   }
 
+  function removeAllSingleQuotes(scriptString) {
+    let fixedScript = scriptString.replaceAll(`'`, '');
+    return fixedScript;
+  }
+
   console.log('testing outside return');
 
   useEffect(() => {
@@ -166,7 +174,8 @@ function App(props) {
           if (addedShapes[0].length > 0) {
             let flattened = copyShapes();
             let scriptString = createScript(stateVars, flattened);
-            jar.updateCode(scriptString);
+            let fixed = removeAllSingleQuotes(scriptString);
+            jar.updateCode(fixed);
 
           }
 
