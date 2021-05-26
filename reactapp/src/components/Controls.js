@@ -46,12 +46,13 @@ const useStyles = makeStyles((theme) => ({
         color: "black"
     },
     root: {
-        backgroundColor: "#f1f1f1",
+        /* backgroundColor: "#f1f1f1", */
+        backgroundColor: "#f9f9f9",
         fontSize: '0.9rem'
     },
     addshape: {
-        height: 40,
-        width: 180
+        width: 140,
+        height: 32
     },
     add: {
         backgroundColor: 'dodgerblue',

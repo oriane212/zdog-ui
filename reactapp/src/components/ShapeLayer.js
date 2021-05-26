@@ -303,9 +303,6 @@ function ShapeLayer(props) {
 
         <React.Fragment>
             <ListItem /* button onClick={handleClick} */ className={classes.li}>
-                {/* <ListItemIcon>
-                    <StarBorder />
-                </ListItemIcon> */ }
 
                 <ListItemText primary={(index + 1) + ': ' + shape.shapeClass} />
 
@@ -330,6 +327,7 @@ function ShapeLayer(props) {
 
                 </Dialog>
             </ListItem>
+            
             <Collapse in={shape.open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem /* button  */ className={classes.nested} /* disableRipple */>

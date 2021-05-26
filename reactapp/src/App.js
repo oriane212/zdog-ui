@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './zdogui.css';
 import Controls from './components/Controls';
 import Viewer from './components/Viewer';
+import ShapeTree from './components/ShapeTree';
 import { shapeProperties } from './shapeProperties';
 
 import Zdog from 'zdog';
@@ -223,9 +224,9 @@ function App(props) {
 
       <main>
 
-
-        <Controls cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
+        <ShapeTree cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></ShapeTree>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
+        <Controls cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
       </main>
 
     </React.Fragment>
