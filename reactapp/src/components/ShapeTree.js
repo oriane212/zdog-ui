@@ -6,13 +6,13 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { Button, ButtonGroup, IconButton, MenuItem, Select } from '@material-ui/core';
+import { Button, ButtonGroup, IconButton, MenuItem, Select, Typography } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 const useStyles = makeStyles({
     root: {
-      /* width: '100%', */
-      padding: 16
+        /* width: '100%', */
+        padding: 16
     },
     item: {
         /* height: 16 */
@@ -29,13 +29,20 @@ const useStyles = makeStyles({
         height: 36,
         width: 40,
         marginLeft: 12
+    },
+    inlineAdd: {
+        display: 'inline'
+    },
+    shapelabel: {
+        display: 'inline',
+        paddingTop: 11
     }
-  });
+});
 
 export default function ShapeTree(props) {
 
     const stateVars = props.stateVars;
-    const addedShapes= props.addedShapes;
+    const addedShapes = props.addedShapes;
 
     let cursorFocus = props.cursorFocus;
 
@@ -64,7 +71,7 @@ export default function ShapeTree(props) {
             cursorFocus[1]({
                 'id': '',
                 'cursorPos': 0
-              });
+            });
             console.log('cursorFocus reset');
         }
     }
@@ -75,7 +82,7 @@ export default function ShapeTree(props) {
 
     let shapelist = addedShapes.map((shape, i) => {
         return (
-            <TreeItem className={classes.item} key={i} nodeId={toString(i)} label={shape.shapeClass}/>
+            <TreeItem className={classes.item} key={i} nodeId={toString(i)} label={shape.shapeClass} />
         )
     })
 
@@ -83,12 +90,12 @@ export default function ShapeTree(props) {
         <section className="shapetree">
             <div className="toplevelactions">
                 <ButtonGroup>
-                    <Select color="primary" className={classes.addshape} value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value);}}>
+                    <Select color="primary" className={classes.addshape} value={selectShapeValue} onChange={(e) => { setSelectShapeValue(e.target.value); }}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
                         <MenuItem value="Rect">Rect</MenuItem>
                     </Select>
                     <Button id="add" className={classes.add} onClick={handle_onAdd} aria-label="add">
-                        <AddIcon fontSize="small"/>
+                        <AddIcon fontSize="small" />
                     </Button>
                 </ButtonGroup>
                 <IconButton className={classes.delete} onClick={handleDelete} aria-label="delete">
@@ -104,7 +111,16 @@ export default function ShapeTree(props) {
                 onNodeToggle={handleToggle}
                 onNodeSelect={handleSelect}
             >
-                <TreeItem className={classes.item} nodeId="canvas" label="Canvas">
+                <TreeItem className={classes.item} nodeId="canvas" label={
+                    <div className="shapeitem">
+                        <Typography className={classes.shapelabel} variant="body1">
+                            Canvas
+                        </Typography>
+                        <IconButton>
+                        <AddIcon className={classes.inlineAdd} color="inherit" fontSize="small"/>
+                        </IconButton>
+                    </div>
+                }>
                     <TreeItem className={classes.item} nodeId="testnode" label="Shape"></TreeItem>
                     {shapelist}
                 </TreeItem>

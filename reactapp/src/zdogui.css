@@ -34,6 +34,11 @@ section.shapetree {
     height: 100%;
 }
 
+div.shapeitem {
+    display: grid;
+    grid-template-columns: 0.8fr 0.2fr ;
+}
+
 section.controls {
     grid-area: controls;
     background-color: #f9f9f9;
