@@ -6,8 +6,9 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { Button, ButtonGroup, IconButton, MenuItem, Select, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, IconButton, Menu, MenuItem, Select, Typography } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import AddShapeMenu from './AddShapeMenu';
 
 const useStyles = makeStyles({
     root: {
@@ -26,9 +27,13 @@ const useStyles = makeStyles({
         color: 'white'
     },
     delete: {
-        height: 36,
-        width: 40,
-        marginLeft: 12
+        color: 'white'
+        /* height: 36,
+        width: 40, */
+ /*        marginLeft: 12 */
+    },
+    disabled: {
+        color: 'grey'
     },
     inlineAdd: {
         display: 'inline'
@@ -89,7 +94,7 @@ export default function ShapeTree(props) {
     return (
         <section className="shapetree">
             <div className="toplevelactions">
-                <ButtonGroup>
+                {/* <ButtonGroup>
                     <Select color="primary" className={classes.addshape} value={selectShapeValue} onChange={(e) => { setSelectShapeValue(e.target.value); }}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
                         <MenuItem value="Rect">Rect</MenuItem>
@@ -97,10 +102,18 @@ export default function ShapeTree(props) {
                     <Button id="add" className={classes.add} onClick={handle_onAdd} aria-label="add">
                         <AddIcon fontSize="small" />
                     </Button>
-                </ButtonGroup>
-                <IconButton className={classes.delete} onClick={handleDelete} aria-label="delete">
+                </ButtonGroup> */}
+                <ButtonGroup id="btngrp">
+                    <div>
+                    <IconButton className={(selected.length === 0)? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete">
                     <DeleteOutlinedIcon fontSize="small" />
                 </IconButton>
+                    </div>
+                
+                <AddShapeMenu selected={selected}/>
+                </ButtonGroup>
+                
+                
             </div>
             <TreeView
                 className={classes.root}
@@ -111,16 +124,15 @@ export default function ShapeTree(props) {
                 onNodeToggle={handleToggle}
                 onNodeSelect={handleSelect}
             >
-                <TreeItem className={classes.item} nodeId="canvas" label={
+                <TreeItem className={classes.item} nodeId="canvas" label="Canvas" /* label={
                     <div className="shapeitem">
                         <Typography className={classes.shapelabel} variant="body1">
                             Canvas
                         </Typography>
-                        <IconButton>
-                        <AddIcon className={classes.inlineAdd} color="inherit" fontSize="small"/>
-                        </IconButton>
+                       
                     </div>
-                }>
+                } */>
+
                     <TreeItem className={classes.item} nodeId="testnode" label="Shape"></TreeItem>
                     {shapelist}
                 </TreeItem>

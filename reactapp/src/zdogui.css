@@ -20,10 +20,23 @@ main {
 }
 
 div.toplevelactions {
-    /* background-color: rgb(95, 95, 95); */
+    background-color: rgb(95, 95, 95);
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr ;
-    padding: 16px;
+    grid-template-columns: 0.65fr 0.35fr;
+    grid-template-areas: '. btngrp';
+    padding: 6px;
+}
+
+/* #addbtn {
+    grid-area: addbtn;
+}
+
+#delbtn {
+    grid-area: delbtn;
+} */
+
+#btngrp {
+    grid-area: btngrp;
 }
 
 section.shapetree {
