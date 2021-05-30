@@ -113,7 +113,7 @@ function App(props) {
 
     let newshape = {
       id: generateID(),
-      tempAddTo: parentLayer,
+      /* tempAddTo: parentLayer, */
       open: true,
       shapeClass: shapeClass,
       data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)

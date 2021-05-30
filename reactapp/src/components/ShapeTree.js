@@ -63,6 +63,7 @@ export default function ShapeTree(props) {
 
     const handleSelect = (event, nodeIds) => {
         setSelected(nodeIds);
+        console.log('nodeIds: ' + nodeIds);
     };
 
     function handle_onAdd() {
@@ -124,7 +125,7 @@ export default function ShapeTree(props) {
                 onNodeToggle={handleToggle}
                 onNodeSelect={handleSelect}
             >
-                <TreeItem className={classes.item} nodeId="canvas" label="Canvas" /* label={
+                <TreeItem className={classes.item} nodeId="canvasnode" label="Canvas" /* label={
                     <div className="shapeitem">
                         <Typography className={classes.shapelabel} variant="body1">
                             Canvas
