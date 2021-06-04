@@ -49,7 +49,51 @@ function App(props) {
     rotate_y: useState(.06)
   }
 
-  const addedShapes = useState([]);
+  const addedShapes = useState([
+    {
+      id: generateID(),
+      /* tempAddTo: parentLayer, */
+      children: [
+        {
+          id: generateID(),
+          /* tempAddTo: parentLayer, */
+          children: [
+            {
+              id: generateID(),
+              /* tempAddTo: parentLayer, */
+              children: [],
+              open: true,
+              shapeClass: 'Ellipse',
+              data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse')
+            }
+          ],
+          open: true,
+          shapeClass: 'Rect',
+          data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Rect')
+        }
+      ],
+      open: true,
+      shapeClass: 'Ellipse',
+      data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse')
+    },
+    {
+      id: generateID(),
+      /* tempAddTo: parentLayer, */
+      children: [
+        {
+          id: generateID(),
+          /* tempAddTo: parentLayer, */
+          children: [],
+          open: true,
+          shapeClass: 'Rect',
+          data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Rect')
+        }
+      ],
+      open: true,
+      shapeClass: 'Ellipse',
+      data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse')
+    }
+  ]);
 
   const [open, setOpen] = useState(false);
 
@@ -114,6 +158,7 @@ function App(props) {
     let newshape = {
       id: generateID(),
       /* tempAddTo: parentLayer, */
+      children: [],
       open: true,
       shapeClass: shapeClass,
       data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)

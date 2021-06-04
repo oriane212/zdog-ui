@@ -10,6 +10,8 @@ import { Button, ButtonGroup, IconButton, Menu, MenuItem, Select, Typography } f
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import AddShapeMenu from './AddShapeMenu';
 
+import generateID from '../generateID';
+
 const useStyles = makeStyles({
     root: {
         /* width: '100%', */
@@ -86,11 +88,48 @@ export default function ShapeTree(props) {
         console.log('hello');
     }
 
-    let shapelist = addedShapes.map((shape, i) => {
-        return (
-            <TreeItem className={classes.item} key={i} nodeId={toString(i)} label={shape.shapeClass} />
-        )
+    function addChildItems(shape, i, parent) { 
+        let s = shape;
+        console.log('s = ' + s);
+        if (s.children.length !== 0) {
+            s.children.forEach((childshape, y) => {
+                let cs = childshape;
+                /* let pos = y; */
+                let child = (<TreeItem className={classes.item} key={generateID()} nodeId={generateID()} label={s.shapeClass}></TreeItem>);
+                console.log('parent = ' + parent);
+                parent.append(child);
+                addChildItems(cs, child);
+            } )
+        }
+    }
+
+
+    function createTree(childrenArray, parentnodeid) {
+        let p = parentnodeid;
+        console.log(childrenArray.length !== 0);
+        if (childrenArray.length !== 0) {
+            let treeitems = childrenArray.map((shape, i) => {
+                let pos = `${p}_${i}`;
+                let item = (<TreeItem className={classes.item} key={generateID()} nodeId={pos} label={shape.shapeClass}>
+                    {createTree(shape.children, pos)}
+                </TreeItem>);
+                //treeitems.push(item);
+                return item;
+            })
+            return treeitems;
+        } else {
+            return '';
+        }
+    }
+
+    let toptreelevel = addedShapes[0].map((shape, i) => {
+        let item = 
+        (<TreeItem className={classes.item} key={generateID()} nodeId={i.toString()} label={shape.shapeClass}>
+            {createTree(shape.children, i.toString())}
+        </TreeItem>);
+        return item;
     })
+
 
     return (
         <section className="shapetree">
@@ -125,17 +164,8 @@ export default function ShapeTree(props) {
                 onNodeToggle={handleToggle}
                 onNodeSelect={handleSelect}
             >
-                <TreeItem className={classes.item} nodeId="canvasnode" label="Canvas" /* label={
-                    <div className="shapeitem">
-                        <Typography className={classes.shapelabel} variant="body1">
-                            Canvas
-                        </Typography>
-                       
-                    </div>
-                } */>
-
-                    <TreeItem className={classes.item} nodeId="testnode" label="Shape"></TreeItem>
-                    {shapelist}
+                <TreeItem className={classes.item} nodeId="canvasnode" label="Canvas">
+                    {toptreelevel}
                 </TreeItem>
             </TreeView>
         </section>
