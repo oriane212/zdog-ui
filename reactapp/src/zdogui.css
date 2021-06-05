@@ -54,7 +54,7 @@ div.shapeitem {
 
 section.controls {
     grid-area: controls;
-    background-color: #f9f9f9;
+    background-color: #eaebf4;
     /* padding: 16px; */
     width: 300px;
     height: 100%;

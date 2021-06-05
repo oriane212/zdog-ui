@@ -92,7 +92,7 @@ function Viewer(props) {
 
 
     useEffect(() => {
-        createIllo();
+        /*****************  createIllo(); *//////////////////////////////////////////
     })
 
 

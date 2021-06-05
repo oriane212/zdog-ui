@@ -102,6 +102,8 @@ function App(props) {
     'cursorPos': 0
   });
 
+  const selectedNodeId = useState('canvasnode');
+
   const classes = useStyles();
 
   function copyShapes() {
@@ -147,13 +149,9 @@ function App(props) {
   }
 
 
-  function addNewZdogShape(shapeClass, parentLayer='illo') {
-
-    //if (shapeClass === 'Ellipse') {
+  function addNewZdogShape(shapeClass, nodeId) {
 
     let flattened = copyShapes();
-
-    //let i = Math.floor(Math.random() * valuesarry.length);
 
     let newshape = {
       id: generateID(),
@@ -162,22 +160,31 @@ function App(props) {
       open: true,
       shapeClass: shapeClass,
       data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
-      /* data: {
-        //addTo: '',
-        diameter: valuesarry[i],
-        stroke: 20
-      } */
     }
 
-    //valuesarry.splice(i, 1);
-    //console.log(valuesarry);
+    if (nodeId === "canvasnode") {
 
-    flattened.push(newshape);
+      flattened.push(newshape);
+
+    } else {
+      let posStrings = nodeId.split('_');
+      let posNums = posStrings.map((s) => Number(s));
+
+      let currentShape;
+
+      posNums.forEach((posNum, i) => {
+        if ((0 < i) && (i <= (posNums.length - 1))) {
+          currentShape = currentShape.children[posNum];
+        } else if (i === 0) {
+          currentShape = flattened[posNum];
+        }
+      })
+
+      currentShape.children.push(newshape);
+    }
+
     addedShapes[1](flattened);
 
-    //console.log('inside addNewZdogShape: ');
-
-    //}
   }
 
   function getCode() {
@@ -216,7 +223,7 @@ function App(props) {
             div.innerHTML = code;
           } */
           let jar = CodeJar(div, Prism.highlightElement);
-          
+
           if (addedShapes[0].length > 0) {
             let flattened = copyShapes();
             let scriptString = createScript(stateVars, flattened);
@@ -238,11 +245,13 @@ function App(props) {
     }
   }, [open]);
 
-// TO DO
+  // TO DO
   /* useEffect(() => {
     console.log('a shapelayer input was just updated');
     // pass this as prop to shapeLayer and add to conditional refocus
   }, [actuallyJustUpdated]) */
+
+  console.log('selectedNodeId[0]: ' + selectedNodeId[0]);
 
 
   return (
@@ -262,16 +271,16 @@ function App(props) {
               <Typography>JavaScript</Typography>
               <div id="editor">Getting code...</div>
             </Container>
-            
+
           </Dialog>
         </Toolbar>
       </AppBar>
 
       <main>
 
-        <ShapeTree cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></ShapeTree>
+        <ShapeTree selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></ShapeTree>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
-        <Controls cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></Controls>
+        <Controls selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} stateVars={stateVars} addedShapes={addedShapes}></Controls>
       </main>
 
     </React.Fragment>
@@ -281,6 +290,7 @@ function App(props) {
 }
 
 export default App;
+
 
 
 /* <AppBar position="static" color="secondary">

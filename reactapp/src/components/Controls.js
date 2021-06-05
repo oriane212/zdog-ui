@@ -8,6 +8,7 @@ import ShapeControls from './ShapeControls';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
+import CanvasLayer from './CanvasLayer';
 
 /* const themeBody2 = createMuiTheme({
     props: {
@@ -74,12 +75,6 @@ const useStyles = makeStyles((theme) => ({
 function Controls(props) {
 
     const stateVars = props.stateVars;
-    const [canvas_w, setCanvas_w] = [stateVars.canvas_w[0], stateVars.canvas_w[1]];
-    const [canvas_h, setCanvas_h] = [stateVars.canvas_h[0], stateVars.canvas_h[1]];
-    const [dragRotate, setDragRotate] = [stateVars.dragRotate[0], stateVars.dragRotate[1]];
-    const [animate, setAnimate] = [stateVars.animate[0], stateVars.animate[1]];
-    const [rotate_x, setRotate_x] = [stateVars.rotate_x[0], stateVars.rotate_x[1]];
-    const [rotate_y, setRotate_y] = [stateVars.rotate_y[0], stateVars.rotate_y[1]];
 
     //const [shapes, setShapes] = [stateVars.shapes[0], stateVars.shapes[1]];
 
@@ -111,45 +106,25 @@ function Controls(props) {
 
         <section className="controls">
 
-            <div className="controlsContainer" id="addShapeHeader">
+            {/* <div className="controlsContainer" id="addShapeHeader">
             <header>
-                <ButtonGroup /* color="primary" */ >
+                <ButtonGroup>
                 <Select color="primary" className={classes.addshape} value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value); checkCursorFocus()}}>
                         <MenuItem value="Ellipse">Ellipse</MenuItem>
                         <MenuItem value="Rect">Rect</MenuItem>
                     </Select>
                     <Button id="add" className={classes.add} onClick={handle_onAdd} aria-label="add">
-                        <AddIcon /* color="primary" */ fontSize="small" />
+                        <AddIcon fontSize="small" />
                     </Button>
                 </ButtonGroup>
-                {/* <FormControl>
-                    <InputLabel id="new-shape-label">
-                        Add a shape
-                        </InputLabel>
-                    <Select value={selectShapeValue} onChange={(e) => {setSelectShapeValue(e.target.value); checkCursorFocus()}}>
-                        <MenuItem value="Ellipse">Ellipse</MenuItem>
-                        <MenuItem value="Rect">Rect</MenuItem>
-                    </Select>
-                </FormControl>
                 
-                <div className="btnContainer">
-                    <IconButton onClick={handle_onAdd} aria-label="add">
-                        <AddIcon color="primary" fontSize="small" />
-                    </IconButton>
-                </div> */}
             </header>
-            </div>
+            </div> */}
 
             <section className="controls_illo">
                 <div className="controlsContainer">
 
-                    <List component="div" aria-labelledby="nested-list-subheader-canvas"
-                        /* subheader={
-                            <ListSubheader component="div" id="nested-list-subheader-canvas">
-                                Canvas
-                        </ListSubheader>
-                        } */ className={classes.root}>
-
+                    {/* <List component="div" aria-labelledby="nested-list-subheader-canvas" className={classes.root}>
                         <ListItem className={classes.li}>
                             <ListItemText primary="Canvas" />
                             {canvasLayerOpen ?
@@ -162,64 +137,31 @@ function Controls(props) {
                         <Collapse in={canvasLayerOpen} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
 
-                                <ListItem /* classes={classes.nested} */ className={classes.nested}>
-                                    <div>
+                                <ListItem className={classes.nested}> */}
+                                
+                    <CanvasLayer checkCursorFocus={checkCursorFocus} cursorFocus={cursorFocus} stateVars={stateVars}></CanvasLayer>
 
-                                        <FormControl className={classes.parameter}>
-                                            <InputLabel htmlFor="canvas_w">Width</InputLabel>
-                                            <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
-                                                (e) => {setCanvas_w(e.target.value); checkCursorFocus(); }
-                                                }/>
-                                        </FormControl>
-
-                                        <FormControl className={classes.parameter}>
-                                            <InputLabel htmlFor="canvas_h">Height</InputLabel>
-                                            <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => {setCanvas_h(e.target.value); checkCursorFocus(); }} />
-                                        </FormControl>
-
-                                        <FormControl className={classes.parameterCheckbox}>
-                                            <FormControlLabel
-                                                label="Drag Rotate"
-                                                control={<Checkbox className={classes.checkbox} checked={dragRotate} onChange={() => {setDragRotate(!dragRotate); checkCursorFocus();}} size="small" name="dragRotate" id="dragRotate" color="primary" />}
-                                            />
-                                        </FormControl>
-
-                                        <FormControl className={classes.parameterCheckbox}>
-                                            <FormControlLabel
-                                                label="Animate"
-                                                control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => {setAnimate(!animate); checkCursorFocus();}} size="small" name="animate" id="animate" color="primary" />}
-                                            />
-                                        </FormControl>
-
-                                        <FormControl className={classes.subparameter}>
-                                            <Typography variant="body2" id="rotate_x_label">Rotate x = {rotate_x}</Typography>
-                                            <Slider className={classes.slider} id="rotate_x" value={rotate_x} min={0} max={1} step={0.01} onChange={(e, v) => {setRotate_x(v); checkCursorFocus();}} aria-labelledby="rotate_x_label" disabled={!animate} />
-                                        </FormControl>
-
-                                        <FormControl className={classes.subparameter}>
-                                            <Typography variant="body2" id="rotate_y_label">Rotate y = {rotate_y}</Typography>
-                                            <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => {setRotate_y(v); checkCursorFocus();}} aria-labelledby="rotate_y_label" disabled={!animate} />
-                                        </FormControl>
-
-
-                                    </div>
-                                </ListItem>
+                            {/*     </ListItem>
 
                             </List>
                         </Collapse>
 
 
 
-                    </List>
+                    </List> */}
 
                 </div>
 
             </section>
-                {(props.addedShapes[0].length > 0) ? <ShapeControls cursorFocus={cursorFocus} addNewZdogShape={props.addNewZdogShape} addedShapes={props.addedShapes}></ShapeControls> : ''}
+                
         </section>
 
     )
 
 }
+
+/*
+{(props.addedShapes[0].length > 0) ? <ShapeControls cursorFocus={cursorFocus} addNewZdogShape={props.addNewZdogShape} addedShapes={props.addedShapes}></ShapeControls> : ''}
+*/
 
 export default Controls;

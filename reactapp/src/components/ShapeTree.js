@@ -53,25 +53,30 @@ export default function ShapeTree(props) {
 
     let cursorFocus = props.cursorFocus;
 
+    let selectedNodeId = props.selectedNodeId;
+
+    let addNewZdogShape = props.addNewZdogShape;
+
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState([]);
-    const [selected, setSelected] = React.useState([]);
+    //const [selected, setSelected] = React.useState([]);
 
-    const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
+    //const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
 
     const handleToggle = (event, nodeIds) => {
         setExpanded(nodeIds);
     };
 
     const handleSelect = (event, nodeIds) => {
-        setSelected(nodeIds);
+        selectedNodeId[1](nodeIds);
+        //setSelected(nodeIds);
         console.log('nodeIds: ' + nodeIds);
     };
 
-    function handle_onAdd() {
+    /* function handle_onAdd() {
         props.addNewZdogShape(selectShapeValue);
         checkCursorFocus();
-    }
+    } */
 
     function checkCursorFocus() {
         console.log('inside cursor check');
@@ -88,22 +93,6 @@ export default function ShapeTree(props) {
         console.log('hello');
     }
 
-    function addChildItems(shape, i, parent) { 
-        let s = shape;
-        console.log('s = ' + s);
-        if (s.children.length !== 0) {
-            s.children.forEach((childshape, y) => {
-                let cs = childshape;
-                /* let pos = y; */
-                let child = (<TreeItem className={classes.item} key={generateID()} nodeId={generateID()} label={s.shapeClass}></TreeItem>);
-                console.log('parent = ' + parent);
-                parent.append(child);
-                addChildItems(cs, child);
-            } )
-        }
-    }
-
-
     function createTree(childrenArray, parentnodeid) {
         let p = parentnodeid;
         console.log(childrenArray.length !== 0);
@@ -113,7 +102,6 @@ export default function ShapeTree(props) {
                 let item = (<TreeItem className={classes.item} key={generateID()} nodeId={pos} label={shape.shapeClass}>
                     {createTree(shape.children, pos)}
                 </TreeItem>);
-                //treeitems.push(item);
                 return item;
             })
             return treeitems;
@@ -145,12 +133,12 @@ export default function ShapeTree(props) {
                 </ButtonGroup> */}
                 <ButtonGroup id="btngrp">
                     <div>
-                    <IconButton className={(selected.length === 0)? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete">
+                    <IconButton className={(selectedNodeId[0] === '')? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete">
                     <DeleteOutlinedIcon fontSize="small" />
                 </IconButton>
                     </div>
                 
-                <AddShapeMenu selected={selected}/>
+                <AddShapeMenu selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape}/>
                 </ButtonGroup>
                 
                 
@@ -160,7 +148,7 @@ export default function ShapeTree(props) {
                 defaultCollapseIcon={<ExpandMoreIcon />}
                 defaultExpandIcon={<ChevronRightIcon />}
                 expanded={expanded}
-                selected={selected}
+                selected={selectedNodeId[0]}
                 onNodeToggle={handleToggle}
                 onNodeSelect={handleSelect}
             >

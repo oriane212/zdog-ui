@@ -18,7 +18,10 @@ const useStyles = makeStyles({
 export default function AddShapeMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  let selected = props.selected;
+  //let selected = props.selected;
+
+  let selectedNodeId = props.selectedNodeId;
+  let addNewZdogShape = props.addNewZdogShape;
 
   const classes = useStyles();
 
@@ -30,15 +33,17 @@ export default function AddShapeMenu(props) {
     setAnchorEl(null);
   };
 
-  function handleShapeSelect() {
+  function handleShapeSelect(v) {
       handleClose();
-      console.log('test shape select');
+      if (v === 'Ellipse' || v === 'Rect') {
+        addNewZdogShape(v, selectedNodeId[0]);
+      }
   }
 
   return (
     <div>
-      <IconButton disabled={selected.length === 0} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <AddIcon className={(selected.length === 0)? classes.disabled : classes.addbtn} /* color="inherit"  */fontSize="small"/>
+      <IconButton disabled={selectedNodeId[0] === ''} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        <AddIcon className={(selectedNodeId[0] === '')? classes.disabled : classes.addbtn} /* color="inherit"  */fontSize="small"/>
       </IconButton>
       <Menu
         id="simple-menu"
@@ -47,10 +52,10 @@ export default function AddShapeMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleShapeSelect} value="Ellipse">Ellipse</MenuItem>
-        <MenuItem onClick={handleShapeSelect} value="Rect">Rect</MenuItem>
-        <MenuItem onClick={handleShapeSelect} value="Box">Box</MenuItem>
-        <MenuItem onClick={handleShapeSelect} value="Hemisphere">Hemisphere</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Ellipse')}value="Ellipse">Ellipse</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Rect')} value="Rect">Rect</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Box')} value="Box">Box</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem>
       </Menu>
     </div>
   );
