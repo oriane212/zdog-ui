@@ -140,8 +140,12 @@ function App(props) {
     })
 
     props_shape.forEach((prop) => {
-      let defaultVal = zdogShape[prop];
-      data[prop] = defaultVal;
+      if (prop === 'width' || prop === 'height') {
+        data[prop] = 100;
+      } else {
+        let defaultVal = zdogShape[prop];
+        data[prop] = defaultVal;
+      }
     })
 
     return data;

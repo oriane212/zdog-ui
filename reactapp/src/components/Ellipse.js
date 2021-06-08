@@ -50,7 +50,7 @@ const marks = [
 
 function Ellipse(props) {
 
-    const index = props.index;
+    const index = 0;
     const shape = props.shape;
 
     const updateShapes = props.updateShapes;

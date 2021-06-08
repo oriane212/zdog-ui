@@ -34,6 +34,16 @@ function Viewer(props) {
         })
     } */
 
+    function createChildShapes(parent, parentInstance) {
+        if (parent.children.length > 0) {
+            parent.children.forEach((shape) => {
+                shape.data.addTo = parentInstance;
+                let shapeInstance = new Zdog[shape.shapeClass](shape.data);
+                createChildShapes(shape, shapeInstance);
+            })
+        }
+    }
+
     function createIllo() {
 
         illo = new Zdog.Illustration({
@@ -48,7 +58,8 @@ function Viewer(props) {
         shapes[0].forEach((shape) => {
           console.log(shape);
           shape.data.addTo = illo;
-          new Zdog[shape.shapeClass](shape.data);
+          let shapeInstance = new Zdog[shape.shapeClass](shape.data);
+          createChildShapes(shape, shapeInstance);
         })
     
         illo.updateRenderGraph();
@@ -92,7 +103,7 @@ function Viewer(props) {
 
 
     useEffect(() => {
-        /*****************  createIllo(); *//////////////////////////////////////////
+        createIllo();
     })
 
 

@@ -9,6 +9,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
 import CanvasLayer from './CanvasLayer';
+import ShapeLayer from './ShapeLayer';
 
 /* const themeBody2 = createMuiTheme({
     props: {
@@ -102,6 +103,19 @@ function Controls(props) {
         }
     }
 
+    function renderLayerControls() {
+
+        if (props.selectedNodeId[0] === 'canvasnode') {
+            return (
+                <CanvasLayer checkCursorFocus={checkCursorFocus} cursorFocus={cursorFocus} stateVars={stateVars}></CanvasLayer>
+            )
+        } else {
+            return (
+                <ShapeLayer selectedNodeId={props.selectedNodeId} addedShapes={props.addedShapes} checkCursorFocus={checkCursorFocus} cursorFocus={cursorFocus} stateVars={stateVars}></ShapeLayer>
+            )
+        }
+    }
+
     return (
 
         <section className="controls">
@@ -139,7 +153,7 @@ function Controls(props) {
 
                                 <ListItem className={classes.nested}> */}
                                 
-                    <CanvasLayer checkCursorFocus={checkCursorFocus} cursorFocus={cursorFocus} stateVars={stateVars}></CanvasLayer>
+                    {renderLayerControls()}
 
                             {/*     </ListItem>
 

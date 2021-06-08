@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Rect(props) {
 
-    const index = props.index;
+    const index = 0;
     const shape = props.shape;
 
     const updateShapes = props.updateShapes;
