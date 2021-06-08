@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../zdogui.css';
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
@@ -61,7 +61,9 @@ export default function ShapeTree(props) {
     let addNewZdogShape = props.addNewZdogShape;
 
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState([]);
+    const [expanded, setExpanded] = React.useState(['canvasnode']);
+
+    console.log('expanded = ' + expanded);
 
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
@@ -83,6 +85,33 @@ export default function ShapeTree(props) {
         props.addNewZdogShape(selectShapeValue);
         checkCursorFocus();
     } */
+
+    function copyArray(a) {
+        let newArray = [];
+        newArray.push(a);
+        let newArrayFlattened = newArray.flat();
+        return newArrayFlattened;
+    }
+
+    function checkParentExpanded() {
+        let pos = selectedNodeId[0].split('_');
+        if (pos.length > 1) {
+            pos.pop();
+            let parentId = pos.join('_');
+            if (!expanded.includes(parentId)) {
+                console.log('does not include parentId');
+                let copied = copyArray(expanded);
+                copied.push(parentId);
+                setExpanded(copied);
+            }
+        } else {
+            if (!expanded.includes('canvasnode')) {
+                let copied = copyArray(expanded);
+                copied.push('canvasnode');
+                setExpanded(copied);
+            }
+        }
+    }
 
     function checkCursorFocus() {
         console.log('inside cursor check');
@@ -177,6 +206,10 @@ export default function ShapeTree(props) {
             </TreeItem>);
         return item;
     })
+
+    useEffect(() => {
+        checkParentExpanded();
+    });
 
 
     return (
