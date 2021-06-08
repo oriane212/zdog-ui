@@ -6,7 +6,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { Button, ButtonGroup, IconButton, Menu, MenuItem, Select, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Container, Dialog, IconButton, Menu, MenuItem, Select, Typography } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import AddShapeMenu from './AddShapeMenu';
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
         color: 'white'
         /* height: 36,
         width: 40, */
- /*        marginLeft: 12 */
+        /*        marginLeft: 12 */
     },
     disabled: {
         color: 'grey'
@@ -43,7 +43,10 @@ const useStyles = makeStyles({
     shapelabel: {
         display: 'inline',
         paddingTop: 11
-    }
+    },
+    confirmDialog: {
+        padding: 40
+    },
 });
 
 export default function ShapeTree(props) {
@@ -59,6 +62,9 @@ export default function ShapeTree(props) {
 
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState([]);
+
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+
     //const [selected, setSelected] = React.useState([]);
 
     //const [selectShapeValue, setSelectShapeValue] = useState('Ellipse');
@@ -91,6 +97,60 @@ export default function ShapeTree(props) {
 
     function handleDelete() {
         console.log('hello');
+        setConfirmDialogOpen(true);
+    }
+
+    function handleConfirm() {
+        let flattened = copyShapes();
+
+        let nodeId = selectedNodeId[0];
+        let posStrings = nodeId.split('_');
+        let posNums = posStrings.map((s) => Number(s));
+
+        if (posNums.length === 1) {
+
+            flattened.splice(posNums[0], 1);
+
+            // reset selected node id to canvas
+            selectedNodeId[1]('canvasnode');
+
+        } else {
+            let currentShape;
+
+            posNums.forEach((posNum, i) => {
+                if ((0 < i) && (i <= (posNums.length - 2))) {
+                    currentShape = currentShape.children[posNum];
+                } else if (i === 0) {
+                    currentShape = flattened[posNum];
+                }
+            })
+
+            let lastpos = posNums[posNums.length - 1];
+
+            currentShape.children.splice(lastpos, 1);
+
+            // reset selected node id to parent of deleted shape
+            posNums.pop();
+            let posNumsToStrings = posNums.map((n) => n.toString());
+            let parentNodeId = posNumsToStrings.join('_');
+            selectedNodeId[1](parentNodeId);
+            
+        }
+
+        //setShapes(flattened);
+        addedShapes[1](flattened);
+        handleClose();
+    }
+
+    function handleClose() {
+        setConfirmDialogOpen(false);
+    }
+
+    function copyShapes() {
+        let newshapearry = [];
+        newshapearry.push(addedShapes[0]);
+        let flattened = newshapearry.flat();
+        return flattened;
     }
 
     function createTree(childrenArray, parentnodeid) {
@@ -111,10 +171,10 @@ export default function ShapeTree(props) {
     }
 
     let toptreelevel = addedShapes[0].map((shape, i) => {
-        let item = 
-        (<TreeItem className={classes.item} key={generateID()} nodeId={i.toString()} label={shape.shapeClass}>
-            {createTree(shape.children, i.toString())}
-        </TreeItem>);
+        let item =
+            (<TreeItem className={classes.item} key={generateID()} nodeId={i.toString()} label={shape.shapeClass}>
+                {createTree(shape.children, i.toString())}
+            </TreeItem>);
         return item;
     })
 
@@ -133,15 +193,26 @@ export default function ShapeTree(props) {
                 </ButtonGroup> */}
                 <ButtonGroup id="btngrp">
                     <div>
-                    <IconButton className={(selectedNodeId[0] === '')? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete">
-                    <DeleteOutlinedIcon fontSize="small" />
-                </IconButton>
+                        <IconButton className={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode') ? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete" disabled={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode')}>
+                            <DeleteOutlinedIcon fontSize="small" />
+                        </IconButton>
                     </div>
-                
-                <AddShapeMenu selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape}/>
+
+                    <Dialog onClose={handleClose} open={confirmDialogOpen}>
+                        <Container className={classes.confirmDialog}>
+                            <Typography>Deleting this shape will also delete any child shapes. Are you sure you want to delete this shape?</Typography>
+                            <div>
+                                <Button onClick={handleConfirm} color="primary">Confirm</Button>
+                                <Button onClick={handleClose}>Cancel</Button>
+                            </div>
+                        </Container>
+
+                    </Dialog>
+
+                    <AddShapeMenu selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
                 </ButtonGroup>
-                
-                
+
+
             </div>
             <TreeView
                 className={classes.root}
