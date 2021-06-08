@@ -166,6 +166,9 @@ function App(props) {
 
       flattened.push(newshape);
 
+      // set selectedNodeId to newly added shape layer in tree
+      selectedNodeId[1]((flattened.length-1).toString());
+
     } else {
       let posStrings = nodeId.split('_');
       let posNums = posStrings.map((s) => Number(s));
@@ -181,6 +184,10 @@ function App(props) {
       })
 
       currentShape.children.push(newshape);
+
+      // set selectedNodeId to newly added shape layer in tree
+      let childcount = currentShape.children.length;
+      selectedNodeId[1](nodeId + '_' + (childcount-1));
     }
 
     addedShapes[1](flattened);
