@@ -207,9 +207,10 @@ function App(props) {
     setOpen(false);
   }
 
-  function removeAllSingleQuotes(scriptString) {
-    let fixedScript = scriptString.replaceAll(`'`, '');
-    return fixedScript;
+  function removeAllDoubleDashQuotes(scriptString) {
+    let fixedScript = scriptString.replaceAll(`"--`, '');
+    let fixedScript2 = fixedScript.replaceAll(`--"`, '');
+    return fixedScript2;
   }
 
   console.log('testing outside return');
@@ -238,7 +239,7 @@ function App(props) {
           if (addedShapes[0].length > 0) {
             let flattened = copyShapes();
             let scriptString = createScript(stateVars, flattened);
-            let fixed = removeAllSingleQuotes(scriptString);
+            let fixed = removeAllDoubleDashQuotes(scriptString);
             jar.updateCode(fixed);
 
           }
