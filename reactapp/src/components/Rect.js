@@ -54,11 +54,11 @@ function Rect(props) {
         <React.Fragment>
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'width_' + index}>Width</InputLabel>
-                <Input inputRef={inputRefs['width']} id={'width_' + index} value={shape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput')} />
+                <Input inputRef={inputRefs['width']} id={'width_' + index} value={shape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `width_${index}`,'')} />
             </FormControl>
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'height_' + index}>Height</InputLabel>
-                <Input inputRef={inputRefs['height']} id={'height_' + index} value={shape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput')} />
+                <Input inputRef={inputRefs['height']} id={'height_' + index} value={shape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `height_${index}`,'')} />
             </FormControl>
         </React.Fragment>
     )

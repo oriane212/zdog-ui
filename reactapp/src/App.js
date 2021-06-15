@@ -127,7 +127,7 @@ function App(props) {
      }) */
 
     props_basic.forEach((prop) => {
-      if (prop === 'translate') {
+      if (prop === 'translate' || prop === 'rotate') {
         data[prop] = new Zdog.Vector({});
         /* data[prop]['x'] = zdogShape[prop]['x'];
         data[prop].y = zdogShape[prop].y;

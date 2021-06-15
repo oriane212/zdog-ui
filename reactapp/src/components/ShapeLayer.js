@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../zdogui.css';
-import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment, Button, IconButton, Dialog, Typography, Container, TextField } from '@material-ui/core';
+import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment, Button, IconButton, Dialog, Typography, Container, TextField, Slider } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -18,7 +18,7 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 import Zdog from 'zdog';
-
+const tau = Zdog.TAU;
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -75,6 +75,28 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const marks = [
+    {
+        value: 0,
+        label: '0d',
+    },
+    {
+        value: tau/4,
+        label: '90d',
+    },
+    {
+        value: tau/2,
+        label: '180d',
+    },
+    {
+        value: ((tau/4)*3),
+        label: '270d',
+    },
+    {
+        value: tau,
+        label: '360d',
+    },
+];
 
 function ShapeLayer(props) {
 
@@ -152,7 +174,7 @@ function ShapeLayer(props) {
 
     let shapeParameters = [];
 
-    
+
 
     /* function handleSliderUpdate(e,v) {
         // get the parent div with MuiFormControl-root class
@@ -165,19 +187,22 @@ function ShapeLayer(props) {
 
     function updateShapes(e, controlType, id = '', v = '') {
 
-        //let flattened = copyShapes();
+        let splitElID = id.split('_');
+        let property = splitElID[0];
 
+        // vector vs non-vector
         if (controlType === 'vector') {
 
-            let splitElID = e.target.id.split('_');
+            let val;
 
-            let val = Number(e.target.value);
+            if (property === 'translate') {
+                val = Number(e.target.value);
+            } else if (property === 'rotate') {
+                val = Number(v);
+            }
 
-            let property = splitElID[0];
             let axis = splitElID[1];
-            //let shapeindex = splitElID[2];
 
-            //let shapeProp = flattened[shapeindex].data[property];
             let shapeProp = copyOfShape.data[property];
 
             if (axis === 'x') {
@@ -190,76 +215,74 @@ function ShapeLayer(props) {
 
             cursorFocus[1](
                 {
-                    'id': e.target.id,
+                    'id': id,
                     'cursorPos': e.target.selectionStart
                 }
             );
 
-
-        } else if (controlType === 'select') {
-
-            console.log('inside select');
-            let splitElName = e.target.name.split('_');
-            let property = splitElName[0];
-            //let shapeindex = splitElName[1];
-
-            //flattened[shapeindex].data[property] = e.target.value;
-            copyOfShape.data[property] = e.target.value;
-            cursorFocus[1]({
-                'id': '',
-                'cursorPos': 0
-            });
-
-        } else if (controlType === 'slider') {
-            let splitElID = id.split('_');
-            let property = splitElID[0];
-            //let shapeindex = splitElID[1];
-            //flattened[shapeindex].data[property] = v;
-            copyOfShape.data[property] = v;
-            cursorFocus[1]({
-                'id': '',
-                'cursorPos': 0
-            });
         } else {
 
-            let splitElID = e.target.id.split('_');
-            let property = splitElID[0];
-            //let shapeindex = splitElID[1];
+            if (controlType === 'slider') {
 
-            if (controlType === 'checkbox') {
-                //flattened[shapeindex].data[property] = !flattened[shapeindex].data[property];
-                copyOfShape.data[property] = !copyOfShape.data[property];
+                copyOfShape.data[property] = v;
+
                 cursorFocus[1]({
                     'id': '',
                     'cursorPos': 0
                 });
-            } else if (controlType === 'textinput') {
-                //let stringval = e.target.value;
-                //flattened[shapeindex].data[property] = Number(e.target.value);
-                //flattened[shapeindex].data[property] = e.target.value;
-                copyOfShape.data[property] = e.target.value;
-                cursorFocus[1](
-                    {
-                        'id': e.target.id,
-                        'cursorPos': e.target.selectionStart
-                    }
-                );
-            } else if (controlType === 'color') {
-                //flattened[shapeindex].data[property] = e.target.value;
-                copyOfShape.data[property] = e.target.value;
-                cursorFocus[1]({
-                    'id': '',
-                    'cursorPos': 0
-                });
+
+            } else {
+
+                if (controlType === 'checkbox') {
+
+                    copyOfShape.data[property] = !copyOfShape.data[property];
+                    cursorFocus[1]({
+                        'id': '',
+                        'cursorPos': 0
+                    });
+                } else if (controlType === 'textinput') {
+
+                    copyOfShape.data[property] = e.target.value;
+                    cursorFocus[1](
+                        {
+                            'id': e.target.id,
+                            'cursorPos': e.target.selectionStart
+                        }
+                    );
+                } else if (controlType === 'color') {
+
+                    copyOfShape.data[property] = e.target.value;
+                    cursorFocus[1]({
+                        'id': '',
+                        'cursorPos': 0
+                    });
+                }
+
             }
 
         }
+
+        /* else if (controlType === 'select') {
+
+        console.log('inside select');
+        let splitElName = e.target.name.split('_');
+        let property = splitElName[0];
+        //let shapeindex = splitElName[1];
+
+        //flattened[shapeindex].data[property] = e.target.value;
+        copyOfShape.data[property] = e.target.value;
+        cursorFocus[1]({
+            'id': '',
+            'cursorPos': 0
+        });
+
+    } */
 
         setShapes(flattened);
 
     }
 
-    
+
 
     let shapeSpecificControls;
     if (copyOfShape.shapeClass === 'Ellipse') {
@@ -343,13 +366,13 @@ function ShapeLayer(props) {
 
             <FormControl className={classes.parameter}>
                 <label htmlFor={'color_' + index} className="MuiTypography-body2">Color</label>
-                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color')} inputref={inputRefs['color']}></input>
+                <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`,'')} inputref={inputRefs['color']}></input>
             </FormControl>
 
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Fill"
-                    control={<Checkbox inputRef={inputRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
+                    control={<Checkbox inputRef={inputRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`,'')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
                 />
             </FormControl>
 
@@ -357,7 +380,7 @@ function ShapeLayer(props) {
 
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
-                <Input inputRef={inputRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} disabled={false} onChange={(e) => { updateShapes(e, 'textinput'); console.log(e.target.selectionStart) }} />
+                <Input inputRef={inputRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`,''); console.log(e.target.selectionStart) }} />
             </FormControl>
 
             <div className={classes.parameter}>
@@ -366,20 +389,35 @@ function ShapeLayer(props) {
 
                 <FormControl className={classes.textField}>
                     <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
-                    <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={inputRefs['translate_x']} id={'translate_x_' + index} value={copyOfShape.data.translate.x} disabled={false} onChange={(e) => updateShapes(e, 'vector')} />
+                    <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={inputRefs['translate_x']} id={'translate_x_' + index} value={copyOfShape.data.translate.x} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
                 </FormControl>
 
                 <FormControl className={classes.textField}>
                     <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
-                    <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={inputRefs['translate_y']} id={'translate_y_' + index} value={copyOfShape.data.translate.y} disabled={false} onChange={(e) => updateShapes(e, 'vector')} />
+                    <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={inputRefs['translate_y']} id={'translate_y_' + index} value={copyOfShape.data.translate.y} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
                 </FormControl>
 
                 <FormControl className={classes.textField}>
                     <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
-                    <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={inputRefs['translate_z']} id={'translate_z_' + index} value={copyOfShape.data.translate.z} disabled={false} onChange={(e) => updateShapes(e, 'vector')} />
+                    <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={inputRefs['translate_z']} id={'translate_z_' + index} value={copyOfShape.data.translate.z} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`,'')} />
                 </FormControl>
 
             </div>
+
+            <FormControl className={classes.parameter}>
+                <Typography variant="body2" id={'rotate_x_' + index + '_label'}>Rotate x</Typography>
+                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.x} min={0} max={tau} step={tau/4} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
+            </FormControl>
+
+            <FormControl className={classes.parameter}>
+                <Typography variant="body2" id={'rotate_y_' + index + '_label'}>Rotate y</Typography>
+                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.y} min={0} max={tau} step={tau/4} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
+            </FormControl>
+
+            <FormControl className={classes.parameter}>
+                <Typography variant="body2" id={'rotate_z_' + index + '_label'}>Rotate z</Typography>
+                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data.rotate.z} min={0} max={tau} step={tau/4} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
+            </FormControl>
 
 
             {shapeSpecificControls}
