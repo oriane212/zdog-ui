@@ -3,7 +3,11 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
-        width: 155
+        width: 155,
+        display: 'block',
+        marginTop: 4,
+        marginBottom: 6,
+        marginLeft: 12
     },
     checkbox: {
         'padding-bottom': 10
@@ -11,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
     parameter: {
         display: 'block',
         margin: 12
+    },
+    parameterSubGroup: {
+        display: 'block',
+        margin: 12,
+        marginTop: 12,
+        fontSize: 'small'
     },
     parameterCheckbox: {
         display: 'block',
@@ -49,6 +59,12 @@ const useStyles = makeStyles((theme) => ({
     },
     body2: {
         fontSize: '0.9rem'
+    },
+    sublabel: {
+        fontSize: 'small',
+        'margin-bottom': 14,
+        marginTop: 8,
+        marginLeft: 8
     }
 }));
 
@@ -89,6 +105,7 @@ function CanvasLayer(props) {
                 />
             </FormControl>
 
+
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Animate"
@@ -96,15 +113,21 @@ function CanvasLayer(props) {
                 />
             </FormControl>
 
-            <FormControl className={classes.subparameter}>
-                <Typography variant="body2" id="rotate_x_label">Rotate x = {rotate_x}</Typography>
+            <div className={classes.parameterSubGroup}>
+
+            <p className={classes.sublabel}>Rotation Speed</p>
+
+            <FormControl className={classes.slider}>
+                <Typography variant="body2" id="rotate_x_label">x = {((rotate_x)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
                 <Slider className={classes.slider} id="rotate_x" value={rotate_x} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_x(v); checkCursorFocus(); }} aria-labelledby="rotate_x_label" disabled={!animate} />
             </FormControl>
 
-            <FormControl className={classes.subparameter}>
-                <Typography variant="body2" id="rotate_y_label">Rotate y = {rotate_y}</Typography>
+            <FormControl className={classes.slider}>
+                <Typography variant="body2" id="rotate_y_label">y = {((rotate_y)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
                 <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_y(v); checkCursorFocus(); }} aria-labelledby="rotate_y_label" disabled={!animate} />
             </FormControl>
+
+            </div>
 
 
         </div>

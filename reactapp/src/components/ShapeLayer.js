@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
         margin: 12,
         fontSize: 'small'
     },
+    parameterGroup: {
+        display: 'block',
+        margin: 12,
+        marginTop: 24,
+        fontSize: 'small'
+    },
     parameterCheckbox: {
         display: 'block',
         'margin-left': 12,
@@ -51,7 +57,8 @@ const useStyles = makeStyles((theme) => ({
     },
     label: {
         fontSize: 'small',
-        'margin-bottom': 4
+        'margin-bottom': 14,
+        marginTop: 24
     },
     labelsm: {
         fontSize: 'small'
@@ -72,29 +79,41 @@ const useStyles = makeStyles((theme) => ({
     li: {
         paddingTop: 4,
         paddingBottom: 4
-    }
+    },
+    slider: {
+        marginBottom: 36,
+        marginLeft: 2,
+        display: 'block',
+        fontSize: 'small'
+    },
+    checkbox: {
+        'padding-bottom': 10
+    },
 }));
 
 const marks = [
     {
         value: 0,
-        label: '0d',
+        label: '0',
+    },
+    {
+        value: tau/12,
+        label: '30',
     },
     {
         value: tau/4,
-        label: '90d',
+        label: '90',
     },
     {
         value: tau/2,
-        label: '180d',
+        label: '180',
     },
     {
         value: ((tau/4)*3),
-        label: '270d',
+        label: '270',
     },
     {
-        value: tau,
-        label: '360d',
+        value: tau
     },
 ];
 
@@ -365,14 +384,14 @@ function ShapeLayer(props) {
         <div>
 
             <FormControl className={classes.parameter}>
-                <label htmlFor={'color_' + index} className="MuiTypography-body2">Color</label>
+                <label htmlFor={'color_' + index} className={classes.labelsm}/* className="MuiTypography-body2" */>Color</label>
                 <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`,'')} inputref={inputRefs['color']}></input>
             </FormControl>
 
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Fill"
-                    control={<Checkbox inputRef={inputRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`,'')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" />}
+                    control={<Checkbox inputRef={inputRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`,'')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" className={classes.checkbox} />}
                 />
             </FormControl>
 
@@ -404,20 +423,29 @@ function ShapeLayer(props) {
 
             </div>
 
-            <FormControl className={classes.parameter}>
-                <Typography variant="body2" id={'rotate_x_' + index + '_label'}>Rotate x</Typography>
-                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.x} min={0} max={tau} step={tau/4} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
+            <div className={classes.parameterGroup}>
+
+            <p className={classes.label}>Rotate</p>
+            {/* <Typography variant="body2">Rotate</Typography> */}
+
+            <FormControl className={classes.slider}>
+                <Typography variant="body2" id={'rotate_x_' + index + '_label'}>x = {Math.round((copyOfShape.data.rotate.x)*(180/Math.PI))}</Typography>
+                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.x} min={0} max={tau} step={tau/72} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
             </FormControl>
 
-            <FormControl className={classes.parameter}>
-                <Typography variant="body2" id={'rotate_y_' + index + '_label'}>Rotate y</Typography>
-                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.y} min={0} max={tau} step={tau/4} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
+            <FormControl className={classes.slider}>
+                <Typography variant="body2" id={'rotate_y_' + index + '_label'}>y = {Math.round((copyOfShape.data.rotate.y)*(180/Math.PI))}</Typography>
+                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.y} min={0} max={tau} step={tau/72} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
             </FormControl>
 
-            <FormControl className={classes.parameter}>
-                <Typography variant="body2" id={'rotate_z_' + index + '_label'}>Rotate z</Typography>
-                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data.rotate.z} min={0} max={tau} step={tau/4} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
+            <FormControl className={classes.slider}>
+                <Typography variant="body2" id={'rotate_z_' + index + '_label'}>z = {Math.round((copyOfShape.data.rotate.z)*(180/Math.PI))}</Typography>
+                <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data.rotate.z} min={0} max={tau} step={tau/72} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
             </FormControl>
+
+            </div>
+
+            
 
 
             {shapeSpecificControls}

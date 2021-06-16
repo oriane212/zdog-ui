@@ -7,7 +7,11 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
-        width: 155
+        width: 155,
+        marginBottom: 36,
+        marginLeft: 2,
+        display: 'block',
+        fontSize: 'small'
     },
     checkbox: {
         'padding-bottom': 12
@@ -22,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
         'margin-bottom': 3
     },
     label: {
-        fontSize: 'small'
+        fontSize: 'small',
+        'margin-bottom': 14,
+        marginTop: 24
     },
     labelsm: {
         fontSize: 'small'
@@ -95,7 +101,8 @@ function Ellipse(props) {
                             <MenuItem id={'quarters_3_' + index} value="3">3</MenuItem>
                             <MenuItem id={'quarters_4_' + index} value="4">4</MenuItem>
                         </Select> */}
-                <Typography variant="body2" id={'quarters_' + index + '_label'}>Quarters</Typography>
+                {/* <Typography variant='body2' id={'quarters_' + index + '_label'}>Quarters</Typography> */}
+                <p className={classes.label}>Quarters</p>
                 <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'quarters_' + index} value={shape.data.quarters} min={1} max={4} step={1} marks={marks} onChange={(e, v) => updateShapes(e, 'slider', `quarters_${index}`, v)} aria-labelledby={'quarters_' + index + '_label'} />
             </FormControl>
         </React.Fragment>
