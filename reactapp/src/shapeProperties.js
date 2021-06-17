@@ -9,5 +9,8 @@ export let shapeProperties = {
     ],
     'Rect': [
         'width', 'height'
+    ],
+    'Box': [
+        'width', 'height', 'depth', 'frontFace', 'rearFace', 'topFace', 'bottomFace', 'leftFace', 'rightFace'
     ]
 }

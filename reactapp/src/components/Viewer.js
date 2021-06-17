@@ -44,6 +44,13 @@ function Viewer(props) {
         }
     }
 
+    function copyShapes() {
+        let newshapearry = [];
+        newshapearry.push(shapes[0]);
+        let flattened = newshapearry.flat();
+        return flattened;
+      }
+
     function createIllo() {
 
         illo = new Zdog.Illustration({
@@ -54,10 +61,20 @@ function Viewer(props) {
         illo.setSize(stateVars.canvas_w[0], stateVars.canvas_h[0]);
 
         //let shapesById = {};
+
+        let copiedshapes = shapes[0].slice(0, shapes[0].length);
     
-        shapes[0].forEach((shape) => {
+        copiedshapes.forEach((shape) => {
           console.log(shape);
           shape.data.addTo = illo;
+          // check face props and replace color value with false if actually false
+          if (Object.keys(shape.faces).length !== 0) {
+              Object.keys(shape.faces).forEach((face) => {
+                  if (shape.faces[face] === false) {
+                      shape.data[face] = false;
+                  }
+              })
+          }
           let shapeInstance = new Zdog[shape.shapeClass](shape.data);
           createChildShapes(shape, shapeInstance);
         })

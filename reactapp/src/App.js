@@ -15,6 +15,14 @@ import createScript from './createScript';
 import generateID from './generateID';
 
 
+/* Zdog shape instances */
+const zdogDefaultShapes = {
+  'Ellipse': new Zdog.Ellipse(),
+  'Rect': new Zdog.Rect(),
+  'Box': new Zdog.Box()
+}
+
+
 const useStyles = makeStyles((theme) => ({
   bar: {
     backgroundColor: "#2b2b2b"
@@ -30,11 +38,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 24
   }
 }));
-
-const zdogDefaultShapes = {
-  'Ellipse': new Zdog.Ellipse(),
-  'Rect': new Zdog.Rect()
-}
 
 let valuesarry = [200, 120, 40, 80, 160];
 
@@ -64,17 +67,20 @@ function App(props) {
               children: [],
               open: true,
               shapeClass: 'Ellipse',
-              data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse')
+              data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse').data,
+              faces: {}
             }
           ],
           open: true,
           shapeClass: 'Rect',
-          data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Rect')
+          data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Rect').data,
+          faces: {}
         }
       ],
       open: true,
       shapeClass: 'Ellipse',
-      data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse')
+      data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse').data,
+      faces: {}
     },
     {
       id: generateID(),
@@ -86,12 +92,14 @@ function App(props) {
           children: [],
           open: true,
           shapeClass: 'Rect',
-          data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Rect')
+          data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Rect').data,
+          faces: {}
         }
       ],
       open: true,
       shapeClass: 'Ellipse',
-      data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse')
+      data: getDefaultValsForShapeProperties(zdogDefaultShapes, 'Ellipse').data,
+      faces: {}
     }
   ]);
 
@@ -120,6 +128,7 @@ function App(props) {
     let props_basic = shapeProperties['basic'];
     let props_shape = shapeProperties[shapeClass];
     let data = {};
+    let faces = {};
 
     /*  props_basic.forEach((prop) => {
        let defaultVal = zdogShape[prop];
@@ -142,13 +151,16 @@ function App(props) {
     props_shape.forEach((prop) => {
       if (prop === 'width' || prop === 'height') {
         data[prop] = 100;
+      } else if (prop.includes('Face')) {
+        data[prop] = '#000000';
+        faces[prop] = true;
       } else {
         let defaultVal = zdogShape[prop];
         data[prop] = defaultVal;
       }
     })
 
-    return data;
+    return {data, faces};
 
   }
 
@@ -157,13 +169,16 @@ function App(props) {
 
     let flattened = copyShapes();
 
+    let shapeDefaults = getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass);
+
     let newshape = {
       id: generateID(),
       /* tempAddTo: parentLayer, */
       children: [],
       open: true,
       shapeClass: shapeClass,
-      data: getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass)
+      data: shapeDefaults.data,
+      faces: shapeDefaults.faces
     }
 
     if (nodeId === "canvasnode") {

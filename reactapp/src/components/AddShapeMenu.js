@@ -35,9 +35,7 @@ export default function AddShapeMenu(props) {
 
   function handleShapeSelect(v) {
       handleClose();
-      if (v === 'Ellipse' || v === 'Rect') {
-        addNewZdogShape(v, selectedNodeId[0]);
-      }
+      addNewZdogShape(v, selectedNodeId[0]);
   }
 
   return (
@@ -55,7 +53,7 @@ export default function AddShapeMenu(props) {
         <MenuItem onClick={() => handleShapeSelect('Ellipse')}value="Ellipse">Ellipse</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('Rect')} value="Rect">Rect</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('Box')} value="Box">Box</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem>
+        {/* <MenuItem onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem> */}
       </Menu>
     </div>
   );
