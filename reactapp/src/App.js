@@ -46,10 +46,10 @@ function App(props) {
   const stateVars = {
     canvas_w: useState(240),
     canvas_h: useState(240),
-    dragRotate: useState(false),
-    animate: useState(false),
-    rotate_x: useState(0),
-    rotate_y: useState(.06)
+    dragRotate: useState(true),
+    animate: useState(true),
+    rotate_x: useState(.01),
+    rotate_y: useState(.04)
   }
 
   const addedShapes = useState([
@@ -149,7 +149,7 @@ function App(props) {
     })
 
     props_shape.forEach((prop) => {
-      if (prop === 'width' || prop === 'height') {
+      if (prop === 'width' || prop === 'height' || prop === 'depth') {
         data[prop] = 100;
       } else if (prop.includes('Face')) {
         data[prop] = '#000000';

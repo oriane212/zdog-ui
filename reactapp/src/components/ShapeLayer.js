@@ -90,9 +90,16 @@ const useStyles = makeStyles((theme) => ({
     checkbox: {
         'padding-bottom': 10
     },
+    qslider: {
+        width: 155,
+        marginBottom: 36,
+        marginLeft: 2,
+        display: 'block',
+        fontSize: 'small'
+    }
 }));
 
-const marks = [
+const marks_rotate = [
     {
         value: 0,
         label: '0',
@@ -118,6 +125,25 @@ const marks = [
     },
 ];
 
+const marks_quarters = [
+    {
+      value: 1,
+      label: '1',
+    },
+    {
+      value: 2,
+      label: '2',
+    },
+    {
+      value: 3,
+      label: '3',
+    },
+    {
+      value: 4,
+      label: '4',
+    },
+  ];
+
 function ShapeLayer(props) {
 
     let cursorFocus = props.cursorFocus;
@@ -136,7 +162,9 @@ function ShapeLayer(props) {
         "color": useRef(),
         "translate_x": useRef(),
         "translate_y": useRef(),
-        "translate_z": useRef()
+        "translate_z": useRef(),
+        "width": useRef(),
+        "height": useRef()
     }
 
     const classes = useStyles();
@@ -322,8 +350,11 @@ function ShapeLayer(props) {
         <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`, '')} inputref={inputRefs['color']}></input>
     </FormControl>);
 
-    let shapeSpecificControls;
-    if (copyOfShape.shapeClass === 'Ellipse') {
+    
+
+
+
+    /* if (copyOfShape.shapeClass === 'Ellipse') {
         shapeSpecificControls = <Ellipse cursorFocus={cursorFocus} refocus={refocus} shape={copyOfShape} flattened={flattened} updateShapes={updateShapes} />
     } else if (copyOfShape.shapeClass === 'Rect') {
         shapeSpecificControls = <Rect cursorFocus={cursorFocus} refocus={refocus} shape={copyOfShape} flattened={flattened} updateShapes={updateShapes} />
@@ -331,9 +362,37 @@ function ShapeLayer(props) {
         shapeSpecificControls = <Box cursorFocus={cursorFocus} refocus={refocus} shape={copyOfShape} flattened={flattened} updateShapes={updateShapes} />
 
         colorControl = '';
+    } */
+
+    let formControls = {
+        'width': (<FormControl className={classes.parameter}>
+            <InputLabel htmlFor={'width_' + index}>Width</InputLabel>
+            <Input inputRef={inputRefs['width']} id={'width_' + index} value={copyOfShape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `width_${index}`,'')} />
+        </FormControl>),
+        'height': (<FormControl className={classes.parameter}>
+            <InputLabel htmlFor={'height_' + index}>Height</InputLabel>
+            <Input inputRef={inputRefs['height']} id={'height_' + index} value={copyOfShape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `height_${index}`,'')} />
+        </FormControl>),
+        'depth': (<FormControl className={classes.parameter}>
+            <InputLabel htmlFor={'depth_' + index}>Depth</InputLabel>
+            <Input inputRef={inputRefs['depth']} id={'depth_' + index} value={copyOfShape.data.depth} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `depth_${index}`, '')} />
+        </FormControl>),
+        'quarters': (
+            <FormControl className={classes.parameter}>
+                <p className={classes.label}>Quarters</p>
+                <Slider className={classes.qslider} id={'quarters_' + index} value={copyOfShape.data.quarters} min={1} max={4} step={1} marks={marks_quarters} onChange={(e, v) => updateShapes(e, 'slider', `quarters_${index}`, v)} aria-labelledby={'quarters_' + index + '_label'} />
+            </FormControl>
+        )
+
     }
 
+    let shapeSpecificControls = [];
 
+    Object.keys(formControls).forEach((property) => {
+        if (copyOfShape.data[property] !== undefined) {
+            shapeSpecificControls.push(formControls[property]);
+        }
+    })
 
 
     function refocus(cursorFocus, inputRefs) {
@@ -452,17 +511,17 @@ function ShapeLayer(props) {
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id={'rotate_x_' + index + '_label'}>x = {Math.round((copyOfShape.data.rotate.x) * (180 / Math.PI))}</Typography>
-                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.x} min={0} max={tau} step={tau / 72} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
+                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.x} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
                 </FormControl>
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id={'rotate_y_' + index + '_label'}>y = {Math.round((copyOfShape.data.rotate.y) * (180 / Math.PI))}</Typography>
-                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.y} min={0} max={tau} step={tau / 72} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
+                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.y} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
                 </FormControl>
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id={'rotate_z_' + index + '_label'}>z = {Math.round((copyOfShape.data.rotate.z) * (180 / Math.PI))}</Typography>
-                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data.rotate.z} min={0} max={tau} step={tau / 72} marks={marks} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
+                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data.rotate.z} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
                 </FormControl>
 
             </div>
