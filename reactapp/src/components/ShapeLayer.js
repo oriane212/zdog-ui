@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
         margin: 12,
         fontSize: 'small'
     },
+    parameterInline: {
+        display: 'inline-block',
+        margin: 12
+    },
     parameterGroup: {
         display: 'block',
         margin: 12,
@@ -96,6 +100,20 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 2,
         display: 'block',
         fontSize: 'small'
+    },
+    inlineCheckbox: {
+        display: 'inline-block',
+        marginTop: 2,
+        width: 70
+    },
+    checkboxFace: {
+        'padding-bottom': 12,
+        display: 'inline-block',
+        marginTop: 4
+    },
+    disabledlabel: {
+        fontSize: 'small',
+        color: 'darkgray'
     }
 }));
 
@@ -164,7 +182,9 @@ function ShapeLayer(props) {
         "translate_y": useRef(),
         "translate_z": useRef(),
         "width": useRef(),
-        "height": useRef()
+        "height": useRef(),
+        "depth": useRef(),
+        "frontFace": useRef(),
     }
 
     const classes = useStyles();
@@ -382,18 +402,51 @@ function ShapeLayer(props) {
                 <p className={classes.label}>Quarters</p>
                 <Slider className={classes.qslider} id={'quarters_' + index} value={copyOfShape.data.quarters} min={1} max={4} step={1} marks={marks_quarters} onChange={(e, v) => updateShapes(e, 'slider', `quarters_${index}`, v)} aria-labelledby={'quarters_' + index + '_label'} />
             </FormControl>
+        ),
+        'frontFace': (
+            <div>
+                    <FormControl className={classes.inlineCheckbox}>
+                        <FormControlLabel
+                            label="Front"
+                            control={<Checkbox checked={(copyOfShape.faces.frontFace === true) ? true : false} onChange={(e) => updateShapes(e, 'checkbox_face', `frontFace_${index}`, '')} size="small" color="primary" className={classes.checkboxFace} />}
+                        />
+                    </FormControl>
+                    <FormControl className={classes.parameterInline}>
+                        <input type="color" id={'frontFace_' + index} value={(copyOfShape.faces.frontFace === true) ? copyOfShape.data.frontFace : copyOfShape.faces.frontFace} onChange={(e) => updateShapes(e, 'color', `frontFace_${index}`, '')} inputref={inputRefs['frontFace']} disabled={(copyOfShape.faces.frontFace !== true) ? true : false}></input>
+                    </FormControl>
+                </div>
         )
 
     }
 
     let shapeSpecificControls = [];
+    let faceControls = [];
+    let faceContainer = (
+    <div className={classes.parameterGroup}>
+        <p className={classes.label}>Faces</p>
+        {faceControls}
+    </div>
+    );
 
-    Object.keys(formControls).forEach((property) => {
-        if (copyOfShape.data[property] !== undefined) {
-            shapeSpecificControls.push(formControls[property]);
+    createControls();
+
+    function createControls() {
+
+        Object.keys(formControls).forEach((property) => {
+            if (copyOfShape.data[property] !== undefined) {
+                if (property.includes('Face')) {
+                    faceControls.push(formControls[property]);
+                } else {
+                    shapeSpecificControls.push(formControls[property]);
+                }
+            }
+        })
+
+        if (faceControls.length !== 0) {
+            shapeSpecificControls.push(faceContainer);
         }
-    })
 
+    }
 
     function refocus(cursorFocus, inputRefs) {
 
@@ -434,40 +487,12 @@ function ShapeLayer(props) {
         refocus(cursorFocus, inputRefs);
     }, []);
 
-
-    /* TO FIX:
-        x all open after each update to shapes - needs to remember which were open and closed
-        .. no input refocus
-            x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
-            x refocus to string index or character where cursor was last
-            - negative numbers and zeros
-            - color picker issue: can no longer drag to update
-
-        x rm Material UI List click animation
-        .. input styles
-
-        - safari: webpage reload on color picker (??)
-    */
-
-    /* TO ADD:
-        .. other shape properties
-        .. additional specific shape properties
-
-        features
-        x remove a layer
-        - edit layer name
-        - undo last change?
-
-        minor
-        .. replace stars with icons that match shapeclass?
-    */
-
     return (
 
 
         <div>
 
-            { colorControl }
+            { (faceControls.length > 0) ? '' : colorControl }
 
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
@@ -527,8 +552,6 @@ function ShapeLayer(props) {
             </div>
 
 
-
-
             {shapeSpecificControls}
 
 
@@ -540,6 +563,34 @@ function ShapeLayer(props) {
 }
 
 export default ShapeLayer;
+
+ /* TO FIX:
+        x all open after each update to shapes - needs to remember which were open and closed
+        .. no input refocus
+            x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
+            x refocus to string index or character where cursor was last
+            - negative numbers and zeros
+            - color picker issue: can no longer drag to update
+
+        x rm Material UI List click animation
+        .. input styles
+
+        - safari: webpage reload on color picker (??)
+    */
+
+    /* TO ADD:
+        .. other shape properties
+        .. additional specific shape properties
+
+        features
+        x remove a layer
+        - edit layer name
+        - undo last change?
+
+        minor
+        .. replace stars with icons that match shapeclass?
+    */
+
 
 /*
 <FormControl className={classes.parameter}>
