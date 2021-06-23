@@ -19,6 +19,7 @@ import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 import Zdog from 'zdog';
+import Face from './Face';
 const tau = Zdog.TAU;
 
 const useStyles = makeStyles((theme) => ({
@@ -145,22 +146,22 @@ const marks_rotate = [
 
 const marks_quarters = [
     {
-      value: 1,
-      label: '1',
+        value: 1,
+        label: '1',
     },
     {
-      value: 2,
-      label: '2',
+        value: 2,
+        label: '2',
     },
     {
-      value: 3,
-      label: '3',
+        value: 3,
+        label: '3',
     },
     {
-      value: 4,
-      label: '4',
+        value: 4,
+        label: '4',
     },
-  ];
+];
 
 function ShapeLayer(props) {
 
@@ -183,8 +184,7 @@ function ShapeLayer(props) {
         "translate_z": useRef(),
         "width": useRef(),
         "height": useRef(),
-        "depth": useRef(),
-        "frontFace": useRef(),
+        "depth": useRef()
     }
 
     const classes = useStyles();
@@ -370,7 +370,7 @@ function ShapeLayer(props) {
         <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`, '')} inputref={inputRefs['color']}></input>
     </FormControl>);
 
-    
+
 
 
 
@@ -387,11 +387,11 @@ function ShapeLayer(props) {
     let formControls = {
         'width': (<FormControl className={classes.parameter}>
             <InputLabel htmlFor={'width_' + index}>Width</InputLabel>
-            <Input inputRef={inputRefs['width']} id={'width_' + index} value={copyOfShape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `width_${index}`,'')} />
+            <Input inputRef={inputRefs['width']} id={'width_' + index} value={copyOfShape.data.width} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `width_${index}`, '')} />
         </FormControl>),
         'height': (<FormControl className={classes.parameter}>
             <InputLabel htmlFor={'height_' + index}>Height</InputLabel>
-            <Input inputRef={inputRefs['height']} id={'height_' + index} value={copyOfShape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `height_${index}`,'')} />
+            <Input inputRef={inputRefs['height']} id={'height_' + index} value={copyOfShape.data.height} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `height_${index}`, '')} />
         </FormControl>),
         'depth': (<FormControl className={classes.parameter}>
             <InputLabel htmlFor={'depth_' + index}>Depth</InputLabel>
@@ -403,29 +403,22 @@ function ShapeLayer(props) {
                 <Slider className={classes.qslider} id={'quarters_' + index} value={copyOfShape.data.quarters} min={1} max={4} step={1} marks={marks_quarters} onChange={(e, v) => updateShapes(e, 'slider', `quarters_${index}`, v)} aria-labelledby={'quarters_' + index + '_label'} />
             </FormControl>
         ),
-        'frontFace': (
-            <div>
-                    <FormControl className={classes.inlineCheckbox}>
-                        <FormControlLabel
-                            label="Front"
-                            control={<Checkbox checked={(copyOfShape.faces.frontFace === true) ? true : false} onChange={(e) => updateShapes(e, 'checkbox_face', `frontFace_${index}`, '')} size="small" color="primary" className={classes.checkboxFace} />}
-                        />
-                    </FormControl>
-                    <FormControl className={classes.parameterInline}>
-                        <input type="color" id={'frontFace_' + index} value={(copyOfShape.faces.frontFace === true) ? copyOfShape.data.frontFace : copyOfShape.faces.frontFace} onChange={(e) => updateShapes(e, 'color', `frontFace_${index}`, '')} inputref={inputRefs['frontFace']} disabled={(copyOfShape.faces.frontFace !== true) ? true : false}></input>
-                    </FormControl>
-                </div>
-        )
+        'frontFace': '',
+        'rearFace': '',
+        'topFace': '',
+        'bottomFace': '',
+        'leftFace': '',
+        'rightFace': '',
 
     }
 
     let shapeSpecificControls = [];
     let faceControls = [];
     let faceContainer = (
-    <div className={classes.parameterGroup}>
-        <p className={classes.label}>Faces</p>
-        {faceControls}
-    </div>
+        <div className={classes.parameterGroup}>
+            <p className={classes.label}>Faces</p>
+            {faceControls}
+        </div>
     );
 
     createControls();
@@ -435,7 +428,9 @@ function ShapeLayer(props) {
         Object.keys(formControls).forEach((property) => {
             if (copyOfShape.data[property] !== undefined) {
                 if (property.includes('Face')) {
-                    faceControls.push(formControls[property]);
+                    let side = property.split('F')[0];
+                    let faceComp = <Face side={side} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus}/>
+                    faceControls.push(faceComp);
                 } else {
                     shapeSpecificControls.push(formControls[property]);
                 }
@@ -492,7 +487,7 @@ function ShapeLayer(props) {
 
         <div>
 
-            { (faceControls.length > 0) ? '' : colorControl }
+            {(faceControls.length > 0) ? '' : colorControl}
 
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
@@ -564,32 +559,32 @@ function ShapeLayer(props) {
 
 export default ShapeLayer;
 
- /* TO FIX:
-        x all open after each update to shapes - needs to remember which were open and closed
-        .. no input refocus
-            x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
-            x refocus to string index or character where cursor was last
-            - negative numbers and zeros
-            - color picker issue: can no longer drag to update
+/* TO FIX:
+       x all open after each update to shapes - needs to remember which were open and closed
+       .. no input refocus
+           x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
+           x refocus to string index or character where cursor was last
+           - negative numbers and zeros
+           - color picker issue: can no longer drag to update
 
-        x rm Material UI List click animation
-        .. input styles
+       x rm Material UI List click animation
+       .. input styles
 
-        - safari: webpage reload on color picker (??)
-    */
+       - safari: webpage reload on color picker (??)
+   */
 
-    /* TO ADD:
-        .. other shape properties
-        .. additional specific shape properties
+/* TO ADD:
+    .. other shape properties
+    .. additional specific shape properties
 
-        features
-        x remove a layer
-        - edit layer name
-        - undo last change?
+    features
+    x remove a layer
+    - edit layer name
+    - undo last change?
 
-        minor
-        .. replace stars with icons that match shapeclass?
-    */
+    minor
+    .. replace stars with icons that match shapeclass?
+*/
 
 
 /*
