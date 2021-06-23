@@ -184,7 +184,8 @@ function ShapeLayer(props) {
         "translate_z": useRef(),
         "width": useRef(),
         "height": useRef(),
-        "depth": useRef()
+        "depth": useRef(),
+        "diameter": useRef()
     }
 
     const classes = useStyles();
@@ -397,6 +398,10 @@ function ShapeLayer(props) {
             <InputLabel htmlFor={'depth_' + index}>Depth</InputLabel>
             <Input inputRef={inputRefs['depth']} id={'depth_' + index} value={copyOfShape.data.depth} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `depth_${index}`, '')} />
         </FormControl>),
+        'diameter': (<FormControl className={classes.parameter}>
+            <InputLabel htmlFor={'diameter_' + index}>diameter</InputLabel>
+            <Input inputRef={inputRefs['diameter']} id={'diameter_' + index} value={copyOfShape.data.diameter} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `diameter_${index}`, '')} />
+        </FormControl>),
         'quarters': (
             <FormControl className={classes.parameter}>
                 <p className={classes.label}>Quarters</p>
@@ -405,6 +410,7 @@ function ShapeLayer(props) {
         ),
         'frontFace': '',
         'rearFace': '',
+        'backface': '',
         'topFace': '',
         'bottomFace': '',
         'leftFace': '',
@@ -427,8 +433,8 @@ function ShapeLayer(props) {
 
         Object.keys(formControls).forEach((property) => {
             if (copyOfShape.data[property] !== undefined) {
-                if (property.includes('Face')) {
-                    let side = property.split('F')[0];
+                if (property.includes('Face') || property.includes('face')) {
+                    let side = (property === 'backface') ? 'back' : property.split('F')[0];
                     let faceComp = <Face side={side} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus}/>
                     faceControls.push(faceComp);
                 } else {
@@ -487,7 +493,7 @@ function ShapeLayer(props) {
 
         <div>
 
-            {(faceControls.length > 0) ? '' : colorControl}
+            {(copyOfShape.shapeClass === 'Box') ? '' : colorControl}
 
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel

@@ -19,7 +19,8 @@ import generateID from './generateID';
 const zdogDefaultShapes = {
   'Ellipse': new Zdog.Ellipse(),
   'Rect': new Zdog.Rect(),
-  'Box': new Zdog.Box()
+  'Box': new Zdog.Box(),
+  'Hemisphere': new Zdog.Hemisphere()
 }
 
 
@@ -149,7 +150,7 @@ function App(props) {
     })
 
     props_shape.forEach((prop) => {
-      if (prop === 'width' || prop === 'height' || prop === 'depth') {
+      if (prop === 'width' || prop === 'height' || prop === 'depth' || prop === 'diameter') {
         data[prop] = 100;
       } else if (prop.includes('Face')) {
         data[prop] = '#000000';

@@ -12,5 +12,8 @@ export let shapeProperties = {
     ],
     'Box': [
         'width', 'height', 'depth', 'frontFace', 'rearFace', 'topFace', 'bottomFace', 'leftFace', 'rightFace'
+    ],
+    'Hemisphere': [
+        'diameter', 'backface'
     ]
 }
