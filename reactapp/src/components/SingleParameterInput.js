@@ -1,6 +1,7 @@
 import React, { useEffect, useRef} from 'react';
 import '../zdogui.css';
 import { FormControl, Input, InputLabel, makeStyles } from '@material-ui/core';
+import fixCamelCase from '../fixCamelCase';
 
 const useStyles = makeStyles((theme) => ({
     parameter: {
@@ -15,6 +16,8 @@ function SingleParameterInput(props) {
     const copyOfShape = props.copyOfShape;
 
     const parameter = props.parameter;
+
+    const label = fixCamelCase(parameter);
 
     const updateShapes = props.updateShapes;
 
@@ -33,7 +36,7 @@ function SingleParameterInput(props) {
     return (
 
         <FormControl className={classes.parameter}>
-            <InputLabel htmlFor={parameter + '_' + index}>{parameter}</InputLabel>
+            <InputLabel htmlFor={parameter + '_' + index}>{label}</InputLabel>
             <Input inputRef={paramRef} id={parameter + '_' + index} value={copyOfShape.data[parameter]} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `${parameter}_${index}`, '')} />
         </FormControl>
 

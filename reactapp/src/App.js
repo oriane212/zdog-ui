@@ -20,7 +20,11 @@ const zdogDefaultShapes = {
   'Ellipse': new Zdog.Ellipse(),
   'Rect': new Zdog.Rect(),
   'Box': new Zdog.Box(),
-  'Hemisphere': new Zdog.Hemisphere()
+  'Hemisphere': new Zdog.Hemisphere(),
+  'RoundedRect': new Zdog.RoundedRect(),
+  'Polygon': new Zdog.Polygon(),
+  'Cone': new Zdog.Cone(),
+  'Cylinder': new Zdog.Cylinder(),
 }
 
 
@@ -150,7 +154,7 @@ function App(props) {
     })
 
     props_shape.forEach((prop) => {
-      if (prop === 'width' || prop === 'height' || prop === 'depth' || prop === 'diameter') {
+      if (prop === 'width' || prop === 'height' || prop === 'depth' || prop === 'diameter' || prop === 'length' || prop === 'radius') {
         data[prop] = 100;
       } else if (prop.includes('Face') || prop.includes('face')) {
         data[prop] = '#000000';

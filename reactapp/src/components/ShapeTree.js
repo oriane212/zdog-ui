@@ -11,6 +11,7 @@ import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import AddShapeMenu from './AddShapeMenu';
 
 import generateID from '../generateID';
+import fixCamelCase from '../fixCamelCase';
 
 const useStyles = makeStyles({
     root: {
@@ -188,7 +189,7 @@ export default function ShapeTree(props) {
         if (childrenArray.length !== 0) {
             let treeitems = childrenArray.map((shape, i) => {
                 let pos = `${p}_${i}`;
-                let item = (<TreeItem className={classes.item} key={generateID()} nodeId={pos} label={shape.shapeClass}>
+                let item = (<TreeItem className={classes.item} key={generateID()} nodeId={pos} label={fixCamelCase(shape.shapeClass)}>
                     {createTree(shape.children, pos)}
                 </TreeItem>);
                 return item;
@@ -201,7 +202,7 @@ export default function ShapeTree(props) {
 
     let toptreelevel = addedShapes[0].map((shape, i) => {
         let item =
-            (<TreeItem className={classes.item} key={generateID()} nodeId={i.toString()} label={shape.shapeClass}>
+            (<TreeItem className={classes.item} key={generateID()} nodeId={i.toString()} label={fixCamelCase(shape.shapeClass)}>
                 {createTree(shape.children, i.toString())}
             </TreeItem>);
         return item;

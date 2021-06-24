@@ -51,10 +51,13 @@ export default function AddShapeMenu(props) {
         onClose={handleClose}
       >
         <MenuItem onClick={() => handleShapeSelect('Ellipse')}value="Ellipse">Ellipse</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Rect')} value="Rect">Rect</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Rect')} value="Rectangle">Rectangle</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('RoundedRect')} value="Rounded Rectangle">Rounded Rectangle</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('Box')} value="Box">Box</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem>
-        {/* <MenuItem onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem> */}
+        <MenuItem onClick={() => handleShapeSelect('Polygon')} value="Polygon">Polygon</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Cone')} value="Cone">Cone</MenuItem>
+        <MenuItem onClick={() => handleShapeSelect('Cylinder')} value="Cylinder">Cylinder</MenuItem>
       </Menu>
     </div>
   );

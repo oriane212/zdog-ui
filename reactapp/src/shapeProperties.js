@@ -15,5 +15,17 @@ export let shapeProperties = {
     ],
     'Hemisphere': [
         'diameter', 'backface'
+    ],
+    'RoundedRect': [
+        'width', 'height', 'cornerRadius'
+    ],
+    'Polygon': [
+        'radius', 'sides'
+    ],
+    'Cone': [
+        'diameter', 'length', 'backface'
+    ],
+    'Cylinder': [
+        'diameter', 'length', 'backface', 'frontFace'
     ]
 }
