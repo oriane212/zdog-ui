@@ -38,19 +38,13 @@ function Face(props) {
 
     let cursorFocus = props.cursorFocus;
 
-    const inputRefs = {
-        "frontFace": useRef(),
-        "backface": useRef(),
-        "rearFace": useRef(),
-        "topFace": useRef(),
-        "bottomFace": useRef(),
-        "leftFace": useRef(),
-        "rightFace": useRef()
-    }
+    let shapeRefs = props.shapeRefs;
 
     const classes = useStyles();
 
     let propname = (side === 'back') ? `backface` : `${side}Face`;
+
+    let paramRef = shapeRefs[propname];
 
     let colorDisabled = false;
     if (side !== 'back') {
@@ -71,7 +65,7 @@ function Face(props) {
     let colorLabel = (<label htmlFor={`${propname}_` + index} className={classes.labelsm}>{side}</label>)
 
     useEffect(() => {
-        props.refocus(cursorFocus, inputRefs);
+        props.refocus(cursorFocus, shapeRefs);
     }, [])
 
 
@@ -83,7 +77,7 @@ function Face(props) {
 
                 {(copyOfShape.shapeClass !== 'Box') ? colorLabel : ''}
                 
-                <input type="color" id={`${propname}_` + index} value={(copyOfShape.faces[propname] === true) ? copyOfShape.data[propname] : copyOfShape.faces[propname]} onChange={(e) => updateShapes(e, 'color', `${propname}_${index}`, '')} inputref={inputRefs[propname]} disabled={colorDisabled /* (copyOfShape.faces[propname] !== true) ? true : false */}></input>
+                <input type="color" id={`${propname}_` + index} value={(copyOfShape.faces[propname] === true) ? copyOfShape.data[propname] : copyOfShape.faces[propname]} onChange={(e) => updateShapes(e, 'color', `${propname}_${index}`, '')} inputref={paramRef} disabled={colorDisabled /* (copyOfShape.faces[propname] !== true) ? true : false */}></input>
             </FormControl>
         </div>
     )

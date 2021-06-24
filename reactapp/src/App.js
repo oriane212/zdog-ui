@@ -152,7 +152,7 @@ function App(props) {
     props_shape.forEach((prop) => {
       if (prop === 'width' || prop === 'height' || prop === 'depth' || prop === 'diameter') {
         data[prop] = 100;
-      } else if (prop.includes('Face')) {
+      } else if (prop.includes('Face') || prop.includes('face')) {
         data[prop] = '#000000';
         faces[prop] = true;
       } else {
