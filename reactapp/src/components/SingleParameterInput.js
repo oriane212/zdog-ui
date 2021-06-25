@@ -21,17 +21,17 @@ function SingleParameterInput(props) {
 
     const updateShapes = props.updateShapes;
 
-    let cursorFocus = props.cursorFocus;
+    //let cursorFocus = props.cursorFocus;
 
-    let shapeRefs = props.shapeRefs;
+    /* let shapeRefs = props.shapeRefs; */
 
-    let paramRef = shapeRefs[parameter];
+    let paramRef =  props.paramRef;
 
     const classes = useStyles();
 
-    useEffect(() => {
+    /* useEffect(() => {
         props.refocus(cursorFocus, shapeRefs);
-    }, [])
+    }, []) */
 
     return (
 

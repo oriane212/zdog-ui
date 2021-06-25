@@ -6,6 +6,7 @@ export default function fixCamelCase(str, caps=true) {
     }
 
     let newStr = str.replace(/[A-Z]/g, replaceLetter);
+    
     if (caps) {
         let uc = newStr.charAt(0).toUpperCase();
         newStr = uc + newStr.slice(1);

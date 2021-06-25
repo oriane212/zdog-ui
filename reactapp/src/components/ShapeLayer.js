@@ -1,32 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../zdogui.css';
-import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, FilledInput, OutlinedInput, InputAdornment, Button, IconButton, Dialog, Typography, Container, TextField, Slider } from '@material-ui/core';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Ellipse from './Ellipse';
-import Rect from './Rect';
-import Box from './Box';
-import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, Typography, Slider } from '@material-ui/core';
 
 import Zdog from 'zdog';
 import Face from './Face';
 import SingleParameterInput from './SingleParameterInput';
+import ParameterSlider from './ParameterSlider';
+import fixCamelCase from '../fixCamelCase';
+
 const tau = Zdog.TAU;
 
 const useStyles = makeStyles((theme) => ({
-    slider: {
-        width: 200
-    },
     checkbox: {
         'padding-bottom': 12
     },
@@ -96,13 +80,6 @@ const useStyles = makeStyles((theme) => ({
     checkbox: {
         'padding-bottom': 10
     },
-    qslider: {
-        width: 155,
-        marginBottom: 36,
-        marginLeft: 2,
-        display: 'block',
-        fontSize: 'small'
-    },
     inlineCheckbox: {
         display: 'inline-block',
         marginTop: 2,
@@ -142,25 +119,6 @@ const marks_rotate = [
     },
     {
         value: tau
-    },
-];
-
-const marks_quarters = [
-    {
-        value: 1,
-        label: '1',
-    },
-    {
-        value: 2,
-        label: '2',
-    },
-    {
-        value: 3,
-        label: '3',
-    },
-    {
-        value: 4,
-        label: '4',
     },
 ];
 
@@ -259,17 +217,6 @@ function ShapeLayer(props) {
 
     let shapeParameters = [];
 
-
-
-    /* function handleSliderUpdate(e,v) {
-        // get the parent div with MuiFormControl-root class
-        let parentWithID = e.target.closest('.MuiFormControl-root');
-        // get id for that parent
-        let id = parentWithID.getAttribute('id');
-        // pass the id to updateshapes
-        updateShapes(e, v, 'slider', id);
-    } */
-
     function updateShapes(e, controlType, id = '', v = '') {
 
         let splitElID = id.split('_');
@@ -362,22 +309,6 @@ function ShapeLayer(props) {
 
         }
 
-        /* else if (controlType === 'select') {
-
-        console.log('inside select');
-        let splitElName = e.target.name.split('_');
-        let property = splitElName[0];
-        //let shapeindex = splitElName[1];
-
-        //flattened[shapeindex].data[property] = e.target.value;
-        copyOfShape.data[property] = e.target.value;
-        cursorFocus[1]({
-            'id': '',
-            'cursorPos': 0
-        });
-
-    } */
-
         setShapes(flattened);
 
     }
@@ -407,14 +338,22 @@ function ShapeLayer(props) {
                     let side = (property === 'backface') ? 'back' : property.split('F')[0];
                     let faceComp = <Face side={side} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus} shapeRefs={shapeRefs} />
                     faceControls.push(faceComp);
-                } else if (property === 'quarters') {
-                    let qSlider = (<FormControl className={classes.parameter}>
-                        <p className={classes.label}>Quarters</p>
-                        <Slider ref={shapeRefs['quarters']} className={classes.qslider} id={'quarters_' + index} value={copyOfShape.data.quarters} min={1} max={4} step={1} marks={marks_quarters} onChange={(e, v) => updateShapes(e, 'slider', `quarters_${index}`, v)} aria-labelledby={'quarters_' + index + '_label'} />
-                    </FormControl>)
-                    shapeSpecificControls.push(qSlider);
+                } else if (property === 'quarters' || property === 'sides') {
+                    let min = (property === 'quarters') ? 1 : 3;
+                    let max = (property === 'quarters') ? 4 : 12;
+                    let id = `${property}_${index}`;
+                    let slider = (
+                        <ParameterSlider 
+                        id={id}
+                        label={fixCamelCase(property)}
+                        value={copyOfShape.data[property]}
+                        min={min} max={max} step={1} marks={['']}
+                        onChange={(e, v) => updateShapes(e, 'slider', id, v)}
+                        />
+                    )
+                    shapeSpecificControls.push(slider);
                 } else {
-                    let spi = <SingleParameterInput parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus} shapeRefs={shapeRefs} />
+                    let spi = <SingleParameterInput parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />
                     shapeSpecificControls.push(spi);
                 }
             }
@@ -452,49 +391,25 @@ function ShapeLayer(props) {
                 }
             }
 
-
-
         }
     }
 
-    /*    function refocus(cursorFocus, shapeRefs) {
-   
-           if (cursorFocus[0]['id'] !== '') {
-   
-               let splitID = cursorFocus[0]['id'].split('_');
-               console.log(splitID);
-   
-               let property;
-               //let shapeindex;
-   
-               if (splitID.length === 3) {
-                   console.log('equal to 3');
-                   property = `${splitID[0]}_${splitID[1]}`;
-                   //shapeindex = splitID[2];
-               } else {
-                   property = `${splitID[0]}`;
-                   //shapeindex = splitID[1];
-               }
-   
-               console.log('property = ' + property);
-   
-               let pos = cursorFocus[0]['cursorPos'];
-               console.log('pos:' + pos);
-   
-               if (shapeRefs[property].current !== undefined && shapeRefs[property].current !== null) {
-                   console.log('INSIDE INPUT REFS');
-                   shapeRefs[property].current.focus();
-                   if (pos !== 0) {
-                       shapeRefs[property].current.setSelectionRange(pos, pos);
-                   }
-               } else if (basicRefs[property].current !== undefined && basicRefs[property].current !== null) {
-                   basicRefs[property].current.focus();
-                   if (pos !== 0) {
-                       basicRefs[property].current.setSelectionRange(pos, pos);
-                   }
-               }
-           }
-       } */
+    let rotateSliders = [];
+    
+    Object.keys(copyOfShape.data.rotate).forEach((axis, i) => {
+        let id = `rotate_${axis}_${index}`;
+        let slider = (
+            <ParameterSlider 
+            key={i} 
+            id={id}
+            label={`${axis} = ${Math.round((copyOfShape.data.rotate[axis]) * (180 / Math.PI))}`}
+            value={copyOfShape.data.rotate[axis]}
+            min={0} max={tau} step={tau / 72} marks={marks_rotate}
+            onChange={(e, v) => updateShapes(e, 'vector', id, v)}
+            />
+        )
+        rotateSliders.push(slider);
+    });
 
 
     useEffect(() => {
@@ -548,20 +463,22 @@ function ShapeLayer(props) {
                 <p className={classes.label}>Rotate</p>
                 {/* <Typography variant="body2">Rotate</Typography> */}
 
-                <FormControl className={classes.slider}>
+                {rotateSliders}
+
+                {/* <FormControl className={classes.slider}>
                     <Typography variant="body2" id={'rotate_x_' + index + '_label'}>x = {Math.round((copyOfShape.data.rotate.x) * (180 / Math.PI))}</Typography>
-                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.x} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
+                    <Slider className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data['rotate']['x']} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
                 </FormControl>
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id={'rotate_y_' + index + '_label'}>y = {Math.round((copyOfShape.data.rotate.y) * (180 / Math.PI))}</Typography>
-                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data.rotate.y} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
+                    <Slider className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data['rotate']['y']} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
                 </FormControl>
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id={'rotate_z_' + index + '_label'}>z = {Math.round((copyOfShape.data.rotate.z) * (180 / Math.PI))}</Typography>
-                    <Slider /* ref={inputRefs['quarters']} */ className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data.rotate.z} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
-                </FormControl>
+                    <Slider className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data['rotate']['z']} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
+                </FormControl> */}
 
             </div>
 
@@ -604,55 +521,3 @@ export default ShapeLayer;
     minor
     .. replace stars with icons that match shapeclass?
 */
-
-
-/*
-<FormControl className={classes.parameter}>
-                                <InputLabel className={classes.labelsm} htmlFor={'color_' + index}>color</InputLabel>
-                                <input type="color" id={'color_' + index} name={'color_' + index} value={shape.data.color} onChange={(e) => handleInputUpdate(e)}></input>
-                            </FormControl>
-                            */
-
-/*
-<FormControl className={classes.parameter}>
-    <FormControlLabel
-        label="Fill"
-        className={classes.label}
-        control={<Checkbox inputRef={inputRefs['fill']} className={classes.labelsm}  checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />}
-    />
-</FormControl>
-*/
-
-/*
-<FormControl className={classes.parameter}>
-    <InputLabel className={classes.labelsm} htmlFor={'fill_' + index}>fill</InputLabel>
-    <Checkbox inputRef={inputRefs['fill']} checked={shape.data.fill} onChange={(e) => handleCheckboxClick(e)} name={'fill_' + index} id={'fill_' + index} color="primary" />
-</FormControl>
-*/
-
-/*
-
-
-<FormControl className={classes.parameter}>
-<InputLabel htmlFor="canvas_width">Canvas width</InputLabel>
-<Input id="canvas_width" value={canvas_w} disabled={false} onChange={(e) => setCanvas_w(e.target.value)} />
-</FormControl>
-
-*/
-
-
-/*
-
-<div key={generateID()}>
-                        <div>shape {i} is {shape.shapeClass}</div>
-                        <FormControl className={classes.parameter}>
-                            <InputLabel htmlFor="diameter_0">test diameter</InputLabel>
-                            <Input inputRef={inputRef1} id="diameter_0" value={shape.data.diameter} disabled={false} onChange={(e) => handleTest(e)} />
-                        </FormControl>
-                        <FormControl className={classes.parameter}>
-                            <InputLabel htmlFor="stroke_0">test stroke</InputLabel>
-                            <Input inputRef={inputRef2} id="stroke_0" value={shape.data.stroke} disabled={false} onChange={(e) => handleTest(e)} />
-                        </FormControl>
-                    </div>
-
-                    */
