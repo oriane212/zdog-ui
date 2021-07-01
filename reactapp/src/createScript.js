@@ -58,6 +58,7 @@ let ${name} = new Zdog['${shape.shapeClass}'](${dataString})
 function animate() {
     illo.rotate.x += ${illoVars.rotate_x[0]};
     illo.rotate.y += ${illoVars.rotate_y[0]};
+    illo.rotate.z += ${illoVars.rotate_z[0]};
     illo.updateRenderGraph();
     requestAnimationFrame(animate);
 }
