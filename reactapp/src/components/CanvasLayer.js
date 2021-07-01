@@ -77,6 +77,7 @@ function CanvasLayer(props) {
     const [animate, setAnimate] = [stateVars.animate[0], stateVars.animate[1]];
     const [rotate_x, setRotate_x] = [stateVars.rotate_x[0], stateVars.rotate_x[1]];
     const [rotate_y, setRotate_y] = [stateVars.rotate_y[0], stateVars.rotate_y[1]];
+    const [rotate_z, setRotate_z] = [stateVars.rotate_z[0], stateVars.rotate_z[1]];
 
     let cursorFocus = props.cursorFocus;
     let checkCursorFocus = props.checkCursorFocus;
@@ -125,6 +126,11 @@ function CanvasLayer(props) {
             <FormControl className={classes.slider}>
                 <Typography variant="body2" id="rotate_y_label">y = {((rotate_y)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
                 <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_y(v); checkCursorFocus(); }} aria-labelledby="rotate_y_label" disabled={!animate} />
+            </FormControl>
+
+            <FormControl className={classes.slider}>
+                <Typography variant="body2" id="rotate_z_label">z = {((rotate_z)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                <Slider className={classes.slider} id="rotate_z" value={rotate_z} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_z(v); checkCursorFocus(); }} aria-labelledby="rotate_z_label" disabled={!animate} />
             </FormControl>
 
             </div>

@@ -22,6 +22,9 @@ function Viewer(props) {
     const refRotate_y = useRef(stateVars.rotate_y[0]);
     refRotate_y.current = stateVars.rotate_y[0];
 
+    const refRotate_z = useRef(stateVars.rotate_z[0]);
+    refRotate_z.current = stateVars.rotate_z[0];
+
     const isRotating = useState(false);
 
     
@@ -91,6 +94,7 @@ function Viewer(props) {
             cancelAnimationFrame(af);
             illo.rotate.x = 0;
             illo.rotate.y = 0;
+            illo.rotate.z = 0;
             illo.updateRenderGraph();
 
             isRotating[1](false);
@@ -108,6 +112,11 @@ function Viewer(props) {
                     illo.rotate.y = 0;
                 } else {
                     illo.rotate.y += (refRotate_y.current);
+                }
+                if (refRotate_z.current === 0) {
+                    illo.rotate.z = 0;
+                } else {
+                    illo.rotate.z += (refRotate_z.current);
                 }
             }
 

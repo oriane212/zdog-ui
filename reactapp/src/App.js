@@ -54,7 +54,8 @@ function App(props) {
     dragRotate: useState(true),
     animate: useState(true),
     rotate_x: useState(.01),
-    rotate_y: useState(.04)
+    rotate_y: useState(.04),
+    rotate_z: useState(.01)
   }
 
   const addedShapes = useState([
