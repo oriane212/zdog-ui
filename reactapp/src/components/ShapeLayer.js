@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 24
     },
     labelsm: {
-        fontSize: 'small'
+        fontSize: 'small',
+        display: 'inline-block',
+        width: 84
     },
     textField: {
         width: 55,
@@ -138,9 +140,10 @@ function ShapeLayer(props) {
         "stroke": useRef(),
         "fill": useRef(),
         "color": useRef(),
+        "backface": useRef(),
         "translate_x": useRef(),
         "translate_y": useRef(),
-        "translate_z": useRef()
+        "translate_z": useRef(),
     }
 
     const shapeRefs = {
@@ -153,7 +156,6 @@ function ShapeLayer(props) {
         "radius": useRef(),
         "sides": useRef(),
         "frontFace": useRef(),
-        "backface": useRef(),
         "rearFace": useRef(),
         "topFace": useRef(),
         "bottomFace": useRef(),
@@ -313,10 +315,26 @@ function ShapeLayer(props) {
 
     }
 
-    let colorControl = (<FormControl className={classes.parameter}>
-        <label htmlFor={'color_' + index} className={classes.labelsm}/* className="MuiTypography-body2" */>Color</label>
-        <input type="color" id={'color_' + index} /* name={'color_' + index} */ value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`, '')} inputref={basicRefs['color']}></input>
-    </FormControl>);
+    let cylinderFrontFace = (
+        <FormControl className={classes.parameter}>
+                <label htmlFor={'frontFace_' + index} className={classes.labelsm}>Front Face</label>
+                <input type="color" id={'frontFace_' + index} value={copyOfShape.data.frontFace} onChange={(e) => updateShapes(e, 'color', `frontFace_${index}`, '')} inputref={shapeRefs['frontFace']}></input>
+            </FormControl>
+    )
+
+    let colorControls = (
+        <React.Fragment>
+            <FormControl className={classes.parameter}>
+                <label htmlFor={'color_' + index} className={classes.labelsm}>Color</label>
+                <input type="color" id={'color_' + index} value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`, '')} inputref={basicRefs['color']}></input>
+            </FormControl>
+            <FormControl className={classes.parameter}>
+                <label htmlFor={'backface_' + index} className={classes.labelsm}>Back Face</label>
+                <input type="color" id={'backface_' + index} value={copyOfShape.data.backface} onChange={(e) => updateShapes(e, 'color', `backface_${index}`, '')} inputref={basicRefs['backface']}></input>
+            </FormControl>
+            {(copyOfShape.shapeClass === 'Cylinder') ? cylinderFrontFace : ''}
+        </React.Fragment>
+    );
 
 
     let shapeSpecificControls = [];
@@ -334,8 +352,8 @@ function ShapeLayer(props) {
 
         Object.keys(shapeRefs).forEach((property) => {
             if (copyOfShape.data[property] !== undefined) {
-                if (property.includes('Face') || property.includes('face')) {
-                    let side = (property === 'backface') ? 'back' : property.split('F')[0];
+                if (property.includes('Face') && (copyOfShape.shapeClass === 'Box')) {
+                    let side = property.split('F')[0];
                     let faceComp = <Face side={side} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus} shapeRefs={shapeRefs} />
                     faceControls.push(faceComp);
                 } else if (property === 'quarters' || property === 'sides') {
@@ -343,16 +361,16 @@ function ShapeLayer(props) {
                     let max = (property === 'quarters') ? 4 : 12;
                     let id = `${property}_${index}`;
                     let slider = (
-                        <ParameterSlider 
-                        id={id}
-                        label={fixCamelCase(property)}
-                        value={copyOfShape.data[property]}
-                        min={min} max={max} step={1} marks={['']}
-                        onChange={(e, v) => updateShapes(e, 'slider', id, v)}
+                        <ParameterSlider
+                            id={id}
+                            label={fixCamelCase(property)}
+                            value={copyOfShape.data[property]}
+                            min={min} max={max} step={1} marks={['']}
+                            onChange={(e, v) => updateShapes(e, 'slider', id, v)}
                         />
                     )
                     shapeSpecificControls.push(slider);
-                } else {
+                } else if (property !== 'frontFace') {
                     let spi = <SingleParameterInput parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />
                     shapeSpecificControls.push(spi);
                 }
@@ -382,30 +400,32 @@ function ShapeLayer(props) {
 
             let pos = cursorFocus[0]['cursorPos'];
 
-            let paramRef = (shapeRefs[property] !== undefined) ? shapeRefs[property] : basicRefs[property]
 
-            if (paramRef.current !== undefined && paramRef.current !== null) {
-                paramRef.current.focus();
-                if (pos !== 0) {
-                    paramRef.current.setSelectionRange(pos, pos);
+            let paramRef = (shapeRefs[property] !== undefined) ? shapeRefs[property] : basicRefs[property];
+
+            if (paramRef !== undefined) {
+                if (paramRef.current !== undefined && paramRef.current !== null) {
+                    paramRef.current.focus();
+                    if (pos !== 0) {
+                        paramRef.current.setSelectionRange(pos, pos);
+                    }
                 }
             }
-
         }
     }
 
     let rotateSliders = [];
-    
+
     Object.keys(copyOfShape.data.rotate).forEach((axis, i) => {
         let id = `rotate_${axis}_${index}`;
         let slider = (
-            <ParameterSlider 
-            key={i} 
-            id={id}
-            label={`${axis} = ${Math.round((copyOfShape.data.rotate[axis]) * (180 / Math.PI))}`}
-            value={copyOfShape.data.rotate[axis]}
-            min={0} max={tau} step={tau / 72} marks={marks_rotate}
-            onChange={(e, v) => updateShapes(e, 'vector', id, v)}
+            <ParameterSlider
+                key={i}
+                id={id}
+                label={`${axis} = ${Math.round((copyOfShape.data.rotate[axis]) * (180 / Math.PI))}`}
+                value={copyOfShape.data.rotate[axis]}
+                min={0} max={tau} step={tau / 72} marks={marks_rotate}
+                onChange={(e, v) => updateShapes(e, 'vector', id, v)}
             />
         )
         rotateSliders.push(slider);
@@ -421,7 +441,7 @@ function ShapeLayer(props) {
 
         <div>
 
-            {(copyOfShape.shapeClass === 'Box') ? '' : colorControl}
+            {(copyOfShape.shapeClass === 'Box') ? '' : colorControls}
 
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel

@@ -2,7 +2,7 @@
 
 export let shapeProperties = {
     'basic': [
-        'addTo', 'color', 'stroke', /* 'closed', */ 'fill', 'translate', 'rotate'/*, 'scale', 'zoom' */
+        'addTo', 'color', 'backface', 'stroke', /* 'closed', */ 'fill', 'translate', 'rotate'/*, 'scale', 'zoom' */
     ],
     'Ellipse': [
         /*'diameter',*/ 'width', 'height', 'quarters'
@@ -14,7 +14,7 @@ export let shapeProperties = {
         'width', 'height', 'depth', 'frontFace', 'rearFace', 'topFace', 'bottomFace', 'leftFace', 'rightFace'
     ],
     'Hemisphere': [
-        'diameter', 'backface'
+        'diameter'
     ],
     'RoundedRect': [
         'width', 'height', 'cornerRadius'
@@ -23,9 +23,9 @@ export let shapeProperties = {
         'radius', 'sides'
     ],
     'Cone': [
-        'diameter', 'length', 'backface'
+        'diameter', 'length'
     ],
     'Cylinder': [
-        'diameter', 'length', 'backface', 'frontFace'
+        'diameter', 'length', 'frontFace'
     ]
 }

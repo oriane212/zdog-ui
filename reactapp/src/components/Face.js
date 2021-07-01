@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import '../zdogui.css';
 import { FormControl, FormControlLabel, Checkbox, makeStyles } from '@material-ui/core';
 
@@ -42,27 +42,11 @@ function Face(props) {
 
     const classes = useStyles();
 
-    let propname = (side === 'back') ? `backface` : `${side}Face`;
+    let propname = `${side}Face`;
+
+    let label = (side[0].toUpperCase() + side.slice(1));
 
     let paramRef = shapeRefs[propname];
-
-    let colorDisabled = false;
-    if (side !== 'back') {
-        if (copyOfShape.faces[propname] !== true) {
-            colorDisabled = true;
-        } else {
-            colorDisabled = false;
-        }
-    }
-
-    let checkboxForFace = (<FormControl className={classes.inlineCheckbox}>
-        <FormControlLabel
-            label={side}
-            control={<Checkbox checked={(copyOfShape.faces[propname] === true) ? true : false} onChange={(e) => updateShapes(e, 'checkbox_face', `${propname}_${index}`, '')} size="small" color="primary" className={classes.checkboxFace} />}
-        />
-    </FormControl>);
-
-    let colorLabel = (<label htmlFor={`${propname}_` + index} className={classes.labelsm}>{side}</label>)
 
     useEffect(() => {
         props.refocus(cursorFocus, shapeRefs);
@@ -71,13 +55,16 @@ function Face(props) {
 
     return (
         <div>
-            {(copyOfShape.shapeClass === 'Box') ? checkboxForFace : ''}
+
+            <FormControl className={classes.inlineCheckbox}>
+                <FormControlLabel
+                    label={label}
+                    control={<Checkbox checked={(copyOfShape.faces[propname] === true) ? true : false} onChange={(e) => updateShapes(e, 'checkbox_face', `${propname}_${index}`, '')} size="small" color="primary" className={classes.checkboxFace} />}
+                />
+            </FormControl>
 
             <FormControl className={classes.parameterInline}>
-
-                {(copyOfShape.shapeClass !== 'Box') ? colorLabel : ''}
-                
-                <input type="color" id={`${propname}_` + index} value={(copyOfShape.faces[propname] === true) ? copyOfShape.data[propname] : copyOfShape.faces[propname]} onChange={(e) => updateShapes(e, 'color', `${propname}_${index}`, '')} inputref={paramRef} disabled={colorDisabled /* (copyOfShape.faces[propname] !== true) ? true : false */}></input>
+                <input type="color" id={`${propname}_` + index} value={(copyOfShape.faces[propname] === true) ? copyOfShape.data[propname] : copyOfShape.faces[propname]} onChange={(e) => updateShapes(e, 'color', `${propname}_${index}`, '')} inputref={paramRef} disabled={/* colorDisabled */(copyOfShape.faces[propname] !== true) ? true : false}></input>
             </FormControl>
         </div>
     )
