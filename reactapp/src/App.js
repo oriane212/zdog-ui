@@ -52,7 +52,7 @@ function App(props) {
     canvas_w: useState(240),
     canvas_h: useState(240),
     dragRotate: useState(true),
-    animate: useState(true),
+    animate: useState(false),
     rotate_x: useState(.01),
     rotate_y: useState(.04),
     rotate_z: useState(.01)

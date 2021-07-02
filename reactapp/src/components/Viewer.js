@@ -60,6 +60,10 @@ function Viewer(props) {
           element: '#illo',
           dragRotate: stateVars.dragRotate[0]
         })
+
+        illo.rotate.x = refRotate_x.current;
+        illo.rotate.y = refRotate_y.current;
+        illo.rotate.z = refRotate_z.current;
     
         illo.setSize(stateVars.canvas_w[0], stateVars.canvas_h[0]);
 
@@ -92,9 +96,12 @@ function Viewer(props) {
         if (refAnimate.current === false && refDragRotate.current === false) {
             console.log('canceling animation frame');
             cancelAnimationFrame(af);
-            illo.rotate.x = 0;
+            illo.rotate.x = refRotate_x.current;
+            illo.rotate.y = refRotate_y.current;
+            illo.rotate.z = refRotate_z.current;
+            /* illo.rotate.x = 0;
             illo.rotate.y = 0;
-            illo.rotate.z = 0;
+            illo.rotate.z = 0; */
             illo.updateRenderGraph();
 
             isRotating[1](false);

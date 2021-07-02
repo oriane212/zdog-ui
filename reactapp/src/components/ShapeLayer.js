@@ -7,8 +7,10 @@ import Face from './Face';
 import SingleParameterInput from './SingleParameterInput';
 import ParameterSlider from './ParameterSlider';
 import fixCamelCase from '../fixCamelCase';
+import CanvasLayer from './CanvasLayer';
+import RotateSliders from './RotateSliders';
 
-const tau = Zdog.TAU;
+/* const tau = Zdog.TAU; */
 
 const useStyles = makeStyles((theme) => ({
     checkbox: {
@@ -98,32 +100,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const marks_rotate = [
-    {
-        value: 0,
-        label: '0',
-    },
-    {
-        value: tau / 12,
-        label: '30',
-    },
-    {
-        value: tau / 4,
-        label: '90',
-    },
-    {
-        value: tau / 2,
-        label: '180',
-    },
-    {
-        value: ((tau / 4) * 3),
-        label: '270',
-    },
-    {
-        value: tau
-    },
-];
-
 function ShapeLayer(props) {
 
     let cursorFocus = props.cursorFocus;
@@ -193,7 +169,7 @@ function ShapeLayer(props) {
         return currentShape;
     }
 
-    const copyOfShape = locateShapeInAddedShapesTree(flattened);
+    const copyOfShape = (selectedNodeId[0] !== 'canvasnode') ? locateShapeInAddedShapesTree(flattened) : '';
 
 
     const handleClick = () => {
@@ -315,27 +291,33 @@ function ShapeLayer(props) {
 
     }
 
-    let cylinderFrontFace = (
-        <FormControl className={classes.parameter}>
+    function createColorControls() {
+        let cylinderFrontFace = (
+            <FormControl className={classes.parameter}>
                 <label htmlFor={'frontFace_' + index} className={classes.labelsm}>Front Face</label>
                 <input type="color" id={'frontFace_' + index} value={copyOfShape.data.frontFace} onChange={(e) => updateShapes(e, 'color', `frontFace_${index}`, '')} inputref={shapeRefs['frontFace']}></input>
             </FormControl>
-    )
+        )
+    
+        let colorControls = (
+            <React.Fragment>
+                <FormControl className={classes.parameter}>
+                    <label htmlFor={'color_' + index} className={classes.labelsm}>Color</label>
+                    <input type="color" id={'color_' + index} value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`, '')} inputref={basicRefs['color']}></input>
+                </FormControl>
+                <FormControl className={classes.parameter}>
+                    <label htmlFor={'backface_' + index} className={classes.labelsm}>Back Face</label>
+                    <input type="color" id={'backface_' + index} value={copyOfShape.data.backface} onChange={(e) => updateShapes(e, 'color', `backface_${index}`, '')} inputref={basicRefs['backface']}></input>
+                </FormControl>
+                {(copyOfShape.shapeClass === 'Cylinder') ? cylinderFrontFace : ''}
+            </React.Fragment>
+        );
 
-    let colorControls = (
-        <React.Fragment>
-            <FormControl className={classes.parameter}>
-                <label htmlFor={'color_' + index} className={classes.labelsm}>Color</label>
-                <input type="color" id={'color_' + index} value={copyOfShape.data.color} onChange={(e) => updateShapes(e, 'color', `color_${index}`, '')} inputref={basicRefs['color']}></input>
-            </FormControl>
-            <FormControl className={classes.parameter}>
-                <label htmlFor={'backface_' + index} className={classes.labelsm}>Back Face</label>
-                <input type="color" id={'backface_' + index} value={copyOfShape.data.backface} onChange={(e) => updateShapes(e, 'color', `backface_${index}`, '')} inputref={basicRefs['backface']}></input>
-            </FormControl>
-            {(copyOfShape.shapeClass === 'Cylinder') ? cylinderFrontFace : ''}
-        </React.Fragment>
-    );
+        return colorControls;
+    }
 
+
+    let colorControls = '';
 
     let shapeSpecificControls = [];
     let faceControls = [];
@@ -346,7 +328,10 @@ function ShapeLayer(props) {
         </div>
     );
 
-    createControls();
+    if (selectedNodeId[0] !== 'canvasnode') {
+        createControls();
+        colorControls = createColorControls();
+    }
 
     function createControls() {
 
@@ -414,22 +399,62 @@ function ShapeLayer(props) {
         }
     }
 
-    let rotateSliders = [];
 
-    Object.keys(copyOfShape.data.rotate).forEach((axis, i) => {
-        let id = `rotate_${axis}_${index}`;
-        let slider = (
-            <ParameterSlider
-                key={i}
-                id={id}
-                label={`${axis} = ${Math.round((copyOfShape.data.rotate[axis]) * (180 / Math.PI))}`}
-                value={copyOfShape.data.rotate[axis]}
-                min={0} max={tau} step={tau / 72} marks={marks_rotate}
-                onChange={(e, v) => updateShapes(e, 'vector', id, v)}
-            />
-        )
-        rotateSliders.push(slider);
-    });
+    function renderLayerControls() {
+        if (selectedNodeId[0] === 'canvasnode') {
+            return (
+                <CanvasLayer checkCursorFocus={props.checkCursorFocus} cursorFocus={cursorFocus} stateVars={props.stateVars} updateShapes={updateShapes}></CanvasLayer>
+            )
+        } else {
+            return (
+
+                <div>
+
+                    {(copyOfShape.shapeClass === 'Box') ? '' : colorControls}
+
+                    <FormControl className={classes.parameterCheckbox}>
+                        <FormControlLabel
+                            label="Fill"
+                            control={<Checkbox inputRef={basicRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`, '')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" className={classes.checkbox} />}
+                        />
+                    </FormControl>
+
+                    <FormControl className={classes.parameter}>
+                        <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
+                        <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} />
+                    </FormControl>
+
+                    <div className={classes.parameter}>
+
+                        <p className={classes.label}>Translate</p>
+
+                        <FormControl className={classes.textField}>
+                            <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
+                            <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={basicRefs['translate_x']} id={'translate_x_' + index} value={copyOfShape.data.translate.x} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
+                        </FormControl>
+
+                        <FormControl className={classes.textField}>
+                            <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
+                            <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={basicRefs['translate_y']} id={'translate_y_' + index} value={copyOfShape.data.translate.y} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
+                        </FormControl>
+
+                        <FormControl className={classes.textField}>
+                            <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
+                            <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={copyOfShape.data.translate.z} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
+                        </FormControl>
+
+                    </div>
+
+                    <RotateSliders nodeId={selectedNodeId[0]} rotateData={copyOfShape.data.rotate} updateShapes={updateShapes} />
+
+                    {shapeSpecificControls}
+
+                </div>
+
+
+            )
+        }
+    }
 
 
     useEffect(() => {
@@ -437,79 +462,9 @@ function ShapeLayer(props) {
     }, []);
 
     return (
-
-
-        <div>
-
-            {(copyOfShape.shapeClass === 'Box') ? '' : colorControls}
-
-            <FormControl className={classes.parameterCheckbox}>
-                <FormControlLabel
-                    label="Fill"
-                    control={<Checkbox inputRef={basicRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`, '')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" className={classes.checkbox} />}
-                />
-            </FormControl>
-
-            {/* <TextField className={classes.parameter} id={'stroke_' + index} label="Stroke" value={shape.data.stroke} onChange={handleInputUpdate} /> */}
-
-            <FormControl className={classes.parameter}>
-                <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
-                <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} />
-            </FormControl>
-
-            <div className={classes.parameter}>
-
-                <p className={classes.label}>Translate</p>
-
-                <FormControl className={classes.textField}>
-                    <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
-                    <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={basicRefs['translate_x']} id={'translate_x_' + index} value={copyOfShape.data.translate.x} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
-                </FormControl>
-
-                <FormControl className={classes.textField}>
-                    <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
-                    <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={basicRefs['translate_y']} id={'translate_y_' + index} value={copyOfShape.data.translate.y} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
-                </FormControl>
-
-                <FormControl className={classes.textField}>
-                    <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
-                    <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={copyOfShape.data.translate.z} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
-                </FormControl>
-
-            </div>
-
-            <div className={classes.parameterGroup}>
-
-                <p className={classes.label}>Rotate</p>
-                {/* <Typography variant="body2">Rotate</Typography> */}
-
-                {rotateSliders}
-
-                {/* <FormControl className={classes.slider}>
-                    <Typography variant="body2" id={'rotate_x_' + index + '_label'}>x = {Math.round((copyOfShape.data.rotate.x) * (180 / Math.PI))}</Typography>
-                    <Slider className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data['rotate']['x']} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_x_${index}`, v)} aria-labelledby={'rotate_x_' + index + '_label'} />
-                </FormControl>
-
-                <FormControl className={classes.slider}>
-                    <Typography variant="body2" id={'rotate_y_' + index + '_label'}>y = {Math.round((copyOfShape.data.rotate.y) * (180 / Math.PI))}</Typography>
-                    <Slider className={classes.slider} id={'rotate_x_' + index} value={copyOfShape.data['rotate']['y']} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_y_${index}`, v)} aria-labelledby={'rotate_y_' + index + '_label'} />
-                </FormControl>
-
-                <FormControl className={classes.slider}>
-                    <Typography variant="body2" id={'rotate_z_' + index + '_label'}>z = {Math.round((copyOfShape.data.rotate.z) * (180 / Math.PI))}</Typography>
-                    <Slider className={classes.slider} id={'rotate_z_' + index} value={copyOfShape.data['rotate']['z']} min={0} max={tau} step={tau / 72} marks={marks_rotate} onChange={(e, v) => updateShapes(e, 'vector', `rotate_z_${index}`, v)} aria-labelledby={'rotate_z_' + index + '_label'} />
-                </FormControl> */}
-
-            </div>
-
-
-            {shapeSpecificControls}
-
-
-            {/* <Button className={classes.delete} size="small">Delete</Button> */}
-
-        </div>
-
+        <React.Fragment>
+            {renderLayerControls()}
+        </React.Fragment>
     )
 }
 

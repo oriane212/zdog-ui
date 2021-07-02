@@ -103,7 +103,7 @@ function Controls(props) {
         }
     }
 
-    function renderLayerControls() {
+    /* function renderLayerControls() {
 
         if (props.selectedNodeId[0] === 'canvasnode') {
             return (
@@ -114,7 +114,7 @@ function Controls(props) {
                 <ShapeLayer selectedNodeId={props.selectedNodeId} addedShapes={props.addedShapes} checkCursorFocus={checkCursorFocus} cursorFocus={cursorFocus} stateVars={stateVars}></ShapeLayer>
             )
         }
-    }
+    } */
 
     return (
 
@@ -153,7 +153,8 @@ function Controls(props) {
 
                                 <ListItem className={classes.nested}> */}
                                 
-                    {renderLayerControls()}
+                    {/* {renderLayerControls()} */}
+                    <ShapeLayer selectedNodeId={props.selectedNodeId} addedShapes={props.addedShapes} checkCursorFocus={checkCursorFocus} cursorFocus={cursorFocus} stateVars={stateVars}></ShapeLayer>
 
                             {/*     </ListItem>
 

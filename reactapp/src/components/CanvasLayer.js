@@ -1,5 +1,6 @@
 import { Checkbox, FormControl, FormControlLabel, Input, InputLabel, makeStyles, Slider, Typography } from '@material-ui/core';
 import React from 'react';
+import RotateSliders from './RotateSliders';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -99,6 +100,10 @@ function CanvasLayer(props) {
                 <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => { setCanvas_h(e.target.value); checkCursorFocus(); }} />
             </FormControl>
 
+
+            <RotateSliders nodeId={'canvasnode'} rotateData={stateVars} updateShapes='' />
+
+
             <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Drag Rotate"
@@ -107,7 +112,7 @@ function CanvasLayer(props) {
             </FormControl>
 
 
-            <FormControl className={classes.parameterCheckbox}>
+           {/*  <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Animate"
                     control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => { setAnimate(!animate); checkCursorFocus(); }} size="small" name="animate" id="animate" color="primary" />}
@@ -133,7 +138,7 @@ function CanvasLayer(props) {
                 <Slider className={classes.slider} id="rotate_z" value={rotate_z} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_z(v); checkCursorFocus(); }} aria-labelledby="rotate_z_label" disabled={!animate} />
             </FormControl>
 
-            </div>
+            </div> */}
 
 
         </div>
