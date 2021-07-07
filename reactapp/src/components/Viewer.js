@@ -27,15 +27,16 @@ function Viewer(props) {
 
     const isRotating = useState(false);
 
-    
-    let af;
+    const refSpin_x = useRef(stateVars.spin_x[0]);
+    refSpin_x.current = stateVars.spin_x[0];
 
-    /* function createObjOfShapesById(shapes) {
-        let shapesById = {};
-        shapes.forEach((shape) => {
-            shapesById[shape.id] = 
-        })
-    } */
+    const refSpin_y = useRef(stateVars.spin_y[0]);
+    refSpin_y.current = stateVars.spin_y[0];
+
+    const refSpin_z = useRef(stateVars.spin_z[0]);
+    refSpin_z.current = stateVars.spin_z[0];
+
+    let af;
 
     function createChildShapes(parent, parentInstance) {
         if (parent.children.length > 0) {
@@ -58,16 +59,15 @@ function Viewer(props) {
 
         illo = new Zdog.Illustration({
           element: '#illo',
-          dragRotate: stateVars.dragRotate[0]
+          dragRotate: stateVars.dragRotate[0],
+          rotate: {
+              x: refRotate_x.current,
+              y: refRotate_y.current,
+              z: refRotate_z.current
+          }
         })
-
-        illo.rotate.x = refRotate_x.current;
-        illo.rotate.y = refRotate_y.current;
-        illo.rotate.z = refRotate_z.current;
     
         illo.setSize(stateVars.canvas_w[0], stateVars.canvas_h[0]);
-
-        //let shapesById = {};
 
         let copiedshapes = shapes[0].slice(0, shapes[0].length);
     
@@ -87,10 +87,11 @@ function Viewer(props) {
         })
     
         illo.updateRenderGraph();
+
+        console.log('illo = ', illo);
     
       }
     
-
     function rotateIllo() {
 
         if (refAnimate.current === false && refDragRotate.current === false) {
@@ -99,9 +100,6 @@ function Viewer(props) {
             illo.rotate.x = refRotate_x.current;
             illo.rotate.y = refRotate_y.current;
             illo.rotate.z = refRotate_z.current;
-            /* illo.rotate.x = 0;
-            illo.rotate.y = 0;
-            illo.rotate.z = 0; */
             illo.updateRenderGraph();
 
             isRotating[1](false);
@@ -109,21 +107,20 @@ function Viewer(props) {
         } else {
         
             if (refAnimate.current === true) {
-                // set to 0 if 0 so it doesn't get stuck at (0.01 + 0)
-                if (refRotate_x.current === 0) {
-                    illo.rotate.x = 0;
+                if (refSpin_x.current === 0) {
+                    illo.rotate.x = refRotate_x.current;
                 } else {
-                    illo.rotate.x += (refRotate_x.current);
+                    illo.rotate.x += (refSpin_x.current);
                 }
-                if (refRotate_y.current === 0) {
-                    illo.rotate.y = 0;
+                if (refSpin_y.current === 0) {
+                    illo.rotate.y = refRotate_y.current;
                 } else {
-                    illo.rotate.y += (refRotate_y.current);
+                    illo.rotate.y += (refSpin_y.current);
                 }
-                if (refRotate_z.current === 0) {
-                    illo.rotate.z = 0;
+                if (refSpin_z.current === 0) {
+                    illo.rotate.z = refRotate_z.current;
                 } else {
-                    illo.rotate.z += (refRotate_z.current);
+                    illo.rotate.z += (refSpin_z.current);
                 }
             }
 
@@ -131,14 +128,11 @@ function Viewer(props) {
             af = requestAnimationFrame(rotateIllo);
  
         }
-
     }
-
 
     useEffect(() => {
         createIllo();
     })
-
 
     useEffect(() => {
 
@@ -150,18 +144,12 @@ function Viewer(props) {
 
     }, [stateVars.animate[0], stateVars.dragRotate[0]]);
 
-
     return (
-
         <section className="results">
-
             <section className="illustration" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}>
                 <canvas id="illo" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}></canvas>
             </section>
-
-
         </section>
-
     )
 }
 

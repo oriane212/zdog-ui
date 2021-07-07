@@ -53,23 +53,23 @@ function App(props) {
     canvas_h: useState(240),
     dragRotate: useState(true),
     animate: useState(false),
-    rotate_x: useState(.01),
-    rotate_y: useState(.04),
-    rotate_z: useState(.01)
+    rotate_x: useState(5.7),
+    rotate_y: useState(.78),
+    rotate_z: useState(0),
+    spin_x: useState(.01),
+    spin_y: useState(.04),
+    spin_z: useState(.01),
   }
 
   const addedShapes = useState([
     {
       id: generateID(),
-      /* tempAddTo: parentLayer, */
       children: [
         {
           id: generateID(),
-          /* tempAddTo: parentLayer, */
           children: [
             {
               id: generateID(),
-              /* tempAddTo: parentLayer, */
               children: [],
               open: true,
               shapeClass: 'Ellipse',
@@ -90,11 +90,9 @@ function App(props) {
     },
     {
       id: generateID(),
-      /* tempAddTo: parentLayer, */
       children: [
         {
           id: generateID(),
-          /* tempAddTo: parentLayer, */
           children: [],
           open: true,
           shapeClass: 'Rect',
@@ -179,7 +177,6 @@ function App(props) {
 
     let newshape = {
       id: generateID(),
-      /* tempAddTo: parentLayer, */
       children: [],
       open: true,
       shapeClass: shapeClass,

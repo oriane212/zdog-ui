@@ -79,6 +79,9 @@ function CanvasLayer(props) {
     const [rotate_x, setRotate_x] = [stateVars.rotate_x[0], stateVars.rotate_x[1]];
     const [rotate_y, setRotate_y] = [stateVars.rotate_y[0], stateVars.rotate_y[1]];
     const [rotate_z, setRotate_z] = [stateVars.rotate_z[0], stateVars.rotate_z[1]];
+    const [spin_x, setSpin_x] = [stateVars.spin_x[0], stateVars.spin_x[1]];
+    const [spin_y, setSpin_y] = [stateVars.spin_y[0], stateVars.spin_y[1]];
+    const [spin_z, setSpin_z] = [stateVars.spin_z[0], stateVars.spin_z[1]];
 
     let cursorFocus = props.cursorFocus;
     let checkCursorFocus = props.checkCursorFocus;
@@ -112,7 +115,7 @@ function CanvasLayer(props) {
             </FormControl>
 
 
-           {/*  <FormControl className={classes.parameterCheckbox}>
+            <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Animate"
                     control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => { setAnimate(!animate); checkCursorFocus(); }} size="small" name="animate" id="animate" color="primary" />}
@@ -121,24 +124,24 @@ function CanvasLayer(props) {
 
             <div className={classes.parameterSubGroup}>
 
-            <p className={classes.sublabel}>Rotation Speed</p>
+            <p className={classes.sublabel}>Continuous Spin</p>
 
             <FormControl className={classes.slider}>
-                <Typography variant="body2" id="rotate_x_label">x = {((rotate_x)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                <Slider className={classes.slider} id="rotate_x" value={rotate_x} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_x(v); checkCursorFocus(); }} aria-labelledby="rotate_x_label" disabled={!animate} />
+                <Typography variant="body2" id="spin_x_label">x = {((spin_x)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                <Slider className={classes.slider} id="spin_x" value={spin_x} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_x(v); checkCursorFocus(); }} aria-labelledby="spin_x_label" disabled={!animate} />
             </FormControl>
 
             <FormControl className={classes.slider}>
-                <Typography variant="body2" id="rotate_y_label">y = {((rotate_y)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                <Slider className={classes.slider} id="rotate_y" value={rotate_y} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_y(v); checkCursorFocus(); }} aria-labelledby="rotate_y_label" disabled={!animate} />
+                <Typography variant="body2" id="spin_y_label">y = {((spin_y)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                <Slider className={classes.slider} id="spin_y" value={spin_y} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_y(v); checkCursorFocus(); }} aria-labelledby="spin_y_label" disabled={!animate} />
             </FormControl>
 
             <FormControl className={classes.slider}>
-                <Typography variant="body2" id="rotate_z_label">z = {((rotate_z)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                <Slider className={classes.slider} id="rotate_z" value={rotate_z} min={0} max={1} step={0.01} onChange={(e, v) => { setRotate_z(v); checkCursorFocus(); }} aria-labelledby="rotate_z_label" disabled={!animate} />
+                <Typography variant="body2" id="spin_z_label">z = {((spin_z)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                <Slider className={classes.slider} id="spin_z" value={spin_z} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_z(v); checkCursorFocus(); }} aria-labelledby="spin_z_label" disabled={!animate} />
             </FormControl>
 
-            </div> */}
+            </div>
 
 
         </div>

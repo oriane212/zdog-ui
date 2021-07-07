@@ -10,11 +10,14 @@ export default function createScript(illoVars, shapesCopy) {
 let illo = new Zdog.Illustration({
     // set canvas with id 'illo'
     element: "#illo",
-    dragRotate: ${illoVars.dragRotate[0]}
+    dragRotate: ${illoVars.dragRotate[0]},
+    rotate: {
+        x: ${illoVars.rotate_x[0]},
+        y: ${illoVars.rotate_y[0]},
+        z: ${illoVars.rotate_z[0]}
+    }
 });
     `;
-
-    // above, should I add dragRotate only if true?
 
     let shapeCount = 0;
 
@@ -25,7 +28,6 @@ let illo = new Zdog.Illustration({
                 let data = shape.data;
                 shape.data.addTo = "--" + parentName + "--";
                 let dataString = JSON.stringify(data, null, '\t');
-                //let shapeInstance = new Zdog[shape.shapeClass](shape.data);
                 let newShapeString = `
 let ${name} = new Zdog['${shape.shapeClass}'](${dataString})
         `;
@@ -40,7 +42,6 @@ let ${name} = new Zdog['${shape.shapeClass}'](${dataString})
     shapesCopy.forEach(shape => {
         let name = `shape${shapeCount}`;
         let data = shape.data;
-        // TO FIX - 'circular structure to JSON' error with dummy illo... might need to add each property for shapes (eg, dragRotate for illo), maybe only add properties that are not equal to the default?
         data.addTo = "--illo--";
         let dataString = JSON.stringify(data, null, '\t');
         let newShapeString = `
@@ -56,9 +57,9 @@ let ${name} = new Zdog['${shape.shapeClass}'](${dataString})
     if (illoVars.animate[0]) {
         endString = `
 function animate() {
-    illo.rotate.x += ${illoVars.rotate_x[0]};
-    illo.rotate.y += ${illoVars.rotate_y[0]};
-    illo.rotate.z += ${illoVars.rotate_z[0]};
+    illo.rotate.x += ${illoVars.spin_x[0]};
+    illo.rotate.y += ${illoVars.spin_y[0]};
+    illo.rotate.z += ${illoVars.spin_z[0]};
     illo.updateRenderGraph();
     requestAnimationFrame(animate);
 }
