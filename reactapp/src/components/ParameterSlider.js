@@ -24,6 +24,8 @@ function ParameterSlider(props) {
 
     const [id, label, value] = [props.id, props.label, props.value];
 
+    //const sublabel = props.sublabel;
+
     const [min, max, step] = [props.min, props.max, props.step];
 
     const onChange = props.onChange;
@@ -48,7 +50,7 @@ function ParameterSlider(props) {
 
     return (
         <FormControl className={classes.parameter}>
-            <p id={id + '_label'} className={classes.label}>{label}</p>
+            <p id={id + '_label'} className={classes.label}>{label} {props.sublabel !== undefined ? <span className='tinytext'>{props.sublabel}</span> : ''} </p>
             <Slider className={classes.slider} id={id} value={value} min={min} max={max} step={step} marks={marksArray} onChange={onChange} aria-labelledby={id + '_label'} />
         </FormControl>
     )

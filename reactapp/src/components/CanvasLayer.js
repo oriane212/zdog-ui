@@ -81,7 +81,10 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-      },
+    },
+    smallFont: {
+        fontSize: 'small'
+    }
 }));
 
 function CanvasLayer(props) {
@@ -107,11 +110,11 @@ function CanvasLayer(props) {
 
     const marks_cycleCount = [
         {
-            value: 100,
+            value: 150,
             label: 'short',
         },
         {
-            value: 500,
+            value: 450,
             label: 'long',
         }
     ];
@@ -155,46 +158,46 @@ function CanvasLayer(props) {
         animateParameters = (
             <React.Fragment>
                 <div>
+                    <FormControl className={classes.inlineParameterCheckbox}>
+                        <FormControlLabel
+                            label="x"
+                            control={<Checkbox className={classes.checkbox} checked={easeIO.x} onChange={() => { updateEaseIO("easeIO_x", !easeIO.x); checkCursorFocus(); }} size="small" name="easeIO_x" id="easeIO_x" color="primary" />}
+                        />
+                    </FormControl>
 
-                
-                <FormControl className={classes.inlineParameterCheckbox}>
-                    <FormControlLabel
-                        label="x"
-                        control={<Checkbox className={classes.checkbox} checked={easeIO.x} onChange={() => { updateEaseIO("easeIO_x", !easeIO.x); checkCursorFocus(); }} size="small" name="easeIO_x" id="easeIO_x" color="primary" />}
-                    />
-                </FormControl>
+                    <FormControl className={classes.inlineParameterCheckbox}>
+                        <FormControlLabel
+                            label="y"
+                            control={<Checkbox className={classes.checkbox} checked={easeIO.y} onChange={() => { updateEaseIO("easeIO_y", !easeIO.y); checkCursorFocus(); }} size="small" name="easeIO_y" id="easeIO_y" color="primary" />}
+                        />
+                    </FormControl>
 
-                <FormControl className={classes.inlineParameterCheckbox}>
-                    <FormControlLabel
-                        label="y"
-                        control={<Checkbox className={classes.checkbox} checked={easeIO.y} onChange={() => { updateEaseIO("easeIO_y", !easeIO.y); checkCursorFocus(); }} size="small" name="easeIO_y" id="easeIO_y" color="primary" />}
-                    />
-                </FormControl>
-
-                <FormControl className={classes.inlineParameterCheckbox}>
-                    <FormControlLabel
-                        label="z"
-                        control={<Checkbox className={classes.checkbox} checked={easeIO.z} onChange={() => { updateEaseIO("easeIO_z", !easeIO.z); checkCursorFocus(); }} size="small" name="easeIO_z" id="easeIO_z" color="primary" />}
-                    />
-                </FormControl>
-
+                    <FormControl className={classes.inlineParameterCheckbox}>
+                        <FormControlLabel
+                            label="z"
+                            control={<Checkbox className={classes.checkbox} checked={easeIO.z} onChange={() => { updateEaseIO("easeIO_z", !easeIO.z); checkCursorFocus(); }} size="small" name="easeIO_z" id="easeIO_z" color="primary" />}
+                        />
+                    </FormControl>
                 </div>
 
-                <ParameterSlider
-                    id='easeIO_cycleCount'
-                    label='Cycle'
-                    value={easeIO.cycleCount}
-                    min={100} max={500} step={50} marks={marks_cycleCount}
-                    onChange={(e, v) => { updateEaseIO("easeIO_cycleCount", v); checkCursorFocus(); }}
-                />
+                <div className={classes.parameterSubGroup}>
+                    <ParameterSlider
+                        id='easeIO_cycleCount'
+                        label='Cycle'
+                        sublabel={`count = ${easeIO.cycleCount}`}
+                        value={easeIO.cycleCount}
+                        min={100} max={500} step={50} marks={marks_cycleCount}
+                        onChange={(e, v) => { updateEaseIO("easeIO_cycleCount", v); checkCursorFocus(); }}
+                    />
 
-                <ParameterSlider
-                    id='easeIO_power'
-                    label='Power'
-                    value={easeIO.power}
-                    min={2} max={5} step={1} marks={['']}
-                    onChange={(e, v) => { updateEaseIO("easeIO_power", v); checkCursorFocus(); }}
-                />
+                    <ParameterSlider
+                        id='easeIO_power'
+                        label='Power'
+                        value={easeIO.power}
+                        min={2} max={5} step={1} marks={['']}
+                        onChange={(e, v) => { updateEaseIO("easeIO_power", v); checkCursorFocus(); }}
+                    />
+                </div>
             </React.Fragment>
         )
     }
@@ -234,23 +237,20 @@ function CanvasLayer(props) {
             </FormControl>
 
 
-
-
             <div className={classes.parameterSubGroup}>
 
-            <FormControl className={classes.formControl} disabled={!animate}>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={animateSelection}
-                    onChange={handleAnimateSelect}
-                >
-                    <MenuItem value='spin'>Continuous spin</MenuItem>
-                    <MenuItem value='ease'>Ease In/Out</MenuItem>
-                </Select>
-            </FormControl>
-
-                {/* <p className={classes.sublabel}>Continuous Spin</p> */}
+                <FormControl className={classes.formControl} disabled={!animate}>
+                    <Select
+                        labelId="animateSelection_label"
+                        id="animateSelection"
+                        value={animateSelection}
+                        onChange={handleAnimateSelect}
+                        className={classes.smallFont}
+                    >
+                        <MenuItem value='spin' className={classes.smallFont}>Continuous spin</MenuItem>
+                        <MenuItem value='ease' className={classes.smallFont}>Ease In/Out</MenuItem>
+                    </Select>
+                </FormControl>
 
                 {animate ? animateParameters : ''}
 
