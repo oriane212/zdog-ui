@@ -1,6 +1,7 @@
-import { Checkbox, FormControl, FormControlLabel, Input, InputLabel, makeStyles, Slider, Typography } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, Select, MenuItem, Input, InputLabel, makeStyles, Slider, Typography } from '@material-ui/core';
 import React from 'react';
 import RotateSliders from './RotateSliders';
+import ParameterSlider from './ParameterSlider';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -12,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
     },
     checkbox: {
         'padding-bottom': 10
+    },
+    inlinecheckbox: {
+        'padding-bottom': 10,
+        display: 'inline-block'
     },
     parameter: {
         display: 'block',
@@ -25,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
     },
     parameterCheckbox: {
         display: 'block',
+        'margin-left': 12,
+        'margin-top': 3,
+        'margin-bottom': 3
+    },
+    inlineParameterCheckbox: {
+        display: 'inline-block',
         'margin-left': 12,
         'margin-top': 3,
         'margin-bottom': 3
@@ -66,7 +77,11 @@ const useStyles = makeStyles((theme) => ({
         'margin-bottom': 14,
         marginTop: 8,
         marginLeft: 8
-    }
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
 }));
 
 function CanvasLayer(props) {
@@ -82,11 +97,107 @@ function CanvasLayer(props) {
     const [spin_x, setSpin_x] = [stateVars.spin_x[0], stateVars.spin_x[1]];
     const [spin_y, setSpin_y] = [stateVars.spin_y[0], stateVars.spin_y[1]];
     const [spin_z, setSpin_z] = [stateVars.spin_z[0], stateVars.spin_z[1]];
+    const [easeIO, setEaseIO] = [stateVars.easeIO[0], stateVars.easeIO[1]];
+    const [animateSelection, setAnimateSelection] = [stateVars.animateSelection[0], stateVars.animateSelection[1]];
 
     let cursorFocus = props.cursorFocus;
     let checkCursorFocus = props.checkCursorFocus;
 
     const classes = useStyles();
+
+    const marks_cycleCount = [
+        {
+            value: 100,
+            label: 'short',
+        },
+        {
+            value: 500,
+            label: 'long',
+        }
+    ];
+
+    function updateEaseIO(paramID, val) {
+        let splitID = paramID.split('_');
+        let param = splitID[1];
+
+        let easeIO_copy = JSON.parse(JSON.stringify(easeIO));
+        easeIO_copy[param] = val;
+
+        setEaseIO(easeIO_copy);
+    }
+
+    function handleAnimateSelect(e) {
+        setAnimateSelection(e.target.value);
+    }
+
+    let animateParameters;
+
+    if (animateSelection === 'spin') {
+        animateParameters = (
+            <React.Fragment>
+                <FormControl className={classes.slider}>
+                    <Typography variant="body2" id="spin_x_label">x = {((spin_x) * (180 / Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                    <Slider className={classes.slider} id="spin_x" value={spin_x} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_x(v); checkCursorFocus(); }} aria-labelledby="spin_x_label" disabled={!animate} />
+                </FormControl>
+
+                <FormControl className={classes.slider}>
+                    <Typography variant="body2" id="spin_y_label">y = {((spin_y) * (180 / Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                    <Slider className={classes.slider} id="spin_y" value={spin_y} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_y(v); checkCursorFocus(); }} aria-labelledby="spin_y_label" disabled={!animate} />
+                </FormControl>
+
+                <FormControl className={classes.slider}>
+                    <Typography variant="body2" id="spin_z_label">z = {((spin_z) * (180 / Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
+                    <Slider className={classes.slider} id="spin_z" value={spin_z} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_z(v); checkCursorFocus(); }} aria-labelledby="spin_z_label" disabled={!animate} />
+                </FormControl>
+            </React.Fragment>
+        )
+    } else if (animateSelection === 'ease') {
+        animateParameters = (
+            <React.Fragment>
+                <div>
+
+                
+                <FormControl className={classes.inlineParameterCheckbox}>
+                    <FormControlLabel
+                        label="x"
+                        control={<Checkbox className={classes.checkbox} checked={easeIO.x} onChange={() => { updateEaseIO("easeIO_x", !easeIO.x); checkCursorFocus(); }} size="small" name="easeIO_x" id="easeIO_x" color="primary" />}
+                    />
+                </FormControl>
+
+                <FormControl className={classes.inlineParameterCheckbox}>
+                    <FormControlLabel
+                        label="y"
+                        control={<Checkbox className={classes.checkbox} checked={easeIO.y} onChange={() => { updateEaseIO("easeIO_y", !easeIO.y); checkCursorFocus(); }} size="small" name="easeIO_y" id="easeIO_y" color="primary" />}
+                    />
+                </FormControl>
+
+                <FormControl className={classes.inlineParameterCheckbox}>
+                    <FormControlLabel
+                        label="z"
+                        control={<Checkbox className={classes.checkbox} checked={easeIO.z} onChange={() => { updateEaseIO("easeIO_z", !easeIO.z); checkCursorFocus(); }} size="small" name="easeIO_z" id="easeIO_z" color="primary" />}
+                    />
+                </FormControl>
+
+                </div>
+
+                <ParameterSlider
+                    id='easeIO_cycleCount'
+                    label='Cycle'
+                    value={easeIO.cycleCount}
+                    min={100} max={500} step={50} marks={marks_cycleCount}
+                    onChange={(e, v) => { updateEaseIO("easeIO_cycleCount", v); checkCursorFocus(); }}
+                />
+
+                <ParameterSlider
+                    id='easeIO_power'
+                    label='Power'
+                    value={easeIO.power}
+                    min={2} max={5} step={1} marks={['']}
+                    onChange={(e, v) => { updateEaseIO("easeIO_power", v); checkCursorFocus(); }}
+                />
+            </React.Fragment>
+        )
+    }
 
     return (
         <div>
@@ -122,27 +233,28 @@ function CanvasLayer(props) {
                 />
             </FormControl>
 
+
+
+
             <div className={classes.parameterSubGroup}>
 
-            <p className={classes.sublabel}>Continuous Spin</p>
-
-            <FormControl className={classes.slider}>
-                <Typography variant="body2" id="spin_x_label">x = {((spin_x)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                <Slider className={classes.slider} id="spin_x" value={spin_x} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_x(v); checkCursorFocus(); }} aria-labelledby="spin_x_label" disabled={!animate} />
+            <FormControl className={classes.formControl} disabled={!animate}>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={animateSelection}
+                    onChange={handleAnimateSelect}
+                >
+                    <MenuItem value='spin'>Continuous spin</MenuItem>
+                    <MenuItem value='ease'>Ease In/Out</MenuItem>
+                </Select>
             </FormControl>
 
-            <FormControl className={classes.slider}>
-                <Typography variant="body2" id="spin_y_label">y = {((spin_y)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                <Slider className={classes.slider} id="spin_y" value={spin_y} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_y(v); checkCursorFocus(); }} aria-labelledby="spin_y_label" disabled={!animate} />
-            </FormControl>
+                {/* <p className={classes.sublabel}>Continuous Spin</p> */}
 
-            <FormControl className={classes.slider}>
-                <Typography variant="body2" id="spin_z_label">z = {((spin_z)*(180/Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                <Slider className={classes.slider} id="spin_z" value={spin_z} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_z(v); checkCursorFocus(); }} aria-labelledby="spin_z_label" disabled={!animate} />
-            </FormControl>
+                {animate ? animateParameters : ''}
 
             </div>
-
 
         </div>
     )

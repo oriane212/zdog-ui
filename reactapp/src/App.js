@@ -59,6 +59,16 @@ function App(props) {
     spin_x: useState(.01),
     spin_y: useState(.04),
     spin_z: useState(.01),
+    easeIO: useState(
+      {
+        x: false,
+        y: true,
+        z: false,
+        cycleCount: 150,
+        power: 3
+      }
+    ),
+    animateSelection: useState('spin')
   }
 
   const addedShapes = useState([
