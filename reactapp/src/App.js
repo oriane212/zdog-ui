@@ -68,7 +68,8 @@ function App(props) {
         power: 3
       }
     ),
-    animateSelection: useState('spin')
+    animateSelection: useState('spin'),
+    fallback: useState("An animated illustration consisting of 3D shapes")
   }
 
   const addedShapes = useState([
@@ -251,7 +252,10 @@ function App(props) {
         let divHTML = document.getElementById('editorHTML');
         let jarHTML = CodeJar(divHTML, Prism.highlightElement);
 
-        let snippet = `<canvas id="illo" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}"></canvas>`;
+        let snippet = 
+        `<canvas id="illo" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
+          <p>${stateVars.fallback[0]}</p>
+        </canvas>`;
 
         jarHTML.updateCode(snippet);
 

@@ -1,7 +1,9 @@
-import { Checkbox, FormControl, FormControlLabel, Select, MenuItem, Input, InputLabel, makeStyles, Slider, Typography } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, TextField, Tooltip, Badge, Select, MenuItem, Input, InputLabel, makeStyles, Slider, Typography } from '@material-ui/core';
 import React from 'react';
 import RotateSliders from './RotateSliders';
 import ParameterSlider from './ParameterSlider';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import HelpIcon from '@material-ui/icons/Help';
 
 const useStyles = makeStyles((theme) => ({
     slider: {
@@ -84,7 +86,10 @@ const useStyles = makeStyles((theme) => ({
     },
     smallFont: {
         fontSize: 'small'
-    }
+    },
+    /* mediumFont: {
+        fontSize: 16
+    } */
 }));
 
 function CanvasLayer(props) {
@@ -102,6 +107,7 @@ function CanvasLayer(props) {
     const [spin_z, setSpin_z] = [stateVars.spin_z[0], stateVars.spin_z[1]];
     const [easeIO, setEaseIO] = [stateVars.easeIO[0], stateVars.easeIO[1]];
     const [animateSelection, setAnimateSelection] = [stateVars.animateSelection[0], stateVars.animateSelection[1]];
+    const [fallback, setFallback] = [stateVars.fallback[0], stateVars.fallback[1]];
 
     let cursorFocus = props.cursorFocus;
     let checkCursorFocus = props.checkCursorFocus;
@@ -204,7 +210,19 @@ function CanvasLayer(props) {
 
     return (
         <div>
-
+                      
+                <FormControl className={classes.parameter}>
+                    <InputLabel htmlFor="fallback">Fallback Text { <Tooltip className={classes.mediumFont} title={<Typography variant="body2">Alternative text added inside the canvas tags. Useful for assistive technology users (eg. screen readers) or browsers which don't support canvas rendering.</Typography>}><HelpIcon fontSize='inherit' /></Tooltip> }</InputLabel>
+                    
+                    <Input
+                        id="fallback"
+                        multiline
+                        maxRows={8}
+                        value={fallback}
+                        onChange={(e) => { setFallback(e.target.value); checkCursorFocus();}}
+                    />
+                </FormControl>
+           
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor="canvas_w">Width</InputLabel>
                 <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
