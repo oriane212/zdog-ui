@@ -36,6 +36,24 @@ function Viewer(props) {
     const refSpin_z = useRef(stateVars.spin_z[0]);
     refSpin_z.current = stateVars.spin_z[0];
 
+    const refAnimateSelection = useRef(stateVars.animateSelection[0]);
+    refAnimateSelection.current = stateVars.animateSelection[0];
+
+    const refEaseIOx = useRef(stateVars.easeIO[0].x);
+    refEaseIOx.current = stateVars.easeIO[0].x;
+
+    const refEaseIOy = useRef(stateVars.easeIO[0].y);
+    refEaseIOy.current = stateVars.easeIO[0].y;
+
+    const refEaseIOz = useRef(stateVars.easeIO[0].z);
+    refEaseIOz.current = stateVars.easeIO[0].z;
+
+    const refEaseIOcycleCount = useRef(stateVars.easeIO[0].cycleCount);
+    refEaseIOcycleCount.current = stateVars.easeIO[0].cycleCount;
+
+    const refEaseIOpower = useRef(stateVars.easeIO[0].power);
+    refEaseIOpower.current = stateVars.easeIO[0].power;
+
     let af;
 
     function createChildShapes(parent, parentInstance) {
@@ -91,6 +109,8 @@ function Viewer(props) {
         console.log('illo = ', illo);
     
       }
+
+    let ticker = 0;
     
     function rotateIllo() {
 
@@ -107,21 +127,46 @@ function Viewer(props) {
         } else {
         
             if (refAnimate.current === true) {
-                if (refSpin_x.current === 0) {
-                    illo.rotate.x = refRotate_x.current;
-                } else {
-                    illo.rotate.x += (refSpin_x.current);
+
+                if (refAnimateSelection.current === 'spin') {
+
+                    if (refSpin_x.current === 0) {
+                        illo.rotate.x = refRotate_x.current;
+                    } else {
+                        illo.rotate.x += (refSpin_x.current);
+                    }
+                    if (refSpin_y.current === 0) {
+                        illo.rotate.y = refRotate_y.current;
+                    } else {
+                        illo.rotate.y += (refSpin_y.current);
+                    }
+                    if (refSpin_z.current === 0) {
+                        illo.rotate.z = refRotate_z.current;
+                    } else {
+                        illo.rotate.z += (refSpin_z.current);
+                    }
+
+                } else if (refAnimateSelection.current === 'ease') {
+
+                    // Zdog animate fn for easeInOut()
+                    let progress = ticker / refEaseIOcycleCount.current;
+                    // apply easing to rotation
+                    let tween = Zdog.easeInOut( progress % 1, refEaseIOpower.current );
+
+                    if (refEaseIOx.current) {
+                        illo.rotate.x = tween * Zdog.TAU;
+                    }
+                    if (refEaseIOy.current) {
+                        illo.rotate.y = tween * Zdog.TAU;
+                    }
+                    if (refEaseIOz.current) {
+                        illo.rotate.z = tween * Zdog.TAU;
+                    }
+
+                    ticker++;
+
                 }
-                if (refSpin_y.current === 0) {
-                    illo.rotate.y = refRotate_y.current;
-                } else {
-                    illo.rotate.y += (refSpin_y.current);
-                }
-                if (refSpin_z.current === 0) {
-                    illo.rotate.z = refRotate_z.current;
-                } else {
-                    illo.rotate.z += (refSpin_z.current);
-                }
+
             }
 
             illo.updateRenderGraph();
