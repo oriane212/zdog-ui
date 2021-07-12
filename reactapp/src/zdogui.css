@@ -14,7 +14,7 @@ body {
 main {
     height: 100%;
     display: grid;
-    grid-template-columns: 0.25fr 1fr 0.25fr;
+    grid-template-columns: 300px 1fr 300px;
     grid-template-areas: 'shapetree results controls';
     margin-top: 96px;
 }
@@ -45,6 +45,7 @@ section.shapetree {
     /* padding: 24px; */
     width: 300px;
     height: 100%;
+    position: fixed;
 }
 
 div.shapeitem {
@@ -58,6 +59,8 @@ section.controls {
     /* padding: 16px; */
     width: 300px;
     height: 100%;
+    position: fixed;
+    right: 0;
 }
 
 div.controlsContainer {
@@ -68,15 +71,20 @@ div.controlsContainer {
 
 section.results {
     grid-area: results;
-    /*margin: auto;*/
+    /* margin: auto; */
     height: 100%;
+    /* margin-top: 24px; */
+    position: fixed;
+    top: 120px;
+    left: 324px;
+    /* margin: 24px; */
 }
 
-section.illustration {
+/* section.illustration {
     margin: auto;
     padding: 36px;
     position: fixed;
-}
+} */
 
 section.code {
     height: 400px;
