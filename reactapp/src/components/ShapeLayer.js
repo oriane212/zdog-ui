@@ -9,6 +9,7 @@ import ParameterSlider from './ParameterSlider';
 import fixCamelCase from '../fixCamelCase';
 import CanvasLayer from './CanvasLayer';
 import RotateSliders from './RotateSliders';
+import TranslateSliders from './TranslateSliders';
 
 /* const tau = Zdog.TAU; */
 
@@ -104,6 +105,8 @@ function ShapeLayer(props) {
 
     let cursorFocus = props.cursorFocus;
 
+    console.log('cursorFocus = ', cursorFocus);
+
     const index = 0;
     const selectedNodeId = props.selectedNodeId;
 
@@ -195,10 +198,13 @@ function ShapeLayer(props) {
 
     let shapeParameters = [];
 
+    let emptyOrNegative = useRef([false, false]); // [value, axis]
+
     function updateShapes(e, controlType, id = '', v = '') {
 
         let splitElID = id.split('_');
         let property = splitElID[0];
+        let axis = splitElID[1];
 
         // vector vs non-vector
         if (controlType === 'vector') {
@@ -206,12 +212,20 @@ function ShapeLayer(props) {
             let val;
 
             if (property === 'translate') {
-                val = Number(e.target.value);
+                if (e.target.value.length === 1 && e.target.value === '-') {
+                    emptyOrNegative.current = ['-', axis];
+                    val = 0; // not shown to user
+                } else if (e.target.value.length === 0){
+                    emptyOrNegative.current = ['', axis];
+                    val = 0; // not shown to user
+                } else {
+                    val = Number(e.target.value);
+                    emptyOrNegative.current = [false, false];
+                }
+                
             } else if (property === 'rotate') {
                 val = Number(v);
             }
-
-            let axis = splitElID[1];
 
             let shapeProp = copyOfShape.data[property];
 
@@ -287,7 +301,9 @@ function ShapeLayer(props) {
 
         }
 
-        setShapes(flattened);
+        if (emptyOrNegative.current === [false, false]) {
+            setShapes(flattened);
+        }
 
     }
 
@@ -399,6 +415,14 @@ function ShapeLayer(props) {
         }
     }
 
+    function checkValueOnBlur(e, type, id, v) {
+        if (e.target.value === '-' || e.target.value.length === 0) {
+            let validVal = 0;
+            e.target.value = validVal;
+            updateShapes(e, type, id, v);
+        }
+    }
+
 
     function renderLayerControls() {
         if (selectedNodeId[0] === 'canvasnode') {
@@ -430,17 +454,20 @@ function ShapeLayer(props) {
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
-                            <Input /* startAdornment={<InputAdornment position="start">x:</InputAdornment>} */ inputRef={basicRefs['translate_x']} id={'translate_x_' + index} value={copyOfShape.data.translate.x} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
+                            <Input inputRef={basicRefs['translate_x']} id={'translate_x_' + index} 
+                            value={emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] : copyOfShape.data.translate.x} 
+                            onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_x_${index}`, '')}
+                            disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
                         </FormControl>
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
-                            <Input /* startAdornment={<InputAdornment position="start">y:</InputAdornment>} */ inputRef={basicRefs['translate_y']} id={'translate_y_' + index} value={copyOfShape.data.translate.y} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
+                            <Input inputRef={basicRefs['translate_y']} id={'translate_y_' + index} value={emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] : copyOfShape.data.translate.y} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_y_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
                         </FormControl>
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
-                            <Input /* startAdornment={<InputAdornment position="start">z:</InputAdornment>} */ inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={copyOfShape.data.translate.z} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
+                            <Input inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] : copyOfShape.data.translate.z} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_z_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
                         </FormControl>
 
                     </div>
@@ -475,8 +502,8 @@ export default ShapeLayer;
        .. no input refocus
            x shapelayer input still in focus while interacting with canvas inputs (eg. after typing once in the canvas width field, it jumps back to whatever shapelayer input you last updated)
            x refocus to string index or character where cursor was last
-           - negative numbers and zeros
-           - color picker issue: can no longer drag to update
+           x negative numbers and zeros
+           x color picker issue: can no longer drag to update
 
        x rm Material UI List click animation
        .. input styles
