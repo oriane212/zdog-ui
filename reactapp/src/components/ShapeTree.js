@@ -13,10 +13,14 @@ import AddShapeMenu from './AddShapeMenu';
 import generateID from '../generateID';
 import fixCamelCase from '../fixCamelCase';
 
+
 const useStyles = makeStyles({
     root: {
-        /* width: '100%', */
-        padding: 16
+        padding: 16,
+        overflowX: 'scroll',
+        overflowY: 'scroll',
+       height: window.innerHeight - 185 /* 185 is (appbar + actionsbar heights) + additional 33px offset needed for bottom horizontal scroll bar to show */
+
     },
     item: {
         /* height: 16 */

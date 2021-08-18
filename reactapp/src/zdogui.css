@@ -25,6 +25,9 @@ div.toplevelactions {
     grid-template-columns: 0.65fr 0.35fr;
     grid-template-areas: '. btngrp';
     padding: 6px;
+    position: fixed;
+    width: 288px;
+    z-index: 100;
 }
 
 /* #addbtn {
@@ -48,10 +51,28 @@ section.shapetree {
     position: fixed;
 }
 
+ul[role="tree"] {
+    position: unset;
+    margin-top: 56px;
+    /* height and overflow in component styles */
+}
+
 div.shapeitem {
     display: grid;
     grid-template-columns: 0.8fr 0.2fr ;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+/* .MuiTreeView-root::-webkit-scrollbar {
+    display: none;
+} */
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+/* .MuiTreeView-root { */
+/*   -ms-overflow-style: none; */  /* IE and Edge */
+/*   scrollbar-width: none;  */ /* Firefox */
+/* } */
 
 section.controls {
     grid-area: controls;
@@ -59,7 +80,7 @@ section.controls {
     /* padding: 16px; */
     width: 300px;
     height: 100%;
-    position: fixed;
+   /*  position: fixed; */
     right: 0;
 }
 
