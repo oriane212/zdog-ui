@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/zdog-ui/static/css/main.85957c70.chunk.css",
-    "main.js": "/zdog-ui/static/js/main.5ef0a4ec.chunk.js",
-    "main.js.map": "/zdog-ui/static/js/main.5ef0a4ec.chunk.js.map",
+    "main.css": "/zdog-ui/static/css/main.778003d4.chunk.css",
+    "main.js": "/zdog-ui/static/js/main.f4c03cb0.chunk.js",
+    "main.js.map": "/zdog-ui/static/js/main.f4c03cb0.chunk.js.map",
     "runtime-main.js": "/zdog-ui/static/js/runtime-main.dc9ed700.js",
     "runtime-main.js.map": "/zdog-ui/static/js/runtime-main.dc9ed700.js.map",
     "static/js/2.7dfefd4d.chunk.js": "/zdog-ui/static/js/2.7dfefd4d.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.e6f3a8a4.chunk.js": "/zdog-ui/static/js/3.e6f3a8a4.chunk.js",
     "static/js/3.e6f3a8a4.chunk.js.map": "/zdog-ui/static/js/3.e6f3a8a4.chunk.js.map",
     "index.html": "/zdog-ui/index.html",
-    "static/css/main.85957c70.chunk.css.map": "/zdog-ui/static/css/main.85957c70.chunk.css.map",
+    "static/css/main.778003d4.chunk.css.map": "/zdog-ui/static/css/main.778003d4.chunk.css.map",
     "static/js/2.7dfefd4d.chunk.js.LICENSE.txt": "/zdog-ui/static/js/2.7dfefd4d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.dc9ed700.js",
     "static/js/2.7dfefd4d.chunk.js",
-    "static/css/main.85957c70.chunk.css",
-    "static/js/main.5ef0a4ec.chunk.js"
+    "static/css/main.778003d4.chunk.css",
+    "static/js/main.f4c03cb0.chunk.js"
   ]
 }
