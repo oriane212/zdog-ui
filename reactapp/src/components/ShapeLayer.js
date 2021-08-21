@@ -434,19 +434,28 @@ function ShapeLayer(props) {
 
                 <div>
 
-                    {(copyOfShape.shapeClass === 'Box') ? '' : colorControls}
+                    {(copyOfShape.shapeClass !== 'Box' && copyOfShape.shapeClass !== 'Group') ? colorControls : ''}
 
-                    <FormControl className={classes.parameterCheckbox}>
+                    {(copyOfShape.shapeClass !== 'Group') ? (
+
+                        <React.Fragment>
+
+                        <FormControl className={classes.parameterCheckbox}>
                         <FormControlLabel
                             label="Fill"
                             control={<Checkbox inputRef={basicRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`, '')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" className={classes.checkbox} />}
                         />
-                    </FormControl>
-
-                    <FormControl className={classes.parameter}>
+                        </FormControl>
+                        
+                        <FormControl className={classes.parameter}>
                         <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
                         <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} />
                     </FormControl>
+
+                    </React.Fragment>
+
+                    ) : ''}
+                    
 
                     <div className={classes.parameter}>
 

@@ -17,6 +17,7 @@ import generateID from './generateID';
 
 /* Zdog shape instances */
 const zdogDefaultShapes = {
+  'Group': new Zdog.Group(),
   'Ellipse': new Zdog.Ellipse(),
   'Rect': new Zdog.Rect(),
   'Box': new Zdog.Box(),
@@ -140,7 +141,9 @@ function App(props) {
   function getDefaultValsForShapeProperties(defaultShapes, shapeClass) {
 
     let zdogShape = defaultShapes[shapeClass];
-    let props_basic = shapeProperties['basic'];
+
+    let props_basic = (shapeClass === 'Group') ? ['translate', 'rotate'] : shapeProperties['basic'];
+
     let props_shape = shapeProperties[shapeClass];
     let data = {};
     let faces = {};
@@ -150,18 +153,17 @@ function App(props) {
        data[prop] = defaultVal;
      }) */
 
-    props_basic.forEach((prop) => {
-      if (prop === 'translate' || prop === 'rotate') {
-        data[prop] = new Zdog.Vector({});
-        /* data[prop]['x'] = zdogShape[prop]['x'];
-        data[prop].y = zdogShape[prop].y;
-        data[prop].z = zdogShape[prop].z; */
-      } else {
-        let defaultVal = zdogShape[prop];
-        data[prop] = defaultVal;
-      }
-
-    })
+      props_basic.forEach((prop) => {
+        if (prop === 'translate' || prop === 'rotate') {
+          data[prop] = new Zdog.Vector({});
+          /* data[prop]['x'] = zdogShape[prop]['x'];
+          data[prop].y = zdogShape[prop].y;
+          data[prop].z = zdogShape[prop].z; */
+        } else {
+          let defaultVal = zdogShape[prop];
+          data[prop] = defaultVal;
+        }
+      })
 
     props_shape.forEach((prop) => {
       if (prop === 'width' || prop === 'height' || prop === 'depth' || prop === 'diameter' || prop === 'length' || prop === 'radius') {

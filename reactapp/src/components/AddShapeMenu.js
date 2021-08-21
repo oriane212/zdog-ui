@@ -50,6 +50,7 @@ export default function AddShapeMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
+        <MenuItem onClick={() => handleShapeSelect('Group')}value="Group">Group</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('Ellipse')}value="Ellipse">Ellipse</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('Rect')} value="Rectangle">Rectangle</MenuItem>
         <MenuItem onClick={() => handleShapeSelect('RoundedRect')} value="Rounded Rectangle">Rounded Rectangle</MenuItem>

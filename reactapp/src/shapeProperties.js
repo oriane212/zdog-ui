@@ -27,5 +27,6 @@ export let shapeProperties = {
     ],
     'Cylinder': [
         'diameter', 'length', 'frontFace'
-    ]
+    ],
+    'Group': []
 }
