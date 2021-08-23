@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/zdog-ui/static/css/main.778003d4.chunk.css",
-    "main.js": "/zdog-ui/static/js/main.f215e868.chunk.js",
-    "main.js.map": "/zdog-ui/static/js/main.f215e868.chunk.js.map",
+    "main.js": "/zdog-ui/static/js/main.3c8e55ed.chunk.js",
+    "main.js.map": "/zdog-ui/static/js/main.3c8e55ed.chunk.js.map",
     "runtime-main.js": "/zdog-ui/static/js/runtime-main.dc9ed700.js",
     "runtime-main.js.map": "/zdog-ui/static/js/runtime-main.dc9ed700.js.map",
     "static/js/2.be8bf17f.chunk.js": "/zdog-ui/static/js/2.be8bf17f.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.dc9ed700.js",
     "static/js/2.be8bf17f.chunk.js",
     "static/css/main.778003d4.chunk.css",
-    "static/js/main.f215e868.chunk.js"
+    "static/js/main.3c8e55ed.chunk.js"
   ]
 }
