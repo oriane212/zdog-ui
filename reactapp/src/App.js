@@ -72,16 +72,12 @@ let demos = {
                   "backface": "#aa0a11",
                   "stroke": "1",
                   "fill": true,
-                  "translate": {
+                  "translate": new Zdog.Vector({
                     "x": -80,
                     "y": 0,
                     "z": 0
-                  },
-                  "rotate": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
+                  }),
+                  "rotate": new Zdog.Vector({}),
                   "diameter": "65",
                   "length": "85",
                   "frontFace": "#000000"
@@ -98,16 +94,8 @@ let demos = {
                   "backface": "#aa0a11",
                   "stroke": "1",
                   "fill": true,
-                  "translate": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
-                  "rotate": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
+                  "translate": new Zdog.Vector({}),
+                  "rotate": new Zdog.Vector({}),
                   "diameter": "65",
                   "length": "85",
                   "frontFace": "#000000"
@@ -124,16 +112,12 @@ let demos = {
                   "backface": "#aa0a11",
                   "stroke": "1",
                   "fill": true,
-                  "translate": {
+                  "translate": new Zdog.Vector({
                     "x": 80,
                     "y": 0,
                     "z": 0
-                  },
-                  "rotate": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
+                  }),
+                  "rotate": new Zdog.Vector({}),
                   "diameter": "65",
                   "length": "85",
                   "frontFace": "#000000"
@@ -144,16 +128,16 @@ let demos = {
             open: true,
             shapeClass: 'Group',
             data: {
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": 0,
                 "y": 5,
                 "z": 0
-              },
-              "rotate": {
+              }),
+              "rotate": new Zdog.Vector({
                 "x": 1.5707963267948966,
                 "y": 0,
                 "z": 0
-              }
+              })
             },
             faces: {}
           }
@@ -166,16 +150,8 @@ let demos = {
           "backface": true,
           "stroke": 1,
           "fill": true,
-          "translate": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "rotate": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
+          "translate": new Zdog.Vector({}),
+          "rotate": new Zdog.Vector({}),
           "width": "320",
           "height": "96",
           "depth": "160",
@@ -208,16 +184,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": 40,
                 "y": 40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -234,16 +206,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": 40,
                 "y": -40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -260,16 +228,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": 120,
                 "y": 40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -286,16 +250,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": 120,
                 "y": -40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -312,16 +272,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": -120,
                 "y": 40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -338,16 +294,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": -120,
                 "y": -40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -364,16 +316,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": -40,
                 "y": 40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -390,16 +338,12 @@ let demos = {
               "backface": true,
               "stroke": 1,
               "fill": true,
-              "translate": {
+              "translate": new Zdog.Vector({
                 "x": -40,
                 "y": -40,
                 "z": 0
-              },
-              "rotate": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              },
+              }),
+              "rotate": new Zdog.Vector({}),
               "diameter": "50",
               "length": "20",
               "frontFace": "#db0723"
@@ -410,16 +354,16 @@ let demos = {
         open: true,
         shapeClass: 'Group',
         data: {
-          "translate": {
+          "translate": new Zdog.Vector({
             "x": 0,
             "y": -58,
             "z": 0
-          },
-          "rotate": {
+          }),
+          "rotate": new Zdog.Vector({
             "x": 1.5707963267948966,
             "y": 0,
             "z": 0
-          },
+          }),
           /*  "addTo": illo */
         },
         faces: {}
