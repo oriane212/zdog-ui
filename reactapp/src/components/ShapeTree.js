@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         color: 'white'
     },
     delete: {
-        color: 'white'
+        color: '#643263'
         /* height: 36,
         width: 40, */
         /*        marginLeft: 12 */

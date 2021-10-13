@@ -20,7 +20,7 @@ main {
 }
 
 div.toplevelactions {
-    background-color: rgb(95, 95, 95);
+    background-color: #eeaa00;
     display: grid;
     grid-template-columns: 0.65fr 0.35fr;
     grid-template-areas: '. btngrp';
@@ -76,7 +76,7 @@ div.shapeitem {
 
 section.controls {
     grid-area: controls;
-    background-color: #eaebf4;
+    background-color: #FFF4E8;
     /* padding: 16px; */
     width: 300px;
     height: 100%;
@@ -224,6 +224,8 @@ button#addShapeBtn:hover {
 
 canvas#illo {
     border: 1px dotted lightgray;
+    border-radius: 8px;
+    background-color: #FDB;
 }
 
 #container {
@@ -255,6 +257,7 @@ input[type='color'] {
     min-width: 550px;
     max-width: 950px;
     margin: 24px 0;
+    background-color: #FFF4E8;
 }
 
 #editorHTML {

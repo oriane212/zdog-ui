@@ -31,14 +31,23 @@ const zdogDefaultShapes = {
 
 const useStyles = makeStyles((theme) => ({
   bar: {
-    backgroundColor: "#2b2b2b"
+    backgroundColor: "rgb(100 50 99)",
+    color: '#eeaa00'
   },
   getCode: {
     right: 16,
     position: "absolute",
-    backgroundColor: "#3a3939",
+    backgroundColor: "rgb(100 50 99)",
     paddingLeft: 16,
-    paddingRight: 16
+    paddingRight: 16,
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: '#eeaa00',
+    color: '#eeaa00',
+    '&:hover': {
+      backgroundColor: '#eeaa00',
+      color: "rgb(100 50 99)"
+    }
   },
   container: {
     paddingTop: 24
@@ -378,10 +387,10 @@ function App(props) {
     canvas_w: useState(500),
     canvas_h: useState(500),
     dragRotate: useState(true),
-    animate: useState(false),
+    animate: useState(true),
     rotate_x: useState(0),
-    rotate_y: useState(3.141592653589793),
-    rotate_z: useState(0.4363323129985824),
+    rotate_y: useState(0),
+    rotate_z: useState(0),
     spin_x: useState(.01),
     spin_y: useState(.04),
     spin_z: useState(.01),
@@ -390,7 +399,7 @@ function App(props) {
         x: true,
         y: true,
         z: false,
-        cycleCount: 400,
+        cycleCount: 200,
         power: 3
       }
     ),
