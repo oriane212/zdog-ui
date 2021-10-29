@@ -6,13 +6,15 @@ import ShapeTree from './components/ShapeTree';
 import { shapeProperties } from './shapeProperties';
 
 import Zdog from 'zdog';
-import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog, Container } from '@material-ui/core';
+import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog, Container, Icon, Snackbar } from '@material-ui/core';
 import CodeIcon from '@material-ui/icons/Code';
 
 import { CodeJar } from 'codejar';
 import Prism from 'prismjs';
 import createScript from './createScript';
 import generateID from './generateID';
+
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 
 /* Zdog shape instances */
@@ -33,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
   bar: {
     backgroundColor: "rgb(100 50 99)",
     color: '#eeaa00'
+  },
+  snackbar: {
+    backgroundColor: 'white',
+    color: 'black'
   },
   getCode: {
     right: 16,
@@ -412,6 +418,8 @@ function App(props) {
 
   const [open, setOpen] = useState(false);
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
   let cursorFocus = useState({
     'id': '',
     'cursorPos': 0
@@ -535,6 +543,17 @@ function App(props) {
     return fixedScript2;
   }
 
+  function clipboardCopy(elID) {
+    let text = document.getElementById(elID).innerText;
+    navigator.clipboard.writeText(text).then(function() {
+      console.log('copy to clipboard successful');
+      // add notification
+      setSnackbarOpen(true);
+    }, function() {
+      console.log('copy to clipboard failed')
+    })
+  }
+
   console.log('testing outside return');
 
   useEffect(() => {
@@ -571,7 +590,7 @@ function App(props) {
 
           // Get code
           let mycode = jar.toString();
-          console.log(mycode);
+          //console.log(mycode);
 
           // Listen to updates
           jar.onUpdate((code) => {
@@ -603,10 +622,24 @@ function App(props) {
           <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Get Code</Button>
           <Dialog maxWidth="md" onClose={handleClose} open={open}>
             <Container className={classes.container}>
-              <Typography>HTML</Typography>
+              <div className="editorHeader">
+                <Typography>HTML</Typography>
+                <IconButton onClick={() => clipboardCopy('editorHTML')} id="copyHTML" aria-label="Copy to clipboard"><FileCopyIcon fontSize="small"/></IconButton>
+              </div>
               <div id="editorHTML">Canvas element...</div>
-              <Typography>JavaScript</Typography>
+              <div className="editorHeader">
+                <Typography>JavaScript</Typography>
+                <IconButton onClick={() => clipboardCopy('editor')} id="copyJS" aria-label="Copy to clipboard"><FileCopyIcon fontSize="small"/></IconButton>
+              </div>
               <div id="editor">Getting code...</div>
+              <Snackbar
+                ContentProps={{ className: classes.snackbar}}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={() => setSnackbarOpen(false)}
+                message="Copied to clipboard!"
+              />
             </Container>
 
           </Dialog>
