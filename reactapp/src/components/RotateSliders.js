@@ -77,7 +77,7 @@ function RotateSliders(props) {
     return (
 
         <div className={classes.parameterGroup}>
-                <p className={classes.label}>Rotate</p>
+                <p className={classes.label}><b>Rotation</b></p>
                 {rotateSliders}
         </div>
     )

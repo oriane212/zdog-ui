@@ -393,7 +393,7 @@ function App(props) {
     canvas_w: useState(500),
     canvas_h: useState(500),
     dragRotate: useState(true),
-    animate: useState(true),
+    animate: useState(false),
     rotate_x: useState(0),
     rotate_y: useState(0),
     rotate_z: useState(0),
@@ -411,7 +411,8 @@ function App(props) {
     ),
     animateSelection: useState('ease'),
     demo: useState('lego'),
-    fallback: useState(demos.lego.fallback)
+    fallback: useState(demos.lego.fallback),
+    animationOption: useState('animate')
   }
 
   const addedShapes = useState(demos.lego.shapelayers);

@@ -10,11 +10,11 @@ function Viewer(props) {
     const stateVars = props.stateVars;
     const shapes = props.shapes;
     
-    const refDragRotate = useRef(stateVars.dragRotate[0]);
-    refDragRotate.current = stateVars.dragRotate[0];
+    /* const refDragRotate = useRef(stateVars.dragRotate[0]);
+    refDragRotate.current = stateVars.dragRotate[0]; */
 
-    const refAnimate = useRef(stateVars.animate[0]);
-    refAnimate.current = stateVars.animate[0];
+    /* const refAnimate = useRef(stateVars.animate[0]);
+    refAnimate.current = stateVars.animate[0]; */
 
     const refRotate_x = useRef(stateVars.rotate_x[0]);
     refRotate_x.current = stateVars.rotate_x[0];
@@ -54,6 +54,9 @@ function Viewer(props) {
     const refEaseIOpower = useRef(stateVars.easeIO[0].power);
     refEaseIOpower.current = stateVars.easeIO[0].power;
 
+    const refAnimationOption = useRef(stateVars.animationOption[0]);
+    refAnimationOption.current = stateVars.animationOption[0];
+
     let af;
 
     function createChildShapes(parent, parentInstance) {
@@ -77,7 +80,8 @@ function Viewer(props) {
 
         illo = new Zdog.Illustration({
           element: '#illo',
-          dragRotate: stateVars.dragRotate[0],
+          /* dragRotate: stateVars.dragRotate[0], */
+          dragRotate: (refAnimationOption.current === 'dragRotate'),
           rotate: {
               x: refRotate_x.current,
               y: refRotate_y.current,
@@ -114,7 +118,8 @@ function Viewer(props) {
     
     function rotateIllo() {
 
-        if (refAnimate.current === false && refDragRotate.current === false) {
+        /* if (refAnimate.current === false && refDragRotate.current === false) { */
+        if (refAnimationOption.current === 'none') {
             console.log('canceling animation frame');
             cancelAnimationFrame(af);
             illo.rotate.x = refRotate_x.current;
@@ -126,7 +131,8 @@ function Viewer(props) {
 
         } else {
         
-            if (refAnimate.current === true) {
+            /* if (refAnimate.current === true) { */
+            if (refAnimationOption.current === 'animate') {
 
                 if (refAnimateSelection.current === 'spin') {
 
@@ -181,13 +187,14 @@ function Viewer(props) {
 
     useEffect(() => {
 
-        if (illo !== '' && (stateVars.animate[0] | stateVars.dragRotate[0]) && isRotating[0] === false) {
+        if (illo !== '' && /* (stateVars.animate[0] | stateVars.dragRotate[0]) */ stateVars.animationOption[0] !== 'none' && isRotating[0] === false) {
             console.log("was not rotating");
             isRotating[1](true);
             rotateIllo();
         }
 
-    }, [stateVars.animate[0], stateVars.dragRotate[0]]);
+    /* }, [stateVars.animate[0], stateVars.dragRotate[0]]); */
+    }, [stateVars.animationOption[0]]);
 
     return (
         <section className="results">

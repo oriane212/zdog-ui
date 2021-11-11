@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, FormControlLabel, TextField, Tooltip, Badge, Select, MenuItem, Input, InputLabel, makeStyles, Slider, Typography } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, TextField, Tooltip, Badge, Select, MenuItem, Input, InputLabel, makeStyles, Slider, Typography, FormLabel, RadioGroup, Radio } from '@material-ui/core';
 import React from 'react';
 import RotateSliders from './RotateSliders';
 import ParameterSlider from './ParameterSlider';
@@ -87,6 +87,12 @@ const useStyles = makeStyles((theme) => ({
     smallFont: {
         fontSize: 'small'
     },
+    label: {
+        fontSize: 'small',
+        'margin-bottom': 14,
+        marginTop: 12,
+        fontWeight: 'bold'
+    }
     /* mediumFont: {
         fontSize: 16
     } */
@@ -108,6 +114,8 @@ function CanvasLayer(props) {
     const [easeIO, setEaseIO] = [stateVars.easeIO[0], stateVars.easeIO[1]];
     const [animateSelection, setAnimateSelection] = [stateVars.animateSelection[0], stateVars.animateSelection[1]];
     const [fallback, setFallback] = [stateVars.fallback[0], stateVars.fallback[1]];
+
+    const [animationOption, setAnimationOption] = [stateVars.animationOption[0], stateVars.animationOption[1]];
 
     let cursorFocus = props.cursorFocus;
     let checkCursorFocus = props.checkCursorFocus;
@@ -146,17 +154,17 @@ function CanvasLayer(props) {
             <React.Fragment>
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id="spin_x_label">x = {((spin_x) * (180 / Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                    <Slider className={classes.slider} id="spin_x" value={spin_x} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_x(v); checkCursorFocus(); }} aria-labelledby="spin_x_label" disabled={!animate} />
+                    <Slider className={classes.slider} id="spin_x" value={spin_x} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_x(v); checkCursorFocus(); }} aria-labelledby="spin_x_label" /* disabled={!animate} */ />
                 </FormControl>
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id="spin_y_label">y = {((spin_y) * (180 / Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                    <Slider className={classes.slider} id="spin_y" value={spin_y} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_y(v); checkCursorFocus(); }} aria-labelledby="spin_y_label" disabled={!animate} />
+                    <Slider className={classes.slider} id="spin_y" value={spin_y} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_y(v); checkCursorFocus(); }} aria-labelledby="spin_y_label" /* disabled={!animate} */ />
                 </FormControl>
 
                 <FormControl className={classes.slider}>
                     <Typography variant="body2" id="spin_z_label">z = {((spin_z) * (180 / Math.PI)).toFixed(1)} <span className='tinytext'>deg/rerender</span></Typography>
-                    <Slider className={classes.slider} id="spin_z" value={spin_z} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_z(v); checkCursorFocus(); }} aria-labelledby="spin_z_label" disabled={!animate} />
+                    <Slider className={classes.slider} id="spin_z" value={spin_z} min={0} max={1} step={0.01} onChange={(e, v) => { setSpin_z(v); checkCursorFocus(); }} aria-labelledby="spin_z_label" /* disabled={!animate} */ />
                 </FormControl>
             </React.Fragment>
         )
@@ -238,8 +246,35 @@ function CanvasLayer(props) {
 
             <RotateSliders nodeId={'canvasnode'} rotateData={stateVars} updateShapes='' />
 
+            <FormControl component="fieldset" className={classes.parameterCheckbox}>
+                {/* <FormLabel component="legend">Animation</FormLabel> */}
+                <p className={classes.label}>Animation</p>
+                <RadioGroup
+                    aria-label="animation"
+                    name="animation"
+                    value={animationOption}
+                    onChange={(e) => setAnimationOption(e.target.value)}
+                >
+                    <FormControlLabel
+                        value="none"
+                        label="None"
+                        control={<Radio size="small" color="primary"/>}
+                    />
+                    <FormControlLabel
+                        value="dragRotate"
+                        label="Drag Rotate"
+                        control={<Radio size="small" color="primary"/>}
+                    />
+                    <FormControlLabel
+                        value="animate"
+                        label="Animate"
+                        control={<Radio size="small" color="primary"/>}
+                    />
+                </RadioGroup>
+            </FormControl>
 
-            <FormControl className={classes.parameterCheckbox}>
+
+         {/*    <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Drag Rotate"
                     control={<Checkbox className={classes.checkbox} checked={dragRotate} onChange={() => { setDragRotate(!dragRotate); checkCursorFocus(); }} size="small" name="dragRotate" id="dragRotate" color="primary" />}
@@ -252,12 +287,12 @@ function CanvasLayer(props) {
                     label="Animate"
                     control={<Checkbox className={classes.checkbox} checked={animate} onChange={() => { setAnimate(!animate); checkCursorFocus(); }} size="small" name="animate" id="animate" color="primary" />}
                 />
-            </FormControl>
+            </FormControl> */}
 
 
             <div className={classes.parameterSubGroup}>
 
-                <FormControl className={classes.formControl} disabled={!animate}>
+                <FormControl className={classes.formControl} disabled={animationOption !== 'animate'}>
                     <Select
                         labelId="animateSelection_label"
                         id="animateSelection"
@@ -270,7 +305,7 @@ function CanvasLayer(props) {
                     </Select>
                 </FormControl>
 
-                {animate ? animateParameters : ''}
+                {(animationOption === 'animate') ? animateParameters : ''}
 
             </div>
 

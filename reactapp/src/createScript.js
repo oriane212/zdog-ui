@@ -10,7 +10,7 @@ export default function createScript(illoVars, shapesCopy) {
 let illo = new Zdog.Illustration({
     // set canvas with id 'illo'
     element: "#illo",
-    dragRotate: ${illoVars.dragRotate[0]},
+    dragRotate: ${illoVars.animationOption[0] === 'dragRotate'},
     rotate: {
         x: ${illoVars.rotate_x[0]},
         y: ${illoVars.rotate_y[0]},
@@ -54,7 +54,7 @@ let ${name} = new Zdog['${shape.shapeClass}'](${dataString})
 
     let endString;
 
-    if (illoVars.animate[0]) {
+    if (illoVars.animationOption[0] === 'animate') {
 
         // continuous spin
         if (illoVars.animateSelection[0] === 'spin') {
@@ -92,7 +92,7 @@ function animate() {
 animate();
         `
         }
-    } else if (!illoVars.animate[0] && illoVars.dragRotate[0]) {
+    } else if (illoVars.animationOption[0] === 'dragRotate') {
         endString = `
 function animate() {
     illo.updateRenderGraph();
