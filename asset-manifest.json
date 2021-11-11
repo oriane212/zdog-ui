@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/zdog-ui/static/css/main.8085740b.chunk.css",
-    "main.js": "/zdog-ui/static/js/main.f6f77ef2.chunk.js",
-    "main.js.map": "/zdog-ui/static/js/main.f6f77ef2.chunk.js.map",
-    "runtime-main.js": "/zdog-ui/static/js/runtime-main.aa952065.js",
-    "runtime-main.js.map": "/zdog-ui/static/js/runtime-main.aa952065.js.map",
-    "static/js/2.e070812e.chunk.js": "/zdog-ui/static/js/2.e070812e.chunk.js",
-    "static/js/2.e070812e.chunk.js.map": "/zdog-ui/static/js/2.e070812e.chunk.js.map",
-    "static/js/3.8e36a5e3.chunk.js": "/zdog-ui/static/js/3.8e36a5e3.chunk.js",
-    "static/js/3.8e36a5e3.chunk.js.map": "/zdog-ui/static/js/3.8e36a5e3.chunk.js.map",
+    "main.js": "/zdog-ui/static/js/main.aa47ae53.chunk.js",
+    "main.js.map": "/zdog-ui/static/js/main.aa47ae53.chunk.js.map",
+    "runtime-main.js": "/zdog-ui/static/js/runtime-main.ce01c2c1.js",
+    "runtime-main.js.map": "/zdog-ui/static/js/runtime-main.ce01c2c1.js.map",
+    "static/js/2.b89a15e5.chunk.js": "/zdog-ui/static/js/2.b89a15e5.chunk.js",
+    "static/js/2.b89a15e5.chunk.js.map": "/zdog-ui/static/js/2.b89a15e5.chunk.js.map",
+    "static/js/3.b775561d.chunk.js": "/zdog-ui/static/js/3.b775561d.chunk.js",
+    "static/js/3.b775561d.chunk.js.map": "/zdog-ui/static/js/3.b775561d.chunk.js.map",
     "index.html": "/zdog-ui/index.html",
     "static/css/main.8085740b.chunk.css.map": "/zdog-ui/static/css/main.8085740b.chunk.css.map",
-    "static/js/2.e070812e.chunk.js.LICENSE.txt": "/zdog-ui/static/js/2.e070812e.chunk.js.LICENSE.txt"
+    "static/js/2.b89a15e5.chunk.js.LICENSE.txt": "/zdog-ui/static/js/2.b89a15e5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.aa952065.js",
-    "static/js/2.e070812e.chunk.js",
+    "static/js/runtime-main.ce01c2c1.js",
+    "static/js/2.b89a15e5.chunk.js",
     "static/css/main.8085740b.chunk.css",
-    "static/js/main.f6f77ef2.chunk.js"
+    "static/js/main.aa47ae53.chunk.js"
   ]
 }
