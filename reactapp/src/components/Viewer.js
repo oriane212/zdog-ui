@@ -116,6 +116,7 @@ function Viewer(props) {
 
     let ticker = 0;
     
+    
     function rotateIllo() {
 
         /* if (refAnimate.current === false && refDragRotate.current === false) { */
@@ -160,13 +161,13 @@ function Viewer(props) {
                     let tween = Zdog.easeInOut( progress % 1, refEaseIOpower.current );
 
                     if (refEaseIOx.current) {
-                        illo.rotate.x = tween * Zdog.TAU;
+                        illo.rotate.x = refRotate_x.current + (tween * Zdog.TAU);
                     }
                     if (refEaseIOy.current) {
-                        illo.rotate.y = tween * Zdog.TAU;
+                        illo.rotate.y = refRotate_y.current + (tween * Zdog.TAU);
                     }
                     if (refEaseIOz.current) {
-                        illo.rotate.z = tween * Zdog.TAU;
+                        illo.rotate.z = refRotate_z.current + (tween * Zdog.TAU);
                     }
 
                     ticker++;

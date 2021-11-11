@@ -80,9 +80,9 @@ function animate() {
     let progress = ticker / cycleCount;
     // apply easing to rotation
     let tween = Zdog.easeInOut(progress % 1, ${illoVars.easeIO[0].power});
-    ${illoVars.easeIO[0].x ? 'illo.rotate.x = tween * Zdog.TAU;' : ''}
-    ${illoVars.easeIO[0].y ? 'illo.rotate.y = tween * Zdog.TAU;' : ''}
-    ${illoVars.easeIO[0].z ? 'illo.rotate.z = tween * Zdog.TAU;' : ''}
+    ${illoVars.easeIO[0].x ? 'illo.rotate.x = ' + illoVars.rotate_x[0] + ' + (tween * Zdog.TAU);' : ''}
+    ${illoVars.easeIO[0].y ? 'illo.rotate.y = ' + illoVars.rotate_y[0] + ' + (tween * Zdog.TAU);' : ''}
+    ${illoVars.easeIO[0].z ? 'illo.rotate.z = ' + illoVars.rotate_x[0] + ' + (tween * Zdog.TAU);' : ''}
     ticker++;
 
     illo.updateRenderGraph();
