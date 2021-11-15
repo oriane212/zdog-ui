@@ -117,6 +117,8 @@ function CanvasLayer(props) {
 
     const [animationOption, setAnimationOption] = [stateVars.animationOption[0], stateVars.animationOption[1]];
 
+    const [bgColor, setBgColor] = [stateVars.bgColor[0], stateVars.bgColor[1]];
+
     let cursorFocus = props.cursorFocus;
     let checkCursorFocus = props.checkCursorFocus;
 
@@ -218,19 +220,27 @@ function CanvasLayer(props) {
 
     return (
         <div>
-                      
-                <FormControl className={classes.parameter}>
-                    <InputLabel htmlFor="fallback">Fallback Text { <Tooltip className={classes.mediumFont} title={<Typography variant="body2">Alternative text added inside the canvas tags. Useful for assistive technology users (eg. screen readers) or browsers which don't support canvas rendering.</Typography>}><HelpIcon fontSize='inherit' /></Tooltip> }</InputLabel>
-                    
-                    <Input
-                        id="fallback"
-                        multiline
-                        maxRows={8}
-                        value={fallback}
-                        onChange={(e) => { setFallback(e.target.value); checkCursorFocus();}}
-                    />
-                </FormControl>
-           
+
+            <p className={classes.label + ' ' + classes.parameter}>Canvas</p>
+
+            <FormControl className={classes.parameter}>
+                <label htmlFor='bgColor' className={classes.labelsm}>Background</label>
+                <input type="color" id='bgColor' value={bgColor} 
+                onChange={(e) => {setBgColor(e.target.value); checkCursorFocus();}} /* inputref={basicRefs['color']} */></input>
+            </FormControl>
+
+            <FormControl className={classes.parameter}>
+                <InputLabel htmlFor="fallback">Fallback Text {<Tooltip className={classes.mediumFont} title={<Typography variant="body2">Alternative text added inside the canvas tags. Useful for assistive technology users (eg. screen readers) or browsers which don't support canvas rendering.</Typography>}><HelpIcon fontSize='inherit' /></Tooltip>}</InputLabel>
+
+                <Input
+                    id="fallback"
+                    multiline
+                    maxRows={8}
+                    value={fallback}
+                    onChange={(e) => { setFallback(e.target.value); checkCursorFocus(); }}
+                />
+            </FormControl>
+
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor="canvas_w">Width</InputLabel>
                 <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
@@ -258,23 +268,23 @@ function CanvasLayer(props) {
                     <FormControlLabel
                         value="none"
                         label="None"
-                        control={<Radio size="small" color="primary"/>}
+                        control={<Radio size="small" color="primary" />}
                     />
                     <FormControlLabel
                         value="dragRotate"
                         label="Drag Rotate"
-                        control={<Radio size="small" color="primary"/>}
+                        control={<Radio size="small" color="primary" />}
                     />
                     <FormControlLabel
                         value="animate"
                         label="Animate"
-                        control={<Radio size="small" color="primary"/>}
+                        control={<Radio size="small" color="primary" />}
                     />
                 </RadioGroup>
             </FormControl>
 
 
-         {/*    <FormControl className={classes.parameterCheckbox}>
+            {/*    <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Drag Rotate"
                     control={<Checkbox className={classes.checkbox} checked={dragRotate} onChange={() => { setDragRotate(!dragRotate); checkCursorFocus(); }} size="small" name="dragRotate" id="dragRotate" color="primary" />}

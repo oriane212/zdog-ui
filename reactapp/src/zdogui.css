@@ -167,6 +167,14 @@ input:disabled {
     color: #7c7c7c;
 }
 
+#bgColor {
+    left: 54px
+}
+
+#fallback {
+    width: 234px;
+}
+
 header {
     display: grid;
     grid-template-columns: 0.75fr 0.25fr;
@@ -225,7 +233,7 @@ button#addShapeBtn:hover {
 canvas#illo {
     border: 1px dotted lightgray;
     border-radius: 8px;
-    background-color: #FDB;
+    /* background-color: #FDB; */
 }
 
 #container {
@@ -241,6 +249,8 @@ input[type='color'] {
     /*top: 20px;*/
     left: 36px;
     border: none;
+    background-color: #fff4e7;
+    padding: 0;
 }
 
 div.editorHeader {

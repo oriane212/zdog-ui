@@ -412,7 +412,8 @@ function App(props) {
     animateSelection: useState('ease'),
     demo: useState('lego'),
     fallback: useState(demos.lego.fallback),
-    animationOption: useState('animate')
+    animationOption: useState('animate'),
+    bgColor: useState('#FFDDBB')
   }
 
   const addedShapes = useState(demos.lego.shapelayers);
@@ -566,7 +567,7 @@ function App(props) {
         let jarHTML = CodeJar(divHTML, Prism.highlightElement);
 
         let snippet =
-          `<canvas id="illo" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
+          `<canvas id="illo" style="background-color:${stateVars.bgColor[0]};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
           <p>${stateVars.fallback[0]}</p>
         </canvas>`;
 
