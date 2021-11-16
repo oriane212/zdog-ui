@@ -10,9 +10,14 @@ import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog, Co
 import CodeIcon from '@material-ui/icons/Code';
 
 import { CodeJar } from 'codejar';
-import Prism from 'prismjs';
+/* import Prism from 'prismjs'; */
 import createScript from './createScript';
 import generateID from './generateID';
+
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+/* import javascript from 'highlight.js/lib/languages/javascript';
+hljs.registerLanguage('javascript', javascript); */
 
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
@@ -56,7 +61,8 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   container: {
-    paddingTop: 24
+    paddingTop: 24,
+    backgroundColor: '#f5f5f5'
   }
 }));
 
@@ -563,24 +569,28 @@ function App(props) {
       console.log('open');
       setTimeout(() => {
 
-        let divHTML = document.getElementById('editorHTML');
-        let jarHTML = CodeJar(divHTML, Prism.highlightElement);
+       /*  let divHTML = document.getElementById('editorHTML'); */
+        let codetagsHTML = document.getElementById('codetagsHTML');
 
         let snippet =
           `<canvas id="illo" style="background-color:${stateVars.bgColor[0]};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
           <p>${stateVars.fallback[0]}</p>
         </canvas>`;
 
+        let jarHTML = CodeJar(codetagsHTML, hljs.highlightAll);
+
         jarHTML.updateCode(snippet);
 
-        let div = document.getElementById('editor');
+        /* let div = document.getElementById('editor'); */
+        let codetagsJS = document.getElementById('codetagsJS');
+        
 
-        if (div !== null) {
+        if (codetagsJS !== null) {
           /* function myhighlight(div) {
             const code = 'let foo = bar';
             div.innerHTML = code;
           } */
-          let jar = CodeJar(div, Prism.highlightElement);
+          let jar = CodeJar(codetagsJS, hljs.highlightAll);
 
           if (addedShapes[0].length > 0) {
             let flattened = copyShapes();
@@ -628,12 +638,21 @@ function App(props) {
                 <Typography>HTML</Typography>
                 <IconButton onClick={() => clipboardCopy('editorHTML')} id="copyHTML" aria-label="Copy to clipboard"><FileCopyIcon fontSize="small"/></IconButton>
               </div>
-              <div id="editorHTML">Canvas element...</div>
+              <div id="editorHTML">
+                <pre>
+                  <code id="codetagsHTML" className="language-html">''
+                  </code>
+                </pre></div>
               <div className="editorHeader">
                 <Typography>JavaScript</Typography>
                 <IconButton onClick={() => clipboardCopy('editor')} id="copyJS" aria-label="Copy to clipboard"><FileCopyIcon fontSize="small"/></IconButton>
               </div>
-              <div id="editor">Getting code...</div>
+              <div id="editor">
+                <pre>
+                  <code id="codetagsJS" className="language-javascript">''
+                  </code>
+                </pre>
+              </div>
               <Snackbar
                 ContentProps={{ className: classes.snackbar}}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center'}}

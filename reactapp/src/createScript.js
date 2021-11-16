@@ -1,11 +1,6 @@
 export default function createScript(illoVars, shapesCopy) {
     
     let scriptString = `
-/* illo.js */
-
-// Copy and paste everything into a new file named "illo.js"
-
-
 // create illo
 let illo = new Zdog.Illustration({
     // set canvas with id 'illo'

@@ -261,25 +261,25 @@ div.editorHeader {
 }
 
 #editor, #editorHTML {
-    border-radius: 6px;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    font-family: 'Source Code Pro', monospace;
+    border-radius: 8px;
+/*     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    font-family: 'Source Code Pro', monospace; */
     font-size: 14px;
-    font-weight: 400;
-    height: 600px;
-    letter-spacing: normal;
+    /* font-weight: 400;
+    height: auto;
+    letter-spacing: normal; */
     line-height: 20px;
-    padding: 10px;
+/*     padding: 10px; */
     tab-size: 4;
     min-width: 550px;
     max-width: 950px;
-    margin-top: 6px;
+    /* margin-top: 6px; */
     margin-bottom: 24px;
-    background-color: #FFF4E8;
+    /* background-color: #FFF4E8; */
 }
 
 #editorHTML {
-    height: 100px;
+    /* height: 100px; */
 }
 
 #addShapeHeader {
