@@ -16,18 +16,20 @@ main {
     display: grid;
     grid-template-columns: 300px 1fr 300px;
     grid-template-areas: 'shapetree results controls';
-    margin-top: 96px;
+    margin-top: 81px;
 }
 
 div.toplevelactions {
-    background-color: #eeaa00;
+    background-color: #fbfbfb;
     display: grid;
     grid-template-columns: 0.65fr 0.35fr;
     grid-template-areas: '. btngrp';
     padding: 6px;
     position: fixed;
-    width: 288px;
+    width: 287px;
     z-index: 100;
+    border-bottom: 1px solid #ededed;
+    border-right: 1px solid #ededed;
 }
 
 /* #addbtn {
@@ -44,7 +46,7 @@ div.toplevelactions {
 
 section.shapetree {
     grid-area: shapetree;
-    background-color: #f9f9f9;
+    background-color: #fbfbfb;
     /* padding: 24px; */
     width: 300px;
     height: 100%;

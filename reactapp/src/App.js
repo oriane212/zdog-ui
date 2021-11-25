@@ -9,6 +9,12 @@ import Zdog from 'zdog';
 import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog, Container, Icon, Snackbar } from '@material-ui/core';
 import CodeIcon from '@material-ui/icons/Code';
 
+import AddIcon from '@material-ui/icons/Add';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+
+/* import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'; */
+/* import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder'; */
+
 import { CodeJar } from 'codejar';
 /* import Prism from 'prismjs'; */
 import createScript from './createScript';
@@ -20,7 +26,7 @@ import 'highlight.js/styles/github.css';
 hljs.registerLanguage('javascript', javascript); */
 
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-
+/* import ContentCopyIcon from '@mui/icons-material/ContentCopy'; */
 
 /* Zdog shape instances */
 const zdogDefaultShapes = {
@@ -38,8 +44,15 @@ const zdogDefaultShapes = {
 
 const useStyles = makeStyles((theme) => ({
   bar: {
-    backgroundColor: "rgb(100 50 99)",
-    color: '#eeaa00'
+    backgroundColor: "#fafafa",
+    color: '#eeaa00',
+    borderBottom: '1px solid #ededed',
+  },
+  toolbar: {
+    justifyContent: 'space-between'
+  },
+  purple: {
+    color: '#636'
   },
   snackbar: {
     backgroundColor: 'white',
@@ -62,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     paddingTop: 24,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#fafafa'
   }
 }));
 
@@ -627,11 +640,34 @@ function App(props) {
     <React.Fragment>
 
       <AppBar elevation={0} position="fixed" className={classes.bar}>
-        <Toolbar>
-          <Typography variant="h6">
-            Zdog UI
+        <Toolbar variant='dense' className={classes.toolbar}>
+          <Typography variant="h5">
+            Zdog <span className={classes.purple}>UI</span>
           </Typography>
-          <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Get Code</Button>
+
+      {/*     <IconButton>
+            <CreateNewFolderIcon fontSize="small" />
+          </IconButton> */}
+
+          <div>
+
+          {/* <IconButton>
+            <DeleteOutlinedIcon fontSize="small" />
+          </IconButton>
+
+          <IconButton>
+            <AddIcon fontSize="small" />
+          </IconButton> */}
+
+          <IconButton onClick={getCode} aria-label="source code">
+            <CodeIcon fontSize="small" />
+          </IconButton>
+
+          </div>
+
+          {/* <div></div> */}
+
+          {/* <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Get Code</Button> */}
           <Dialog maxWidth="md" onClose={handleClose} open={open}>
             <Container className={classes.container}>
               <div className="editorHeader">

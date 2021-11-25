@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     addbtn: {
-        color: '#643263'
+        /* color: '#643263' */
     },
     disabled: {
         color: 'grey'

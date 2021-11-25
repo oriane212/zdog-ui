@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         color: 'white'
     },
     delete: {
-        color: '#643263'
+        /* color: '#643263' */
         /* height: 36,
         width: 40, */
         /*        marginLeft: 12 */
@@ -220,15 +220,6 @@ export default function ShapeTree(props) {
     return (
         <section className="shapetree">
             <div className="toplevelactions">
-                {/* <ButtonGroup>
-                    <Select color="primary" className={classes.addshape} value={selectShapeValue} onChange={(e) => { setSelectShapeValue(e.target.value); }}>
-                        <MenuItem value="Ellipse">Ellipse</MenuItem>
-                        <MenuItem value="Rect">Rect</MenuItem>
-                    </Select>
-                    <Button id="add" className={classes.add} onClick={handle_onAdd} aria-label="add">
-                        <AddIcon fontSize="small" />
-                    </Button>
-                </ButtonGroup> */}
                 <ButtonGroup id="btngrp">
                     <div>
                         <IconButton className={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode') ? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete" disabled={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode')}>
