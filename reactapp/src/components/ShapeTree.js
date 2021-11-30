@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     },
     item: {
         /* height: 16 */
+        color: 'rgba(0, 0, 0, 0.87)'
     },
     addshape: {
         width: 140,

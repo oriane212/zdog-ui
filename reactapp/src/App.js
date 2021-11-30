@@ -5,6 +5,9 @@ import Viewer from './components/Viewer';
 import ShapeTree from './components/ShapeTree';
 import { shapeProperties } from './shapeProperties';
 
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import Zdog from 'zdog';
 import { AppBar, Button, IconButton, Toolbar, Typography, makeStyles, Dialog, Container, Icon, Snackbar } from '@material-ui/core';
 import CodeIcon from '@material-ui/icons/Code';
@@ -26,7 +29,10 @@ import 'highlight.js/styles/github.css';
 hljs.registerLanguage('javascript', javascript); */
 
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-/* import ContentCopyIcon from '@mui/icons-material/ContentCopy'; */
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 /* Zdog shape instances */
 const zdogDefaultShapes = {
@@ -58,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     color: 'black'
   },
-  getCode: {
+  /* getCode: {
     right: 16,
     position: "absolute",
     backgroundColor: "rgb(100 50 99)",
@@ -72,11 +78,27 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#eeaa00',
       color: "rgb(100 50 99)"
     }
+  }, */
+  code: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#d5d5d5',
+    '&:hover': {
+      borderColor: '#f0f0f0',
+      color: 'black'
+    }
   },
   container: {
     paddingTop: 24,
     backgroundColor: '#fafafa'
+  },
+  smallFont: {
+    fontSize: '0.85rem',
+  },
+  left: {
+    marginLeft: '4px'
   }
+
 }));
 
 let valuesarry = [200, 120, 40, 80, 160];
@@ -448,7 +470,22 @@ function App(props) {
 
   const selectedNodeId = useState('canvasnode');
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const classes = useStyles();
+
+  const handleClickMore = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMore = () => {
+    setAnchorEl(null);
+  };
+
+  const openInNewTab = (url) => {
+    handleCloseMore();
+    window.open(url);
+  }
 
   function copyShapes() {
     let newshapearry = [];
@@ -659,9 +696,23 @@ function App(props) {
             <AddIcon fontSize="small" />
           </IconButton> */}
 
-          <IconButton onClick={getCode} aria-label="source code">
+          <IconButton className={classes.code} onClick={getCode} aria-label="source code">
             <CodeIcon fontSize="small" />
           </IconButton>
+
+          <IconButton className={classes.left} onClick={handleClickMore} aria-label="more">
+            <MoreHorizIcon fontSize="small" />
+          </IconButton>
+          <Menu
+            id="more-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMore}
+          >
+            <MenuItem className={classes.smallFont} onClick={() => openInNewTab('https://github.com/oriane212/zdog-ui')} value="Zdog-UI on GitHub">Zdog-UI on GitHub <OpenInNewIcon color='action' className={classes.left} fontSize="small"/></MenuItem>
+            <MenuItem className={classes.smallFont} onClick={() => openInNewTab('https://zzz.dog/')} value="Zdog website">Zdog website <OpenInNewIcon color='action' className={classes.left} fontSize="small"/> </MenuItem>
+          </Menu>
 
           </div>
 
@@ -672,7 +723,7 @@ function App(props) {
             <Container className={classes.container}>
               <div className="editorHeader">
                 <Typography>HTML</Typography>
-                <IconButton onClick={() => clipboardCopy('editorHTML')} id="copyHTML" aria-label="Copy to clipboard"><FileCopyIcon fontSize="small"/></IconButton>
+                <IconButton onClick={() => clipboardCopy('editorHTML')} id="copyHTML" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
               </div>
               <div id="editorHTML">
                 <pre>
@@ -681,7 +732,7 @@ function App(props) {
                 </pre></div>
               <div className="editorHeader">
                 <Typography>JavaScript</Typography>
-                <IconButton onClick={() => clipboardCopy('editor')} id="copyJS" aria-label="Copy to clipboard"><FileCopyIcon fontSize="small"/></IconButton>
+                <IconButton onClick={() => clipboardCopy('editor')} id="copyJS" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
               </div>
               <div id="editor">
                 <pre>

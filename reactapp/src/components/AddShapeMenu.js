@@ -12,6 +12,9 @@ const useStyles = makeStyles({
     },
     disabled: {
         color: 'grey'
+    },
+    smallFont: {
+      fontSize: '0.9rem'
     }
 });
 
@@ -50,15 +53,15 @@ export default function AddShapeMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem divider onClick={() => handleShapeSelect('Group')}value="Group">Group</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Ellipse')}value="Ellipse">Ellipse</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Rect')} value="Rectangle">Rectangle</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('RoundedRect')} value="Rounded Rectangle">Rounded Rectangle</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Box')} value="Box">Box</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Polygon')} value="Polygon">Polygon</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Cone')} value="Cone">Cone</MenuItem>
-        <MenuItem onClick={() => handleShapeSelect('Cylinder')} value="Cylinder">Cylinder</MenuItem>
+        <MenuItem className={classes.smallFont} divider onClick={() => handleShapeSelect('Group')}value="Group">Group</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Box')} value="Box">Box</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Cone')} value="Cone">Cone</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Cylinder')} value="Cylinder">Cylinder</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Ellipse')}value="Ellipse">Ellipse</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Hemisphere')} value="Hemisphere">Hemisphere</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Polygon')} value="Polygon">Polygon</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Rect')} value="Rectangle">Rectangle</MenuItem>
+        <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('RoundedRect')} value="Rounded Rectangle">Rounded Rectangle</MenuItem>
       </Menu>
     </div>
   );
