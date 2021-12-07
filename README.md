@@ -5,7 +5,7 @@ A real-time editor for creating simple 3D web illustrations using [Zdog](https:/
 
 ## How to use
 
-Go to [Zdog UI](https://oriane212.github.io/zdog-ui/) web app. 
+Go to [Zdog UI](https://oriane212.github.io/zdog-ui/) web app (desktop only). 
 
 Use UI controls to add shapes, edit shape and canvas properties, and add animation.
 
