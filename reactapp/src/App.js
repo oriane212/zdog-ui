@@ -92,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 24,
     backgroundColor: '#fafafa'
   },
+  invisible: {
+    visibility: 'hidden'
+  },
   smallFont: {
     fontSize: '0.85rem',
   },
@@ -472,6 +475,8 @@ function App(props) {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const [editorVisibility, setEditorVisibility] = React.useState(false);
+
   const classes = useStyles();
 
   const handleClickMore = (event) => {
@@ -593,6 +598,7 @@ function App(props) {
 
   function handleClose() {
     setOpen(false);
+    setEditorVisibility(false);
   }
 
   function removeAllDoubleDashQuotes(scriptString) {
@@ -659,7 +665,11 @@ function App(props) {
             console.log(code);
           });
         }
-      }, 1000);
+
+        // set editors to be visible
+        setEditorVisibility(true);
+
+      }, 200);
     }
   }, [open]);
 
@@ -719,7 +729,7 @@ function App(props) {
           {/* <div></div> */}
 
           {/* <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Get Code</Button> */}
-          <Dialog maxWidth="md" onClose={handleClose} open={open}>
+          <Dialog maxWidth="md" onClose={handleClose} open={open} className={(!editorVisibility) ? classes.invisible : ''}>
             <Container className={classes.container}>
               <div className="editorHeader">
                 <Typography>HTML</Typography>
