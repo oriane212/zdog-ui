@@ -100,6 +100,9 @@ const useStyles = makeStyles((theme) => ({
   },
   left: {
     marginLeft: '4px'
+  },
+  extraMarginTop: {
+    marginTop: '36px'
   }
 
 }));
@@ -625,27 +628,33 @@ function App(props) {
       console.log('open');
       setTimeout(() => {
 
-       /*  let divHTML = document.getElementById('editorHTML'); */
-        let codetagsHTML = document.getElementById('codetagsHTML');
+        // HTML snippets
 
-        let snippet =
-          `<canvas id="illo" style="background-color:${stateVars.bgColor[0]};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
-          <p>${stateVars.fallback[0]}</p>
-        </canvas>`;
+        let codetagsHTML_canvas = document.getElementById('codetagsHTML_canvas');
+        let codetagsHTML_script = document.getElementById('codetagsHTML_script');
 
-        let jarHTML = CodeJar(codetagsHTML, hljs.highlightAll);
+        let snippet_canvas =
+          `<!-- canvas for Zdog illo -->
+<canvas id="illo" style="background-color:${stateVars.bgColor[0]};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
+  <p>${stateVars.fallback[0]}</p>
+</canvas>`;
 
-        jarHTML.updateCode(snippet);
+        let snippet_script = 
+        `<!-- Zdog CDN and illo.js -->
+<script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
+<script src="illo.js"></script>`;
 
-        /* let div = document.getElementById('editor'); */
+        let jarHTML_canvas = CodeJar(codetagsHTML_canvas, hljs.highlightAll);
+        jarHTML_canvas.updateCode(snippet_canvas);
+
+        let jarHTML_script = CodeJar(codetagsHTML_script, hljs.highlightAll);
+        jarHTML_script.updateCode(snippet_script);
+
+        // JavaScript snippet
+  
         let codetagsJS = document.getElementById('codetagsJS');
         
-
         if (codetagsJS !== null) {
-          /* function myhighlight(div) {
-            const code = 'let foo = bar';
-            div.innerHTML = code;
-          } */
           let jar = CodeJar(codetagsJS, hljs.highlightAll);
 
           if (addedShapes[0].length > 0) {
@@ -653,7 +662,6 @@ function App(props) {
             let scriptString = createScript(stateVars, flattened);
             let fixed = removeAllDoubleDashQuotes(scriptString);
             jar.updateCode(fixed);
-
           }
 
           // Get code
@@ -733,15 +741,29 @@ function App(props) {
             <Container className={classes.container}>
               <div className="editorHeader">
                 <Typography>HTML</Typography>
-                <IconButton onClick={() => clipboardCopy('editorHTML')} id="copyHTML" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
               </div>
-              <div id="editorHTML">
+              <div className="contentcopy">
+              <IconButton onClick={() => clipboardCopy('editorHTML_canvas')} id="copyHTML_canvas" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize='small' /></IconButton>
+              </div>
+              <div id="editorHTML_canvas">
                 <pre>
-                  <code id="codetagsHTML" className="language-html">''
+                  <code id="codetagsHTML_canvas" className="language-html">''
                   </code>
-                </pre></div>
+                </pre>
+              </div>
+              <div className="contentcopy">
+              <IconButton onClick={() => clipboardCopy('editorHTML_script')} id="copyHTML_script" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
+              </div>
+              <div id="editorHTML_script">
+                <pre>
+                  <code id="codetagsHTML_script" className="language-html">''
+                  </code>
+                </pre>
+              </div>
               <div className="editorHeader">
-                <Typography>JavaScript</Typography>
+                <Typography className={classes.extraMarginTop}>JavaScript</Typography>
+              </div>
+              <div className="contentcopy">
                 <IconButton onClick={() => clipboardCopy('editor')} id="copyJS" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
               </div>
               <div id="editor">

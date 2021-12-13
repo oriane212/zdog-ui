@@ -1,6 +1,7 @@
 export default function createScript(illoVars, shapesCopy) {
     
-    let scriptString = `
+    let scriptString = `// illo.js
+
 // create illo
 let illo = new Zdog.Illustration({
     // set canvas with id 'illo'
@@ -12,6 +13,8 @@ let illo = new Zdog.Illustration({
         z: ${illoVars.rotate_z[0]}
     }
 });
+
+// add shapes
     `;
 
     let shapeCount = 0;
