@@ -595,100 +595,10 @@ function App(props) {
 
   }
 
-  function getCode() {
+  /* function getCode() {
     console.log('getting code');
     setOpen(true);
-  }
-
-  /* function handleClose() {
-    setOpen(false);
-    setEditorVisibility(false);
-  }
- */
-
-  /* function removeAllDoubleDashQuotes(scriptString) {
-    let fixedScript = scriptString.replaceAll(`"--`, '');
-    let fixedScript2 = fixedScript.replaceAll(`--"`, '');
-    return fixedScript2;
   } */
-
-  /* function clipboardCopy(elID) {
-    let text = document.getElementById(elID).innerText;
-    navigator.clipboard.writeText(text).then(function() {
-      console.log('copy to clipboard successful');
-      // add notification
-      setSnackbarOpen(true);
-    }, function() {
-      console.log('copy to clipboard failed')
-    })
-  } */
-
-  console.log('testing outside return');
-
-  /* useEffect(() => {
-    if (open) {
-      
-      console.log('open');
-      setTimeout(() => {
-
-        // HTML snippets
-
-        let codetagsHTML_canvas = document.getElementById('codetagsHTML_canvas');
-        let codetagsHTML_script = document.getElementById('codetagsHTML_script');
-
-        let snippet_canvas =
-          `<!-- canvas for Zdog illo -->
-<canvas id="illo" style="background-color:${stateVars.bgColor[0]};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
-  <p>${stateVars.fallback[0]}</p>
-</canvas>`;
-
-        let snippet_script = 
-        `<!-- Zdog CDN and illo.js -->
-<script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
-<script src="illo.js"></script>`;
-
-        let jarHTML_canvas = CodeJar(codetagsHTML_canvas, hljs.highlightAll);
-        jarHTML_canvas.updateCode(snippet_canvas);
-
-        let jarHTML_script = CodeJar(codetagsHTML_script, hljs.highlightAll);
-        jarHTML_script.updateCode(snippet_script);
-
-        // JavaScript snippet
-  
-        let codetagsJS = document.getElementById('codetagsJS');
-        
-        if (codetagsJS !== null) {
-          let jar = CodeJar(codetagsJS, hljs.highlightAll);
-
-          if (addedShapes[0].length > 0) {
-            let flattened = copyShapes();
-            let scriptString = createScript(stateVars, flattened);
-            let fixed = removeAllDoubleDashQuotes(scriptString);
-            jar.updateCode(fixed);
-          }
-
-          // Get code
-          let mycode = jar.toString();
-          //console.log(mycode);
-
-          // Listen to updates
-          jar.onUpdate((code) => {
-            console.log(code);
-          });
-        }
-
-        // set editors to be visible
-        setEditorVisibility(true);
-
-      }, 200);
-    }
-  }, [open]); */
-
-  // TO DO
-  /* useEffect(() => {
-    console.log('a shapelayer input was just updated');
-    // pass this as prop to shapeLayer and add to conditional refocus
-  }, [actuallyJustUpdated]) */
 
   console.log('selectedNodeId[0]: ' + selectedNodeId[0]);
 
@@ -717,9 +627,9 @@ function App(props) {
             <AddIcon fontSize="small" />
           </IconButton> */}
 
-          <IconButton className={classes.code} onClick={getCode} aria-label="source code">
+          {/* <IconButton className={classes.code} onClick={getCode} aria-label="source code">
             <CodeIcon fontSize="small" />
-          </IconButton>
+          </IconButton> */}
 
           <IconButton className={classes.left} onClick={handleClickMore} aria-label="more">
             <MoreHorizIcon fontSize="small" />
@@ -749,7 +659,7 @@ function App(props) {
 
       <main>
 
-        <ShapeTree selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></ShapeTree>
+        <ShapeTree setOpen={setOpen} selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></ShapeTree>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
         <Controls selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} stateVars={stateVars} addedShapes={addedShapes}></Controls>
       </main>

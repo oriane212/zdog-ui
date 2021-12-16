@@ -69,12 +69,15 @@ export default function ShapeTree(props) {
 
     let addNewZdogShape = props.addNewZdogShape;
 
+    const setOpen = props.setOpen;
+
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(['canvasnode']);
 
     console.log('expanded = ' + expanded);
 
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    const [confirmCreateNewDialogOpen, setConfirmCreateNewDialogOpen] = useState(false);
 
     //const [selected, setSelected] = React.useState([]);
 
@@ -218,12 +221,27 @@ export default function ShapeTree(props) {
 
     function handleCreateNew() {
         console.log('create new clicked');
+        setConfirmCreateNewDialogOpen(true);
     }
 
-    /* function getCode() {
-        console.log('getting code');
+    function handleConfirmCreateNew() {
+
+        // TO DO: replace below with a fn that sets all state props to a default or a specific demo
+        selectedNodeId[1]('canvasnode');
+        stateVars.fallback[1]('');
+        addedShapes[1]([]);
+
+        handleCloseCreateNewDialog();
+    }
+
+    function handleCloseCreateNewDialog() {
+        setConfirmCreateNewDialogOpen(false);
+    }
+
+    function getSourceCode() {
+        console.log('getting source code');
         setOpen(true);
-      } */
+    }
 
     useEffect(() => {
         checkParentExpanded();
@@ -236,6 +254,24 @@ export default function ShapeTree(props) {
                 <IconButton id="createnew" onClick={handleCreateNew} aria-label="Create new illustration">
                             <NoteAddOutlinedIcon fontSize="small" />
                 </IconButton>
+
+                <Dialog onClose={handleCloseCreateNewDialog} open={confirmCreateNewDialogOpen}>
+                        <Container className={classes.confirmDialog}>
+                        
+                            <Typography>Starting a new Zdog Illustration will delete any work you've done so far! 
+                                <br/>
+                                <b>Be sure to grab any source code you want for your current project first.</b>
+                            </Typography>
+                                <Typography><br/>Create a new Zdog Illustration?</Typography>
+                                
+                            <div>
+                                <Button onClick={handleConfirmCreateNew} color="primary">Confirm</Button>
+                                <Button onClick={handleCloseCreateNewDialog}>Cancel</Button>
+                            </div>
+                        </Container>
+
+                    </Dialog>
+
                 <ButtonGroup id="btngrp">
                     <div>
                         <IconButton className={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode') ? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete" disabled={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode')}>
@@ -257,7 +293,7 @@ export default function ShapeTree(props) {
                     <AddShapeMenu selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
             
                 </ButtonGroup>
-                <IconButton id="getcode" onClick={handleCreateNew} aria-label="Get code">
+                <IconButton id="getsourcecode" onClick={getSourceCode} aria-label="Source code">
                             <CodeIcon fontSize="small" />
                 </IconButton>
             </div>
