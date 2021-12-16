@@ -33,6 +33,7 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import SourceCodeDialog from './components/SourceCodeDialog';
 
 /* Zdog shape instances */
 const zdogDefaultShapes = {
@@ -60,10 +61,10 @@ const useStyles = makeStyles((theme) => ({
   purple: {
     color: '#636'
   },
-  snackbar: {
+  /* snackbar: {
     backgroundColor: 'white',
     color: 'black'
-  },
+  }, */
   /* getCode: {
     right: 16,
     position: "absolute",
@@ -92,18 +93,18 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 24,
     backgroundColor: '#fafafa'
   },
-  invisible: {
+  /* invisible: {
     visibility: 'hidden'
-  },
+  }, */
   smallFont: {
     fontSize: '0.85rem',
   },
   left: {
     marginLeft: '4px'
   },
-  extraMarginTop: {
+  /* extraMarginTop: {
     marginTop: '36px'
-  }
+  } */
 
 }));
 
@@ -467,7 +468,7 @@ function App(props) {
 
   const [open, setOpen] = useState(false);
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  /* const [snackbarOpen, setSnackbarOpen] = useState(false); */
 
   let cursorFocus = useState({
     'id': '',
@@ -599,18 +600,19 @@ function App(props) {
     setOpen(true);
   }
 
-  function handleClose() {
+  /* function handleClose() {
     setOpen(false);
     setEditorVisibility(false);
   }
+ */
 
-  function removeAllDoubleDashQuotes(scriptString) {
+  /* function removeAllDoubleDashQuotes(scriptString) {
     let fixedScript = scriptString.replaceAll(`"--`, '');
     let fixedScript2 = fixedScript.replaceAll(`--"`, '');
     return fixedScript2;
-  }
+  } */
 
-  function clipboardCopy(elID) {
+  /* function clipboardCopy(elID) {
     let text = document.getElementById(elID).innerText;
     navigator.clipboard.writeText(text).then(function() {
       console.log('copy to clipboard successful');
@@ -619,12 +621,13 @@ function App(props) {
     }, function() {
       console.log('copy to clipboard failed')
     })
-  }
+  } */
 
   console.log('testing outside return');
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (open) {
+      
       console.log('open');
       setTimeout(() => {
 
@@ -679,7 +682,7 @@ function App(props) {
 
       }, 200);
     }
-  }, [open]);
+  }, [open]); */
 
   // TO DO
   /* useEffect(() => {
@@ -737,54 +740,12 @@ function App(props) {
           {/* <div></div> */}
 
           {/* <Button onClick={getCode} color="inherit" startIcon={<CodeIcon />} aria-label="get code" className={classes.getCode}>Get Code</Button> */}
-          <Dialog maxWidth="md" onClose={handleClose} open={open} className={(!editorVisibility) ? classes.invisible : ''}>
-            <Container className={classes.container}>
-              <div className="editorHeader">
-                <Typography>HTML</Typography>
-              </div>
-              <div className="contentcopy">
-              <IconButton onClick={() => clipboardCopy('editorHTML_canvas')} id="copyHTML_canvas" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize='small' /></IconButton>
-              </div>
-              <div id="editorHTML_canvas">
-                <pre>
-                  <code id="codetagsHTML_canvas" className="language-html">''
-                  </code>
-                </pre>
-              </div>
-              <div className="contentcopy">
-              <IconButton onClick={() => clipboardCopy('editorHTML_script')} id="copyHTML_script" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
-              </div>
-              <div id="editorHTML_script">
-                <pre>
-                  <code id="codetagsHTML_script" className="language-html">''
-                  </code>
-                </pre>
-              </div>
-              <div className="editorHeader">
-                <Typography className={classes.extraMarginTop}>JavaScript</Typography>
-              </div>
-              <div className="contentcopy">
-                <IconButton onClick={() => clipboardCopy('editor')} id="copyJS" aria-label="Copy to clipboard"><ContentCopyOutlinedIcon fontSize="small"/></IconButton>
-              </div>
-              <div id="editor">
-                <pre>
-                  <code id="codetagsJS" className="language-javascript">''
-                  </code>
-                </pre>
-              </div>
-              <Snackbar
-                ContentProps={{ className: classes.snackbar}}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center'}}
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={() => setSnackbarOpen(false)}
-                message="Copied to clipboard!"
-              />
-            </Container>
 
-          </Dialog>
         </Toolbar>
       </AppBar>
+
+      { open ? <SourceCodeDialog stateVars={stateVars} addedShapes={addedShapes} editorVisibility={[editorVisibility, setEditorVisibility]} open={[open, setOpen]} /> : ''}
+        
 
       <main>
 

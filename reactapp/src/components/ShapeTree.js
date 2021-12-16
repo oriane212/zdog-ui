@@ -10,6 +10,9 @@ import { Button, ButtonGroup, Container, Dialog, IconButton, Menu, MenuItem, Sel
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import AddShapeMenu from './AddShapeMenu';
 
+import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
+import CodeIcon from '@mui/icons-material/Code';
+
 import generateID from '../generateID';
 import fixCamelCase from '../fixCamelCase';
 
@@ -213,6 +216,15 @@ export default function ShapeTree(props) {
         return item;
     })
 
+    function handleCreateNew() {
+        console.log('create new clicked');
+    }
+
+    /* function getCode() {
+        console.log('getting code');
+        setOpen(true);
+      } */
+
     useEffect(() => {
         checkParentExpanded();
     });
@@ -221,6 +233,9 @@ export default function ShapeTree(props) {
     return (
         <section className="shapetree">
             <div className="toplevelactions">
+                <IconButton id="createnew" onClick={handleCreateNew} aria-label="Create new illustration">
+                            <NoteAddOutlinedIcon fontSize="small" />
+                </IconButton>
                 <ButtonGroup id="btngrp">
                     <div>
                         <IconButton className={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode') ? classes.disabled : classes.delete} onClick={handleDelete} aria-label="delete" disabled={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode')}>
@@ -240,10 +255,13 @@ export default function ShapeTree(props) {
                     </Dialog>
 
                     <AddShapeMenu selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
+            
                 </ButtonGroup>
-
-
+                <IconButton id="getcode" onClick={handleCreateNew} aria-label="Get code">
+                            <CodeIcon fontSize="small" />
+                </IconButton>
             </div>
+
             <TreeView
                 className={classes.root}
                 defaultCollapseIcon={<ExpandMoreIcon />}

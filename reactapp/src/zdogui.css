@@ -21,9 +21,11 @@ main {
 
 div.toplevelactions {
     background-color: #fbfbfb;
-    display: grid;
+    display: flex;
+    justify-content: space-around;
+    /* display: grid;
     grid-template-columns: 0.65fr 0.35fr;
-    grid-template-areas: '. btngrp';
+    grid-template-areas: '. btngrp'; */
     padding: 6px;
     position: fixed;
     width: 287px;
@@ -41,7 +43,7 @@ div.toplevelactions {
 } */
 
 #btngrp {
-    grid-area: btngrp;
+    /* grid-area: btngrp; */
 }
 
 section.shapetree {
