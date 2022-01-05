@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './zdogui.css';
 import Controls from './components/Controls';
 import Viewer from './components/Viewer';
-import ShapeTree from './components/ShapeTree';
 import { shapeProperties } from './shapeProperties';
 
 import Menu from '@material-ui/core/Menu';
@@ -34,6 +33,7 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SourceCodeDialog from './components/SourceCodeDialog';
+import IlloExplorer from './components/IlloExplorer';
 
 /* Zdog shape instances */
 const zdogDefaultShapes = {
@@ -659,7 +659,7 @@ function App(props) {
 
       <main>
 
-        <ShapeTree setOpen={setOpen} selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></ShapeTree>
+        <IlloExplorer setOpen={setOpen} selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></IlloExplorer>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
         <Controls selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} stateVars={stateVars} addedShapes={addedShapes}></Controls>
       </main>

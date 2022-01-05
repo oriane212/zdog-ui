@@ -15,7 +15,7 @@ main {
     height: 100%;
     display: grid;
     grid-template-columns: 300px 1fr 300px;
-    grid-template-areas: 'shapetree results controls';
+    grid-template-areas: 'illoExplorer results controls';
     margin-top: 81px;
 }
 
@@ -46,8 +46,8 @@ div.toplevelactions {
     /* grid-area: btngrp; */
 }
 
-section.shapetree {
-    grid-area: shapetree;
+section.illoExplorer {
+    grid-area: illoExplorer;
     background-color: #fbfbfb;
     /* padding: 24px; */
     width: 300px;
