@@ -514,17 +514,13 @@ function App(props) {
     let data = {};
     let faces = {};
 
-    /*  props_basic.forEach((prop) => {
-       let defaultVal = zdogShape[prop];
-       data[prop] = defaultVal;
-     }) */
-
     props_basic.forEach((prop) => {
       if (prop === 'translate' || prop === 'rotate') {
         data[prop] = new Zdog.Vector({});
-        /* data[prop]['x'] = zdogShape[prop]['x'];
-        data[prop].y = zdogShape[prop].y;
-        data[prop].z = zdogShape[prop].z; */
+      } else if (prop === 'backface' && !(shapeClass === 'Box')) { /* backFace needs to remain set to default value of true for Box. If it is set to a color value then all Box-specific face colors do not render properly */
+        data[prop] = '#424242';
+      } else if (prop === 'color') {
+        data[prop] = '#5C5C5C';
       } else {
         let defaultVal = zdogShape[prop];
         data[prop] = defaultVal;
@@ -534,8 +530,14 @@ function App(props) {
     props_shape.forEach((prop) => {
       if (prop === 'width' || prop === 'height' || prop === 'depth' || prop === 'diameter' || prop === 'length' || prop === 'radius') {
         data[prop] = 100;
-      } else if (prop.includes('Face') || prop.includes('face')) {
-        data[prop] = '#000000';
+      } else if (prop.includes('Face')) {
+        if (prop === 'frontFace') {
+          data[prop] = '#B8B8B8';
+        } else if (prop === 'rearFace') {
+          data[prop] = '#424242';
+        } else {
+          data[prop] = '#5C5C5C';
+        }
         faces[prop] = true;
       } else {
         let defaultVal = zdogShape[prop];
