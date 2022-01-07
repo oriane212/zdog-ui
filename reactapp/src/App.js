@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
 
-  const [presets, setPresets] = useState('lego');
+  const [presets, setPresets] = useState('whitebox');
 
   const [psets, setPsets] = useState(illoPresets[presets]);
 
