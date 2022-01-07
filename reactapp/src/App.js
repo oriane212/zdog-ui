@@ -35,6 +35,8 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import SourceCodeDialog from './components/SourceCodeDialog';
 import IlloExplorer from './components/IlloExplorer';
 
+import { illoPresets } from './illoPresets';
+
 /* Zdog shape instances */
 const zdogDefaultShapes = {
   'Group': new Zdog.Group(),
@@ -108,363 +110,32 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-let valuesarry = [200, 120, 40, 80, 160];
-
-
-let demos = {
-  none: {
-    fallback: "An animated illustration consisting of 3D shapes",
-    shapelayers: []
-  },
-  lego: {
-    fallback: 'Animated model of a red LEGO piece',
-    shapelayers: [
-      {
-        id: generateID(),
-        children: [
-          {
-            id: generateID(),
-            children: [
-              {
-                id: generateID(),
-                children: [],
-                open: true,
-                shapeClass: 'Cylinder',
-                data: {
-                  "color": "#c30006",
-                  "backface": "#aa0a11",
-                  "stroke": "1",
-                  "fill": true,
-                  "translate": new Zdog.Vector({
-                    "x": -80,
-                    "y": 0,
-                    "z": 0
-                  }),
-                  "rotate": new Zdog.Vector({}),
-                  "diameter": "65",
-                  "length": "85",
-                  "frontFace": "#000000"
-                },
-                faces: {}
-              },
-              {
-                id: generateID(),
-                children: [],
-                open: true,
-                shapeClass: 'Cylinder',
-                data: {
-                  "color": "#c30006",
-                  "backface": "#aa0a11",
-                  "stroke": "1",
-                  "fill": true,
-                  "translate": new Zdog.Vector({}),
-                  "rotate": new Zdog.Vector({}),
-                  "diameter": "65",
-                  "length": "85",
-                  "frontFace": "#000000"
-                },
-                faces: {}
-              },
-              {
-                id: generateID(),
-                children: [],
-                open: true,
-                shapeClass: 'Cylinder',
-                data: {
-                  "color": "#c30006",
-                  "backface": "#aa0a11",
-                  "stroke": "1",
-                  "fill": true,
-                  "translate": new Zdog.Vector({
-                    "x": 80,
-                    "y": 0,
-                    "z": 0
-                  }),
-                  "rotate": new Zdog.Vector({}),
-                  "diameter": "65",
-                  "length": "85",
-                  "frontFace": "#000000"
-                },
-                faces: {}
-              }
-            ],
-            open: true,
-            shapeClass: 'Group',
-            data: {
-              "translate": new Zdog.Vector({
-                "x": 0,
-                "y": 5,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({
-                "x": 1.5707963267948966,
-                "y": 0,
-                "z": 0
-              })
-            },
-            faces: {}
-          }
-        ],
-        open: true,
-        shapeClass: 'Box',
-        data: {
-          /*         "addTo": illo, */
-          "color": "#c30005",
-          "backface": true,
-          "stroke": 1,
-          "fill": true,
-          "translate": new Zdog.Vector({}),
-          "rotate": new Zdog.Vector({}),
-          "width": "320",
-          "height": "96",
-          "depth": "160",
-          "frontFace": "#b2081f",
-          "rearFace": "#c30005",
-          "topFace": "#db0623",
-          "bottomFace": false,
-          "leftFace": "#c30005",
-          "rightFace": "#c30005"
-        },
-        faces: {
-          "frontFace": true,
-          "rearFace": true,
-          "topFace": true,
-          "bottomFace": "#a20106",
-          "leftFace": true,
-          "rightFace": true
-        }
-      },
-      {
-        id: generateID(),
-        children: [
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#c30006",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": 40,
-                "y": 40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#c30006",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": 40,
-                "y": -40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#c30006",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": 120,
-                "y": 40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#c30006",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": 120,
-                "y": -40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#c30006",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": -120,
-                "y": 40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#b2081f",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": -120,
-                "y": -40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#b2081f",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": -40,
-                "y": 40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          },
-          {
-            id: generateID(),
-            children: [],
-            open: true,
-            shapeClass: 'Cylinder',
-            data: {
-              "color": "#b2081f",
-              "backface": true,
-              "stroke": 1,
-              "fill": true,
-              "translate": new Zdog.Vector({
-                "x": -40,
-                "y": -40,
-                "z": 0
-              }),
-              "rotate": new Zdog.Vector({}),
-              "diameter": "50",
-              "length": "20",
-              "frontFace": "#db0723"
-            },
-            faces: {}
-          }
-        ],
-        open: true,
-        shapeClass: 'Group',
-        data: {
-          "translate": new Zdog.Vector({
-            "x": 0,
-            "y": -58,
-            "z": 0
-          }),
-          "rotate": new Zdog.Vector({
-            "x": 1.5707963267948966,
-            "y": 0,
-            "z": 0
-          }),
-          /*  "addTo": illo */
-        },
-        faces: {}
-      }
-    ]
-  }
-}
-
 function App(props) {
 
+  const [presets, setPresets] = useState('lego');
+
+  const [psets, setPsets] = useState(illoPresets[presets]);
+
   const stateVars = {
-    canvas_w: useState(500),
-    canvas_h: useState(500),
-    dragRotate: useState(true),
-    animate: useState(false),
-    rotate_x: useState(0),
-    rotate_y: useState(0),
-    rotate_z: useState(0),
-    spin_x: useState(.01),
-    spin_y: useState(.04),
-    spin_z: useState(.01),
-    easeIO: useState(
-      {
-        x: true,
-        y: true,
-        z: false,
-        cycleCount: 200,
-        power: 3
-      }
-    ),
-    animateSelection: useState('ease'),
-    demo: useState('lego'),
-    fallback: useState(demos.lego.fallback),
-    animationOption: useState('animate'),
-    bgColor: useState('#FFDDBB')
+    canvas_w: useState(psets.canvas_w),
+    canvas_h: useState(psets.canvas_h),
+    dragRotate: useState(psets.dragRotate),
+    animate: useState(psets.animate),
+    rotate_x: useState(psets.rotate_x),
+    rotate_y: useState(psets.rotate_y),
+    rotate_z: useState(psets.rotate_z),
+    spin_x: useState(psets.spin_x),
+    spin_y: useState(psets.spin_y),
+    spin_z: useState(psets.spin_z),
+    easeIO: useState(psets.easeIO),
+    animateSelection: useState(psets.animateSelection),
+/*     demo: useState('lego'), */
+    fallback: useState(psets.fallback),
+    animationOption: useState(psets.animationOption),
+    bgColor: useState(psets.bgColor)
   }
 
-  const addedShapes = useState(demos.lego.shapelayers);
+  const addedShapes = useState(psets.shapeLayers);
 
   const [open, setOpen] = useState(false);
 
@@ -482,6 +153,18 @@ function App(props) {
   const [editorVisibility, setEditorVisibility] = React.useState(false);
 
   const classes = useStyles();
+
+  function updateAllPresets() {
+    //setPsets(illoPresets[presets]);
+    updateAllStateVars(illoPresets[presets]);
+    addedShapes[1](illoPresets[presets].shapeLayers);
+  }
+
+  function updateAllStateVars(selectedPresets) {
+    Object.keys(stateVars).forEach((param) => {
+      stateVars[param][1](selectedPresets[param]);
+    })
+  }
 
   const handleClickMore = (event) => {
     setAnchorEl(event.currentTarget);
@@ -517,7 +200,7 @@ function App(props) {
     props_basic.forEach((prop) => {
       if (prop === 'translate' || prop === 'rotate') {
         data[prop] = new Zdog.Vector({});
-      } else if (prop === 'backface' && !(shapeClass === 'Box')) { /* backFace needs to remain set to default value of true for Box. If it is set to a color value then all Box-specific face colors do not render properly */
+      } else if (prop === 'backface' && !(shapeClass === 'Box')) { /* backface needs to remain set to default value of true for Box. If it is set to a color value then all Box-specific face colors do not render properly */
         data[prop] = '#424242';
       } else if (prop === 'color') {
         data[prop] = '#5C5C5C';
@@ -604,6 +287,16 @@ function App(props) {
 
   console.log('selectedNodeId[0]: ' + selectedNodeId[0]);
 
+  useEffect(() => {
+    if (presets !== 'work_in_progress') {
+      console.log(`presets = '${presets}'`)
+      updateAllPresets();
+      setPresets('work_in_progress');
+    } else {
+      console.log(`presets = 'work_in_progress'`);
+    }
+  }, [presets]);
+
 
   return (
 
@@ -661,7 +354,7 @@ function App(props) {
 
       <main>
 
-        <IlloExplorer setOpen={setOpen} selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></IlloExplorer>
+        <IlloExplorer setPresets={setPresets} setOpen={setOpen} selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} addNewZdogShape={addNewZdogShape} stateVars={stateVars} addedShapes={addedShapes}></IlloExplorer>
         <Viewer shapes={addedShapes} stateVars={stateVars}></Viewer>
         <Controls selectedNodeId={selectedNodeId} cursorFocus={cursorFocus} stateVars={stateVars} addedShapes={addedShapes}></Controls>
       </main>

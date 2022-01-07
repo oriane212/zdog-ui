@@ -27,6 +27,7 @@ const useStyles = makeStyles({
 
 export default function IlloExplorer(props) {
 
+    const setPresets = props.setPresets;
     const stateVars = props.stateVars;
     const addedShapes = props.addedShapes;
     let selectedNodeId = props.selectedNodeId;
@@ -106,7 +107,7 @@ export default function IlloExplorer(props) {
     return (
         <section className="illoExplorer">
 
-            <IlloToolbar setOpen={setOpen} stateVars={stateVars} addedShapes={addedShapes} selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
+            <IlloToolbar setPresets={setPresets} setOpen={setOpen} stateVars={stateVars} addedShapes={addedShapes} selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
 
             <TreeView
                 className={classes.root}

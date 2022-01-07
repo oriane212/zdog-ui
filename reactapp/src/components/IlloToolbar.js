@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 
 export default function IlloToolbar(props) {
 
+    const setPresets = props.setPresets;
     const stateVars = props.stateVars;
     const addedShapes = props.addedShapes;
     let selectedNodeId = props.selectedNodeId;
@@ -103,8 +104,9 @@ export default function IlloToolbar(props) {
 
         // TO DO: replace below with a fn that sets all state props to a default or a specific demo
         selectedNodeId[1]('canvasnode');
-        stateVars.fallback[1]('');
-        addedShapes[1]([]);
+        setPresets('blank');
+        /* stateVars.fallback[1]('');
+        addedShapes[1]([]); */
 
         handleCloseCreateNewDialog();
     }
