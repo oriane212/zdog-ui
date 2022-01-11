@@ -54,6 +54,7 @@ export default function AddShapeMenu(props) {
         onClose={handleClose}
       >
         <MenuItem className={classes.smallFont} divider onClick={() => handleShapeSelect('Group')}value="Group">Group</MenuItem>
+        <MenuItem className={classes.smallFont} divider onClick={() => handleShapeSelect('Shape')} value="Shape">Shape</MenuItem>
         <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Box')} value="Box">Box</MenuItem>
         <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Cone')} value="Cone">Cone</MenuItem>
         <MenuItem className={classes.smallFont} onClick={() => handleShapeSelect('Cylinder')} value="Cylinder">Cylinder</MenuItem>

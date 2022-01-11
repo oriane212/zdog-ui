@@ -48,6 +48,7 @@ const zdogDefaultShapes = {
   'Polygon': new Zdog.Polygon(),
   'Cone': new Zdog.Cone(),
   'Cylinder': new Zdog.Cylinder(),
+  'Shape': new Zdog.Shape()
 }
 
 
@@ -198,7 +199,9 @@ function App(props) {
     let faces = {};
 
     props_basic.forEach((prop) => {
-      if (prop === 'translate' || prop === 'rotate') {
+      if (shapeClass === 'Shape' && prop === 'stroke') {
+        data[prop] = 10;
+      } else if (prop === 'translate' || prop === 'rotate') {
         data[prop] = new Zdog.Vector({});
       } else if (prop === 'backface' && !(shapeClass === 'Box')) { /* backface needs to remain set to default value of true for Box. If it is set to a color value then all Box-specific face colors do not render properly */
         data[prop] = '#424242';
@@ -222,6 +225,8 @@ function App(props) {
           data[prop] = '#5C5C5C';
         }
         faces[prop] = true;
+      } else if (prop === 'path') {
+        data[prop] = [new Zdog.Vector({x: 10, y: 20, z: 30})];
       } else {
         let defaultVal = zdogShape[prop];
         data[prop] = defaultVal;
@@ -236,6 +241,8 @@ function App(props) {
   function addNewZdogShape(shapeClass, nodeId) {
 
     let flattened = copyShapes();
+
+    //let shapeClass = (v === 'Sphere') ? 'Shape' : v;
 
     let shapeDefaults = getDefaultValsForShapeProperties(zdogDefaultShapes, shapeClass);
 

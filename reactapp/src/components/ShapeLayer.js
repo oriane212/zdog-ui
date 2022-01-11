@@ -10,6 +10,7 @@ import fixCamelCase from '../fixCamelCase';
 import CanvasLayer from './CanvasLayer';
 import RotateSliders from './RotateSliders';
 import TranslateSliders from './TranslateSliders';
+import Path from './Path';
 
 /* const tau = Zdog.TAU; */
 
@@ -140,7 +141,8 @@ function ShapeLayer(props) {
         "bottomFace": useRef(),
         "leftFace": useRef(),
         "rightFace": useRef(),
-        "quarters": useRef()
+        "quarters": useRef(),
+        "path": useRef()
     }
 
     const classes = useStyles();
@@ -371,6 +373,10 @@ function ShapeLayer(props) {
                         />
                     )
                     shapeSpecificControls.push(slider);
+                } else if (property === 'path') {
+                    console.log('PATH       PATH    PAth')
+                    let path = <Path cursorFocus={cursorFocus} refocus={refocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened}/>
+                    shapeSpecificControls.push(path);
                 } else if (property !== 'frontFace') {
                     let spi = <SingleParameterInput parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />
                     shapeSpecificControls.push(spi);
