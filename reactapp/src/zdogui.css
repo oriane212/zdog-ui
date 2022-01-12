@@ -46,6 +46,18 @@ div.toplevelactions {
     /* grid-area: btngrp; */
 }
 
+#addToPathBtn {
+    background-color: #b7b6d5;
+    color: white;
+    width: 24px;
+    height: 24px;
+    margin-top: 16px;
+}
+
+#addToPathBtn:hover {
+    background-color: #4051b5;
+}
+
 section.illoExplorer {
     grid-area: illoExplorer;
     background-color: #fbfbfb;

@@ -39,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 24,
         fontSize: 'small'
     },
+    parameterSection: {
+        display: 'block',
+        marginLeft: 12,
+        marginTop: 24,
+        marginBottom: 42,
+        fontSize: 'small'
+    },
     label: {
         fontSize: 'small',
         'margin-bottom': 14,
@@ -76,7 +83,7 @@ function RotateSliders(props) {
 
     return (
 
-        <div className={classes.parameterGroup}>
+        <div className={classes.parameterSection}>
                 <p className={classes.label}><b>Rotation</b></p>
                 {rotateSliders}
         </div>

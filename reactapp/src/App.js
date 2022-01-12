@@ -226,7 +226,8 @@ function App(props) {
         }
         faces[prop] = true;
       } else if (prop === 'path') {
-        data[prop] = [new Zdog.Vector({x: 10, y: 20, z: 30})];
+        data[prop] = [{line: new Zdog.Vector({x: 10, y: 20, z: 30})}];
+        data.closed = false;
       } else {
         let defaultVal = zdogShape[prop];
         data[prop] = defaultVal;

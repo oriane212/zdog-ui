@@ -22,6 +22,7 @@ export default function ShapePathPoint(props) {
 
     const classes = useStyles();
 
+    let pathindex = props.pathindex;
     let label = props.label;
     let cursorFocus = props.cursorFocus;
     let refocus = props.refocus;
@@ -36,13 +37,16 @@ export default function ShapePathPoint(props) {
     let ppz = useRef();
 
     // **** TO DO:
-    
+
     //let emptyOrNegative = useRef([false, false]); // [value, axis]
+
+    let pp = copyOfShape.data.path[pathindex].line;
 
     function updatePathPoint(e, axis) {
 
+        /* let pp0 = copyOfShape.data.path[0].line; */
+
         let val = Number(e.target.value);
-        let pp = copyOfShape.data.path[0];
         
         if (axis === 'x') {
             pp.set({ x: val, y: pp.y, z: pp.z });
@@ -57,26 +61,26 @@ export default function ShapePathPoint(props) {
 
     return (
 
-        <div className={classes.parameter}>
+        <div /* className={classes.parameter} */>
 
             <p className={classes.label}>{label}</p>
 
             <FormControl className={classes.textField}>
-                <InputLabel htmlFor={'pp_x_' + index}>x</InputLabel>
-                <Input inputRef={ppx} id={'pp_x_' + index}
-                    value={/* emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] :  */copyOfShape.data.path[0].x}
+                <InputLabel htmlFor={'pp_x_' + pathindex}>x</InputLabel>
+                <Input inputRef={ppx} id={'pp_x_' + pathindex}
+                    value={/* emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] :  */pp.x}
                     /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_x_${index}`, '')} */
                     disabled={false} onChange={(e) => updatePathPoint(e, 'x')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
-                <InputLabel htmlFor={'pp_y_' + index}>y</InputLabel>
-                <Input inputRef={ppy} id={'pp_y_' + index} value={/* emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] :  */copyOfShape.data.path[0].y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
+                <InputLabel htmlFor={'pp_y_' + pathindex}>y</InputLabel>
+                <Input inputRef={ppy} id={'pp_y_' + pathindex} value={/* emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] :  */pp.y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
-                <InputLabel htmlFor={'pp_z_' + index}>z</InputLabel>
-                <Input inputRef={ppz} id={'pp_z_' + index} value={/* emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] :  */copyOfShape.data.path[0].z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
+                <InputLabel htmlFor={'pp_z_' + pathindex}>z</InputLabel>
+                <Input inputRef={ppz} id={'pp_z_' + pathindex} value={/* emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] :  */pp.z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
             </FormControl>
 
         </div>
