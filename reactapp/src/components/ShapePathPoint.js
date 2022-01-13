@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormControl, Input, InputLabel, makeStyles } from '@material-ui/core';
 import '../zdogui.css';
 
@@ -22,6 +22,8 @@ export default function ShapePathPoint(props) {
 
     const classes = useStyles();
 
+    let pathSegment = props.pathSegment;
+    let segmentIndex = props.segmentIndex;
     let pathindex = props.pathindex;
     let label = props.label;
     let cursorFocus = props.cursorFocus;
@@ -32,9 +34,28 @@ export default function ShapePathPoint(props) {
 
     let index = 0;
 
-    let ppx = useRef();
-    let ppy = useRef();
-    let ppz = useRef();
+    const ppRefs = {
+        'x' : useRef(),
+        'y' : useRef(),
+        'z' : useRef()
+    }
+    
+
+    let baseid = `path_${pathindex}_${pathSegment}_${segmentIndex}`;
+
+    function ppRefocus() {
+        let pos = cursorFocus[0]['cursorPos'];
+        let focusid = cursorFocus[0]['id'];
+        if (focusid.includes(baseid)) {
+            let axis = focusid[focusid.length - 1];
+            console.log('AXIS = ' + axis);
+            let ppRef = ppRefs[axis];
+            ppRef.current.focus();
+            if (pos !== 0) {
+                ppRef.current.setSelectionRange(pos, pos);
+            }
+        }
+    }
 
     // **** TO DO:
 
@@ -56,8 +77,20 @@ export default function ShapePathPoint(props) {
             pp.set({ x: pp.x, y: pp.y, z: val });
         }
 
+        cursorFocus[1](
+            {
+                'id': e.target.id,
+                'cursorPos': e.target.selectionStart
+            }
+        );
+
         addedShapes[1](flattened);
+
     }
+
+    useEffect(() => {
+        ppRefocus();
+    }, []);
 
     return (
 
@@ -66,21 +99,21 @@ export default function ShapePathPoint(props) {
             <p className={classes.label}>{label}</p>
 
             <FormControl className={classes.textField}>
-                <InputLabel htmlFor={'pp_x_' + pathindex}>x</InputLabel>
-                <Input inputRef={ppx} id={'pp_x_' + pathindex}
+                <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
+                <Input inputRef={ppRefs['x']} id={baseid + '_x'}
                     value={/* emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] :  */pp.x}
                     /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_x_${index}`, '')} */
                     disabled={false} onChange={(e) => updatePathPoint(e, 'x')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
-                <InputLabel htmlFor={'pp_y_' + pathindex}>y</InputLabel>
-                <Input inputRef={ppy} id={'pp_y_' + pathindex} value={/* emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] :  */pp.y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
+                <InputLabel htmlFor={baseid + '_y'}>y</InputLabel>
+                <Input inputRef={ppRefs['y']} id={baseid + '_y'} value={/* emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] :  */pp.y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
-                <InputLabel htmlFor={'pp_z_' + pathindex}>z</InputLabel>
-                <Input inputRef={ppz} id={'pp_z_' + pathindex} value={/* emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] :  */pp.z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
+                <InputLabel htmlFor={baseid + '_z'}>z</InputLabel>
+                <Input inputRef={ppRefs['z']} id={baseid + '_z'} value={/* emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] :  */pp.z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
             </FormControl>
 
         </div>

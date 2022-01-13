@@ -391,7 +391,7 @@ function ShapeLayer(props) {
     }
 
     function refocus(cursorFocus, shapeRefs) {
-        if (cursorFocus[0]['id'] !== '') {
+        if (cursorFocus[0]['id'] !== '' && !cursorFocus[0]['id'].includes('path')) {
 
             let splitID = cursorFocus[0]['id'].split('_');
             console.log(splitID);

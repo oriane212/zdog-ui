@@ -71,7 +71,7 @@ export default function Path(props) {
         patharry.forEach((item, i) => {
             if (i !== 0 && Object.keys(item).includes('line')) {
                 console.log('includes is true');
-                let sPP = (<ShapePathPoint key={generateID()} pathindex={i} label="point" cursorFocus={cursorFocus} refocus={refocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />);
+                let sPP = (<ShapePathPoint key={generateID()} pathindex={i} pathSegment='line' segmentIndex= '-' label="point" cursorFocus={cursorFocus} refocus={refocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />);
                 pathpointFields.push(sPP);
             } else {
                 console.log('includes is false');
@@ -80,14 +80,14 @@ export default function Path(props) {
         return pathpointFields;
     }
 
-    let ppFields = createPathPointFields(copyOfShape.data.path);
+    //let ppFields = createPathPointFields(copyOfShape.data.path);
 
     return (
         <div className={classes.parameterSection}>
             <p className={classes.label}><b>Path</b></p>
             <div id="pathpoints">
-                <ShapePathPoint pathindex={0} label='start point' cursorFocus={cursorFocus} refocus={refocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
-                {copyOfShape.data.path.length > 1 ? ppFields : ''}
+                <ShapePathPoint pathindex={0} pathSegment='line' segmentIndex= '-' label='start point' cursorFocus={cursorFocus} refocus={refocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
+                {copyOfShape.data.path.length > 1 ? createPathPointFields(copyOfShape.data.path) : ''}
             </div>
             <IconButton id='addToPathBtn' onClick={handleAddToPathClick}>
                 <AddIcon fontSize="small" />
