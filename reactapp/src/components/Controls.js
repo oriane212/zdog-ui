@@ -116,6 +116,12 @@ function Controls(props) {
         }
     } */
 
+
+    useEffect(() => {
+        checkCursorFocus();
+    }, [props.selectedNodeId[0]]);
+
+
     return (
 
         <section className="controls">

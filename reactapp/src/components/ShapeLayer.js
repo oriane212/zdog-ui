@@ -307,6 +307,7 @@ function ShapeLayer(props) {
             setShapes(flattened);
         }
 
+
     }
 
     function createColorControls() {
@@ -374,8 +375,7 @@ function ShapeLayer(props) {
                     )
                     shapeSpecificControls.push(slider);
                 } else if (property === 'path') {
-                    console.log('PATH       PATH    PAth')
-                    let path = <Path cursorFocus={cursorFocus} refocus={refocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened}/>
+                    let path = <Path checkCursorFocus={props.checkCursorFocus} cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened}/>
                     shapeSpecificControls.push(path);
                 } else if (property !== 'frontFace') {
                     let spi = <SingleParameterInput parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />

@@ -27,12 +27,9 @@ export default function ShapePathPoint(props) {
     let pathindex = props.pathindex;
     let label = props.label;
     let cursorFocus = props.cursorFocus;
-    let refocus = props.refocus;
     let copyOfShape = props.copyOfShape;
     let addedShapes = props.addedShapes;
     let flattened = props.flattened;
-
-    let index = 0;
 
     const ppRefs = {
         'x' : useRef(),
