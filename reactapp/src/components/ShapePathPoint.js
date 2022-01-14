@@ -54,15 +54,18 @@ export default function ShapePathPoint(props) {
         }
     }
 
-    // **** TO DO:
+    function checkValueOnBlur(e, axis) {
+        if (e.target.value === '-' || e.target.value.length === 0) {
+            e.target.value = 0;
+            updatePathPoint(e, axis, false);
+        }
+    }
 
-    /* let emptyOrNegative = useRef([false, false]); // [value, axis] */
-    /* let emptyOrNegative = useState([false, false]); // [value, axis] */
     let emptyOrNegative = props.emptyOrNegative;
 
     let pp = copyOfShape.data.path[pathindex].line;
 
-    function updatePathPoint(e, axis) {
+    function updatePathPoint(e, axis, setfocus=true) {
 
         /* let val = Number(e.target.value); */
 
@@ -91,12 +94,21 @@ export default function ShapePathPoint(props) {
             pp.set({ x: pp.x, y: pp.y, z: val });
         }
 
-        cursorFocus[1](
-            {
-                'id': e.target.id,
-                'cursorPos': e.target.selectionStart
-            }
-        );
+        if (setfocus) {
+            cursorFocus[1](
+                {
+                    'id': e.target.id,
+                    'cursorPos': e.target.selectionStart
+                }
+            );
+        } else {
+            cursorFocus[1](
+                {
+                    'id': '',
+                    'cursorPos': 0
+                }
+            );
+        }
 
         
         //if (emptyOrNegative.current === [false, false]) {
@@ -122,18 +134,18 @@ export default function ShapePathPoint(props) {
                 <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
                 <Input inputRef={ppRefs['x']} id={baseid + '_x'}
                     value={(emptyOrNegative[0][2] === `${baseid}_x` && emptyOrNegative[0][1] === 'x') ? emptyOrNegative[0][0] : pp.x}
-                    /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_x_${index}`, '')} */
+                    onBlur={(e) => checkValueOnBlur(e, 'x')}
                     disabled={false} onChange={(e) => updatePathPoint(e, 'x')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_y'}>y</InputLabel>
-                <Input inputRef={ppRefs['y']} id={baseid + '_y'} value={(emptyOrNegative[0][2] === `${baseid}_y` && emptyOrNegative[0][1] === 'y') ? emptyOrNegative[0][0] : pp.y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
+                <Input inputRef={ppRefs['y']} id={baseid + '_y'} value={(emptyOrNegative[0][2] === `${baseid}_y` && emptyOrNegative[0][1] === 'y') ? emptyOrNegative[0][0] : pp.y} onBlur={(e) => checkValueOnBlur(e, 'y')} disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_z'}>z</InputLabel>
-                <Input inputRef={ppRefs['z']} id={baseid + '_z'} value={(emptyOrNegative[0][2] === `${baseid}_z` && emptyOrNegative[0][1] === 'z') ? emptyOrNegative[0][0] : pp.z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
+                <Input inputRef={ppRefs['z']} id={baseid + '_z'} value={(emptyOrNegative[0][2] === `${baseid}_z` && emptyOrNegative[0][1] === 'z') ? emptyOrNegative[0][0] : pp.z} onBlur={(e) => checkValueOnBlur(e, 'z')} disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
             </FormControl>
 
         </div>
