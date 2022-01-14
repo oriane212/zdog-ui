@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormControl, Input, InputLabel, makeStyles } from '@material-ui/core';
 import '../zdogui.css';
 
@@ -56,15 +56,32 @@ export default function ShapePathPoint(props) {
 
     // **** TO DO:
 
-    //let emptyOrNegative = useRef([false, false]); // [value, axis]
+    /* let emptyOrNegative = useRef([false, false]); // [value, axis] */
+    /* let emptyOrNegative = useState([false, false]); // [value, axis] */
+    let emptyOrNegative = props.emptyOrNegative;
 
     let pp = copyOfShape.data.path[pathindex].line;
 
     function updatePathPoint(e, axis) {
 
-        /* let pp0 = copyOfShape.data.path[0].line; */
+        /* let val = Number(e.target.value); */
 
-        let val = Number(e.target.value);
+        let val;
+
+
+        if (e.target.value.length === 1 && e.target.value === '-') {
+            /* emptyOrNegative.current = ['-', axis]; */
+            emptyOrNegative[1](['-', axis, e.target.id]);
+            val = 0; // not shown to user
+        } else if (e.target.value.length === 0){
+            /* emptyOrNegative.current = ['', axis]; */
+            emptyOrNegative[1](['', axis, e.target.id]);
+            val = 0; // not shown to user
+        } else {
+            val = Number(e.target.value);
+            /* emptyOrNegative.current = [false, false]; */
+            emptyOrNegative[1]([false, false, '']);
+        }
         
         if (axis === 'x') {
             pp.set({ x: val, y: pp.y, z: pp.z });
@@ -81,7 +98,13 @@ export default function ShapePathPoint(props) {
             }
         );
 
-        addedShapes[1](flattened);
+        
+        //if (emptyOrNegative.current === [false, false]) {
+        if (emptyOrNegative[0] === [false, false, '']) {
+            addedShapes[1](flattened);
+        }
+
+        //addedShapes[1](flattened);
 
     }
 
@@ -98,19 +121,19 @@ export default function ShapePathPoint(props) {
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
                 <Input inputRef={ppRefs['x']} id={baseid + '_x'}
-                    value={/* emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] :  */pp.x}
+                    value={(emptyOrNegative[0][2] === `${baseid}_x` && emptyOrNegative[0][1] === 'x') ? emptyOrNegative[0][0] : pp.x}
                     /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_x_${index}`, '')} */
                     disabled={false} onChange={(e) => updatePathPoint(e, 'x')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_y'}>y</InputLabel>
-                <Input inputRef={ppRefs['y']} id={baseid + '_y'} value={/* emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] :  */pp.y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
+                <Input inputRef={ppRefs['y']} id={baseid + '_y'} value={(emptyOrNegative[0][2] === `${baseid}_y` && emptyOrNegative[0][1] === 'y') ? emptyOrNegative[0][0] : pp.y} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_y_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_z'}>z</InputLabel>
-                <Input inputRef={ppRefs['z']} id={baseid + '_z'} value={/* emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] :  */pp.z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
+                <Input inputRef={ppRefs['z']} id={baseid + '_z'} value={(emptyOrNegative[0][2] === `${baseid}_z` && emptyOrNegative[0][1] === 'z') ? emptyOrNegative[0][0] : pp.z} /* onBlur={(e) => checkValueOnBlur(e, 'vector', `pp_z_${index}`, '')} */ disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
             </FormControl>
 
         </div>

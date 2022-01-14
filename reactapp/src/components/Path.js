@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton, makeStyles, Menu, MenuItem } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import '../zdogui.css';
@@ -30,6 +30,8 @@ export default function Path(props) {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    let emptyOrNegative = useState([false, false]); // [value, axis]
 
     let checkCursorFocus = props.checkCursorFocus;
     let cursorFocus = props.cursorFocus;
@@ -72,7 +74,7 @@ export default function Path(props) {
         patharry.forEach((item, i) => {
             if (i !== 0 && Object.keys(item).includes('line')) {
                 console.log('includes is true');
-                let sPP = (<ShapePathPoint checkCursorFocus={props.checkCursorFocus} key={generateID()} pathindex={i} pathSegment='line' segmentIndex= '-' label="point" cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />);
+                let sPP = (<ShapePathPoint emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} key={generateID()} pathindex={i} pathSegment='line' segmentIndex= '-' label="point" cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />);
                 pathpointFields.push(sPP);
             } else {
                 console.log('includes is false');
@@ -87,7 +89,7 @@ export default function Path(props) {
         <div className={classes.parameterSection}>
             <p className={classes.label}><b>Path</b></p>
             <div id="pathpoints">
-                <ShapePathPoint checkCursorFocus={props.checkCursorFocus} pathindex={0} pathSegment='line' segmentIndex= '-' label='start point' cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
+                <ShapePathPoint emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} pathindex={0} pathSegment='line' segmentIndex= '-' label='start point' cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
                 {copyOfShape.data.path.length > 1 ? createPathPointFields(copyOfShape.data.path) : ''}
             </div>
             <IconButton id='addToPathBtn' onClick={handleAddToPathClick}>
