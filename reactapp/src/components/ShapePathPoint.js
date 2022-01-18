@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FormControl, Input, InputLabel, makeStyles } from '@material-ui/core';
+import { FormControl, IconButton, Input, InputLabel, makeStyles } from '@material-ui/core';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import '../zdogui.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,11 +12,27 @@ const useStyles = makeStyles((theme) => ({
     label: {
         fontSize: 'small',
         'margin-bottom': 14,
-        marginTop: 24
+        /* marginTop: 24, */
+        marginRight: 14
     },
     textField: {
         width: 55,
     },
+    ptBtn: {
+        width: 36,
+        height: 36
+    },
+    pathpointHeader: {
+        display: 'flex',
+        'align-items': 'center',
+        height: 44,
+        marginTop: 10
+    },
+    pathpointContainer: {
+        '&:hover .deletePtBtnContainer': {
+            display: 'inline-flex',
+        }
+    }
 }));
 
 export default function ShapePathPoint(props) {
@@ -120,16 +137,29 @@ export default function ShapePathPoint(props) {
 
     }
 
+    function testFn() {
+        console.log('testing deletePtBtn');
+    }
+
+    let deletePtBtnContainer = (<div className='deletePtBtnContainer'>
+    <IconButton className={classes.ptBtn} onClick={testFn} aria-label="delete path segment">
+                <DeleteOutlinedIcon fontSize="small" />
+            </IconButton>
+    </div>)
+
     useEffect(() => {
         ppRefocus();
     }, []);
 
     return (
 
-        <div /* className={classes.parameter} */>
+        <div className={classes.pathpointContainer}>
 
-            <p className={classes.label}>{label}</p>
-
+            <div className={classes.pathpointHeader}>
+                <p className={classes.label}>{label}</p>
+                { (label === 'start point' ? '' : deletePtBtnContainer) } 
+            </div>
+            
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
                 <Input inputRef={ppRefs['x']} id={baseid + '_x'}

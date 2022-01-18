@@ -58,6 +58,10 @@ div.toplevelactions {
     background-color: #4051b5;
 }
 
+.deletePtBtnContainer {
+    display: none;
+}
+
 section.illoExplorer {
     grid-area: illoExplorer;
     background-color: #fbfbfb;
