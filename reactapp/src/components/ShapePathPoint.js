@@ -82,6 +82,7 @@ export default function ShapePathPoint(props) {
 
     let pp = copyOfShape.data.path[pathindex].line;
 
+
     function updatePathPoint(e, axis, setfocus=true) {
 
         /* let val = Number(e.target.value); */
@@ -137,12 +138,26 @@ export default function ShapePathPoint(props) {
 
     }
 
+    function copyPath() {
+        let newpatharry = [];
+        newpatharry.push(copyOfShape.data.path);
+        let flatpath = newpatharry.flat();
+        return flatpath;
+    }
+
+    function deletePathPt() {
+        let flatpath = copyPath();
+        flatpath.splice(pathindex, 1);
+        copyOfShape.data.path = flatpath;
+        addedShapes[1](flattened);
+    }
+
     function testFn() {
         console.log('testing deletePtBtn');
     }
 
     let deletePtBtnContainer = (<div className='deletePtBtnContainer'>
-    <IconButton className={classes.ptBtn} onClick={testFn} aria-label="delete path segment">
+    <IconButton className={classes.ptBtn} onClick={deletePathPt} aria-label="delete path segment">
                 <DeleteOutlinedIcon fontSize="small" />
             </IconButton>
     </div>)

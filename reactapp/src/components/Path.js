@@ -49,14 +49,19 @@ export default function Path(props) {
         setAnchorEl(null);
     };
 
+    function copyPath() {
+        let newpatharry = [];
+        newpatharry.push(copyOfShape.data.path);
+        let flatpath = newpatharry.flat();
+        return flatpath;
+    }
+
     function addToPath(v) {
         
         handleClose();
 
         // copy current path array
-        let newpatharry = [];
-        newpatharry.push(copyOfShape.data.path);
-        let flatpath = newpatharry.flat();
+        let flatpath = copyPath();
 
         if (v === 'Point') {
             let pt = new Zdog.Vector({});
@@ -74,7 +79,7 @@ export default function Path(props) {
         patharry.forEach((item, i) => {
             if (i !== 0 && Object.keys(item).includes('line')) {
                 console.log('includes is true');
-                let sPP = (<ShapePathPoint emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} key={generateID()} pathindex={i} pathSegment='line' segmentIndex= '-' label="point" cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />);
+                let sPP = (<ShapePathPoint /* deletePathPt={deletePathPt} */ emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} key={generateID()} pathindex={i} pathSegment='line' segmentIndex= '-' label="point" cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />);
                 pathpointFields.push(sPP);
             } else {
                 console.log('includes is false');
@@ -89,7 +94,7 @@ export default function Path(props) {
         <div className={classes.parameterSection}>
             <p className={classes.label}><b>Path</b></p>
             <div id="pathpoints">
-                <ShapePathPoint emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} pathindex={0} pathSegment='line' segmentIndex= '-' label='start point' cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
+                <ShapePathPoint /* deletePathPt={deletePathPt} */ emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} pathindex={0} pathSegment='line' segmentIndex= '-' label='start point' cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
                 {copyOfShape.data.path.length > 1 ? createPathPointFields(copyOfShape.data.path) : ''}
             </div>
             <IconButton id='addToPathBtn' onClick={handleAddToPathClick}>
