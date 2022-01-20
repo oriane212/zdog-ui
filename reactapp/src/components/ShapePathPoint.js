@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
     textField: {
         width: 55,
+        marginBottom: 8
     },
     ptBtn: {
         width: 36,
@@ -39,23 +40,27 @@ export default function ShapePathPoint(props) {
 
     const classes = useStyles();
 
-    let pathSegment = props.pathSegment;
-    let segmentIndex = props.segmentIndex;
     let pathindex = props.pathindex;
-    let label = props.label;
-    let cursorFocus = props.cursorFocus;
+    let segmentindex = props.segmentindex;
     let copyOfShape = props.copyOfShape;
     let addedShapes = props.addedShapes;
     let flattened = props.flattened;
+
+    let cursorFocus = props.cursorFocus;
+    let emptyOrNegative = props.emptyOrNegative;
 
     const ppRefs = {
         'x' : useRef(),
         'y' : useRef(),
         'z' : useRef()
     }
-    
 
-    let baseid = `path_${pathindex}_${pathSegment}_${segmentIndex}`;
+    let segment = copyOfShape.data.path[pathindex];
+    let label = Object.keys(segment)[0];
+
+    let baseid = `path_${pathindex}_${label}_${segmentindex}`;
+
+    let pp = segmentindex === '-' ? segment[label] : segment[label][segmentindex];
 
     function ppRefocus() {
         let pos = cursorFocus[0]['cursorPos'];
@@ -78,11 +83,13 @@ export default function ShapePathPoint(props) {
         }
     }
 
-    let emptyOrNegative = props.emptyOrNegative;
-
-    let pp = copyOfShape.data.path[pathindex].line;
-
-
+    function copyPath() {
+        let newpatharry = [];
+        newpatharry.push(copyOfShape.data.path);
+        let flatpath = newpatharry.flat();
+        return flatpath;
+    }
+    
     function updatePathPoint(e, axis, setfocus=true) {
 
         /* let val = Number(e.target.value); */
@@ -103,6 +110,7 @@ export default function ShapePathPoint(props) {
             /* emptyOrNegative.current = [false, false]; */
             emptyOrNegative[1]([false, false, '']);
         }
+
         
         if (axis === 'x') {
             pp.set({ x: val, y: pp.y, z: pp.z });
@@ -138,42 +146,18 @@ export default function ShapePathPoint(props) {
 
     }
 
-    function copyPath() {
-        let newpatharry = [];
-        newpatharry.push(copyOfShape.data.path);
-        let flatpath = newpatharry.flat();
-        return flatpath;
-    }
-
-    function deletePathPt() {
-        let flatpath = copyPath();
-        flatpath.splice(pathindex, 1);
-        copyOfShape.data.path = flatpath;
-        addedShapes[1](flattened);
-    }
-
-    function testFn() {
-        console.log('testing deletePtBtn');
-    }
-
-    let deletePtBtnContainer = (<div className='deletePtBtnContainer'>
-    <IconButton className={classes.ptBtn} onClick={deletePathPt} aria-label="delete path segment">
-                <DeleteOutlinedIcon fontSize="small" />
-            </IconButton>
-    </div>)
-
     useEffect(() => {
         ppRefocus();
     }, []);
 
     return (
 
-        <div className={classes.pathpointContainer}>
+        <div /* className={classes.pathpointContainer} */>
 
-            <div className={classes.pathpointHeader}>
+           {/*  <div className={classes.pathpointHeader}>
                 <p className={classes.label}>{label}</p>
                 { (label === 'start point' ? '' : deletePtBtnContainer) } 
-            </div>
+            </div> */}
             
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
