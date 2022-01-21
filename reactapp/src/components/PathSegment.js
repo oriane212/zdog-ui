@@ -72,13 +72,13 @@ export default function PathSegment(props) {
             </IconButton>
     </div>)
 
-    let labelUI = label;
-    if (label === 'line') {
-        if (pathindex === 0) {
-            labelUI = 'start point';
-        } else {
-            labelUI = 'point (line)';
-        }
+    
+    let cap = label.charAt(0).toUpperCase();
+    let sliced = label.slice(1);
+    let labelUI = cap + sliced;
+
+    if (pathindex === 0) {
+        labelUI = 'Line (start point)';
     }
 
     let sppArry = [];

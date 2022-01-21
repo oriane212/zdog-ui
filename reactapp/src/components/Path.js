@@ -63,7 +63,7 @@ export default function Path(props) {
         // copy current path array
         let flatpath = copyPath();
 
-        if (v === 'point') {
+        if (v === 'line') {
             let pt = new Zdog.Vector({});
             flatpath.push({line: pt});
         } else if (v === 'move') {
@@ -127,7 +127,7 @@ export default function Path(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem className={classes.smallFont} onClick={() => addToPath('point')} value="point">Point</MenuItem>
+                <MenuItem className={classes.smallFont} onClick={() => addToPath('line')} value="line">Line</MenuItem>
                 <MenuItem className={classes.smallFont} onClick={() => addToPath('move')} value="move">Move</MenuItem>
                 <MenuItem className={classes.smallFont} onClick={() => addToPath('arc')} value="arc">Arc</MenuItem>
                 <MenuItem className={classes.smallFont} onClick={() => addToPath('bezier')} value="bezier">Bezier</MenuItem>
