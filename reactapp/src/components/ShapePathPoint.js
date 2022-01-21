@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FormControl, IconButton, Input, InputLabel, makeStyles } from '@material-ui/core';
+import { FormControl, FormHelperText, IconButton, Input, InputLabel, makeStyles } from '@material-ui/core';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import '../zdogui.css';
 
@@ -62,6 +62,18 @@ export default function ShapePathPoint(props) {
 
     let pp = segmentindex === '-' ? segment[label] : segment[label][segmentindex];
 
+    function createHelperText() {
+        const helpers = {
+            'line' : ['point'],
+            'move' : ['start'],
+            'arc' : ['corner', 'end'],
+            'bezier' : ['control 1', 'control 2', 'end']
+        }
+        let i = (segmentindex === '-') ? 0 : segmentindex;
+        let helpertext = helpers[label][i];
+        return helpertext;
+    }
+
     function ppRefocus() {
         let pos = cursorFocus[0]['cursorPos'];
         let focusid = cursorFocus[0]['id'];
@@ -82,20 +94,10 @@ export default function ShapePathPoint(props) {
             updatePathPoint(e, axis, false);
         }
     }
-
-    function copyPath() {
-        let newpatharry = [];
-        newpatharry.push(copyOfShape.data.path);
-        let flatpath = newpatharry.flat();
-        return flatpath;
-    }
     
     function updatePathPoint(e, axis, setfocus=true) {
 
-        /* let val = Number(e.target.value); */
-
         let val;
-
 
         if (e.target.value.length === 1 && e.target.value === '-') {
             /* emptyOrNegative.current = ['-', axis]; */
@@ -136,13 +138,10 @@ export default function ShapePathPoint(props) {
             );
         }
 
-        
         //if (emptyOrNegative.current === [false, false]) {
         if (emptyOrNegative[0] === [false, false, '']) {
             addedShapes[1](flattened);
         }
-
-        //addedShapes[1](flattened);
 
     }
 
@@ -152,12 +151,7 @@ export default function ShapePathPoint(props) {
 
     return (
 
-        <div /* className={classes.pathpointContainer} */>
-
-           {/*  <div className={classes.pathpointHeader}>
-                <p className={classes.label}>{label}</p>
-                { (label === 'start point' ? '' : deletePtBtnContainer) } 
-            </div> */}
+        <div>
             
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
@@ -165,6 +159,7 @@ export default function ShapePathPoint(props) {
                     value={(emptyOrNegative[0][2] === `${baseid}_x` && emptyOrNegative[0][1] === 'x') ? emptyOrNegative[0][0] : pp.x}
                     onBlur={(e) => checkValueOnBlur(e, 'x')}
                     disabled={false} onChange={(e) => updatePathPoint(e, 'x')} />
+                {label === 'line' ? '' : <FormHelperText>{createHelperText()}</FormHelperText>}
             </FormControl>
 
             <FormControl className={classes.textField}>

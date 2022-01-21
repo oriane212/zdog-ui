@@ -200,7 +200,7 @@ function App(props) {
 
     props_basic.forEach((prop) => {
       if (shapeClass === 'Shape' && prop === 'stroke') {
-        data[prop] = 10;
+        data[prop] = 20;
       } else if (prop === 'translate' || prop === 'rotate') {
         data[prop] = new Zdog.Vector({});
       } else if (prop === 'backface' && !(shapeClass === 'Box')) { /* backface needs to remain set to default value of true for Box. If it is set to a color value then all Box-specific face colors do not render properly */
@@ -226,7 +226,7 @@ function App(props) {
         }
         faces[prop] = true;
       } else if (prop === 'path') {
-        data[prop] = [{line: new Zdog.Vector({x: 10, y: 20, z: 30})}];
+        data[prop] = [{line: new Zdog.Vector({})}];
         data.closed = false;
       } else {
         let defaultVal = zdogShape[prop];

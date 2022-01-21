@@ -78,7 +78,7 @@ export default function PathSegment(props) {
     let labelUI = cap + sliced;
 
     if (pathindex === 0) {
-        labelUI = 'Line (start point)';
+        labelUI = 'Start';
     }
 
     let sppArry = [];

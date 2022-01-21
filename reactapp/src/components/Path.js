@@ -128,7 +128,7 @@ export default function Path(props) {
                 onClose={handleClose}
             >
                 <MenuItem className={classes.smallFont} onClick={() => addToPath('line')} value="line">Line</MenuItem>
-                <MenuItem className={classes.smallFont} onClick={() => addToPath('move')} value="move">Move</MenuItem>
+                <MenuItem disabled={copyOfShape.data.path.length === 1} className={classes.smallFont} onClick={() => addToPath('move')} value="move">Move</MenuItem>
                 <MenuItem className={classes.smallFont} onClick={() => addToPath('arc')} value="arc">Arc</MenuItem>
                 <MenuItem className={classes.smallFont} onClick={() => addToPath('bezier')} value="bezier">Bezier</MenuItem>
             </Menu>
