@@ -2,7 +2,7 @@
 
 export let shapeProperties = {
     'basic': [
-        'addTo', 'color', 'backface', 'stroke', 'closed', 'fill', 'translate', 'rotate'/*, 'scale', 'zoom' */
+        'addTo', 'color', 'backface', 'stroke', 'fill', 'translate', 'rotate'/*, 'scale', 'zoom' */
     ],
     'Ellipse': [
         /*'diameter',*/ 'width', 'height', 'quarters'
@@ -30,6 +30,6 @@ export let shapeProperties = {
     ],
     'Group': [],
     'Shape': [
-        'path'
+        'path', 'closed'
     ]
 }

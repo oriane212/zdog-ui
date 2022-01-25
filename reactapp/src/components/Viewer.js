@@ -16,6 +16,9 @@ function Viewer(props) {
     /* const refAnimate = useRef(stateVars.animate[0]);
     refAnimate.current = stateVars.animate[0]; */
 
+    const refZoom = useRef(stateVars.zoom[0]);
+    refZoom.current = stateVars.zoom[0];
+
     const refRotate_x = useRef(stateVars.rotate_x[0]);
     refRotate_x.current = stateVars.rotate_x[0];
 
@@ -81,6 +84,7 @@ function Viewer(props) {
         illo = new Zdog.Illustration({
           element: '#illo',
           /* dragRotate: stateVars.dragRotate[0], */
+          zoom: refZoom.current,
           dragRotate: (refAnimationOption.current === 'dragRotate'),
           rotate: {
               x: refRotate_x.current,

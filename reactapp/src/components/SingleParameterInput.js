@@ -20,6 +20,7 @@ function SingleParameterInput(props) {
     const label = fixCamelCase(parameter);
 
     const updateShapes = props.updateShapes;
+    const checkValueOnBlur = props.checkValueOnBlur;
 
     //let cursorFocus = props.cursorFocus;
 
@@ -37,7 +38,7 @@ function SingleParameterInput(props) {
 
         <FormControl className={classes.parameter}>
             <InputLabel htmlFor={parameter + '_' + index}>{label}</InputLabel>
-            <Input inputRef={paramRef} id={parameter + '_' + index} value={copyOfShape.data[parameter]} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `${parameter}_${index}`, '')} />
+            <Input inputRef={paramRef} id={parameter + '_' + index} value={copyOfShape.data[parameter]} onBlur={(e) => checkValueOnBlur(e, 'textinput', `${parameter}_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'textinput', `${parameter}_${index}`, '')} />
         </FormControl>
 
     )

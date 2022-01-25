@@ -119,6 +119,7 @@ function ShapeLayer(props) {
     const basicRefs = {
         "stroke": useRef(),
         "fill": useRef(),
+        "closed": useRef(),
         "color": useRef(),
         "backface": useRef(),
         "translate_x": useRef(),
@@ -220,7 +221,11 @@ function ShapeLayer(props) {
                 } else if (e.target.value.length === 0){
                     emptyOrNegative.current = ['', axis];
                     val = 0; // not shown to user
-                } else {
+                } else if (e.target.value[e.target.value.length-1] === '.') {
+                    emptyOrNegative.current = [e.target.value, axis];
+                    val = Number(e.target.value.slice(0, -1));
+                }
+                else {
                     val = Number(e.target.value);
                     emptyOrNegative.current = [false, false];
                 }
@@ -378,7 +383,7 @@ function ShapeLayer(props) {
                     let path = <Path checkCursorFocus={props.checkCursorFocus} cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened}/>
                     shapeSpecificControls.push(path);
                 } else if (property !== 'frontFace') {
-                    let spi = <SingleParameterInput parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />
+                    let spi = <SingleParameterInput checkValueOnBlur={checkValueOnBlur} parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />
                     shapeSpecificControls.push(spi);
                 }
             }
@@ -422,9 +427,24 @@ function ShapeLayer(props) {
     }
 
     function checkValueOnBlur(e, type, id, v) {
-        if (e.target.value === '-' || e.target.value.length === 0) {
-            let validVal = 0;
-            e.target.value = validVal;
+        if (type === 'textinput') {
+            if (isNaN(e.target.value) || (e.target.value.includes('-')) || e.target.value.length === 0) {
+                e.target.value = 0;
+                updateShapes(e, type, id, v);
+            } else if (e.target.value[0] === '0' && e.target.value.length > 1) {
+                if (e.target.value[1] !== '.' || isNaN(e.target.value[2]) ) {
+                    e.target.value = 0;
+                    updateShapes(e, type, id, v);
+                } else if (e.target.value[e.target.value.length-1] === '.') {
+                    e.target.value = e.target.value.slice(0, -1);
+                    updateShapes(e, type, id, v);
+                }
+            }
+        } else if (e.target.value === '-' || e.target.value.length === 0) {
+            e.target.value = 0;
+            updateShapes(e, type, id, v);
+        } else if (e.target.value[e.target.value.length-1] === '.') {
+            e.target.value = e.target.value.slice(0, -1);
             updateShapes(e, type, id, v);
         }
     }
@@ -452,10 +472,18 @@ function ShapeLayer(props) {
                             control={<Checkbox inputRef={basicRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`, '')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" className={classes.checkbox} />}
                         />
                         </FormControl>
+
+                        {copyOfShape.shapeClass === 'Shape' ? (<FormControl className={classes.parameterCheckbox}>
+                        <FormControlLabel
+                            label="Closed"
+                            control={<Checkbox inputRef={basicRefs['closed']} checked={copyOfShape.data.closed} onChange={(e) => updateShapes(e, 'checkbox', `closed_${index}`, '')} size="small" id={'closed_' + index} color="primary" className={classes.checkbox} />}
+                        />
+                        </FormControl>) : ''}
+                        
                         
                         <FormControl className={classes.parameter}>
                         <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
-                        <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} />
+                        <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} onBlur={(e) => checkValueOnBlur(e, 'textinput', `stroke_${index}`, '')} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} />
                     </FormControl>
 
                     </React.Fragment>

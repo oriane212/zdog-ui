@@ -5,6 +5,7 @@ export let illoPresets = {
     'blank': {
         canvas_w: 240,
         canvas_h: 240,
+        zoom: 1,
         dragRotate: true,
         animate: false,
         rotate_x: 0,
@@ -31,6 +32,7 @@ export let illoPresets = {
     'whitebox': {
         canvas_w: 240,
         canvas_h: 240,
+        zoom: 1,
         dragRotate: false,
         animate: true,
         rotate_x: 0,
@@ -121,6 +123,7 @@ export let illoPresets = {
     'lego': {
         canvas_w: 450,
         canvas_h: 450,
+        zoom: 0.5,
         dragRotate: true,
         animate: false,
         rotate_x: 0,

@@ -107,6 +107,19 @@ export default function ShapePathPoint(props) {
             /* emptyOrNegative.current = ['', axis]; */
             emptyOrNegative[1](['', axis, e.target.id]);
             val = 0; // not shown to user
+        } else if (e.target.value[e.target.value.length-1] === '.') {
+            if (e.target.value[0] === '.') {
+                e.target.value = '0' + e.target.value;
+                emptyOrNegative[1]([e.target.value, axis, e.target.id]);
+                val = Number(e.target.value);
+            } else if (e.target.value[0] === '-' && e.target.value[1] === '.') {
+                e.target.value = '-0' + e.target.value.slice(1);
+                emptyOrNegative[1]([e.target.value, axis, e.target.id]);
+                val = Number(e.target.value);
+            } else {
+                emptyOrNegative[1]([e.target.value, axis, e.target.id]);
+                val = Number(e.target.value.slice(0, -1));
+            }
         } else {
             val = Number(e.target.value);
             /* emptyOrNegative.current = [false, false]; */

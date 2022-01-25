@@ -120,6 +120,7 @@ function App(props) {
   const stateVars = {
     canvas_w: useState(psets.canvas_w),
     canvas_h: useState(psets.canvas_h),
+    zoom: useState(psets.zoom),
     dragRotate: useState(psets.dragRotate),
     animate: useState(psets.animate),
     rotate_x: useState(psets.rotate_x),

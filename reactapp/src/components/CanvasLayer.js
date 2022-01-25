@@ -103,6 +103,7 @@ function CanvasLayer(props) {
     const stateVars = props.stateVars;
     const [canvas_w, setCanvas_w] = [stateVars.canvas_w[0], stateVars.canvas_w[1]];
     const [canvas_h, setCanvas_h] = [stateVars.canvas_h[0], stateVars.canvas_h[1]];
+    const [zoom, setZoom] = [stateVars.zoom[0], stateVars.zoom[1]];
     const [dragRotate, setDragRotate] = [stateVars.dragRotate[0], stateVars.dragRotate[1]];
     const [animate, setAnimate] = [stateVars.animate[0], stateVars.animate[1]];
     const [rotate_x, setRotate_x] = [stateVars.rotate_x[0], stateVars.rotate_x[1]];
@@ -134,6 +135,21 @@ function CanvasLayer(props) {
             label: 'long',
         }
     ];
+
+    function checkValueOnBlur(e, setFn) {
+            if (isNaN(e.target.value) || (e.target.value.includes('-')) || e.target.value.length === 0) {
+                e.target.value = 0;
+                setFn(e.target.value);
+            } else if (e.target.value[0] === '0' && e.target.value.length > 1) {
+                if (e.target.value[1] !== '.' || isNaN(e.target.value[2]) ) {
+                    e.target.value = 0;
+                    setFn(e.target.value);
+                }
+            } else if (e.target.value[e.target.value.length-1] === '.') {
+                e.target.value = e.target.value.slice(0, -1);
+                setFn(e.target.value);
+            }
+    }
 
     function updateEaseIO(paramID, val) {
         let splitID = paramID.split('_');
@@ -245,12 +261,17 @@ function CanvasLayer(props) {
                 <InputLabel htmlFor="canvas_w">Width</InputLabel>
                 <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
                     (e) => { setCanvas_w(e.target.value); checkCursorFocus(); }
-                } />
+                } onBlur={ (e) => {checkValueOnBlur(e, setCanvas_w)}} />
             </FormControl>
 
             <FormControl className={classes.parameter}>
                 <InputLabel htmlFor="canvas_h">Height</InputLabel>
-                <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => { setCanvas_h(e.target.value); checkCursorFocus(); }} />
+                <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => { setCanvas_h(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setCanvas_h)}} />
+            </FormControl>
+
+            <FormControl className={classes.parameter}>
+                <InputLabel htmlFor="zoom">Zoom</InputLabel>
+                <Input id="zoom" value={zoom} onChange={(e) => { setZoom(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setZoom)}} />
             </FormControl>
 
 
