@@ -204,7 +204,7 @@ function Viewer(props) {
     return (
         <section className="results">
             <section className="illustration" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}>
-                <canvas style={{backgroundColor:stateVars.bgColor[0]}} id="illo" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}>
+                <canvas style={{backgroundColor: stateVars.bgColor[0], cursor: (refAnimationOption.current === 'dragRotate' ? 'move' : 'default')}} id="illo" width={stateVars.canvas_w[0]} height={stateVars.canvas_h[0]}>
                     <p>{stateVars.fallback[0]}</p>
                 </canvas>
             </section>

@@ -271,6 +271,7 @@ input[type='color'] {
     border: none;
     background-color: #fff4e7;
     padding: 0;
+    cursor: pointer;
 }
 
 div.editorHeader {

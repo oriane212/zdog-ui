@@ -75,10 +75,12 @@ function SourceCodeDialog(props) {
     
             let codetagsHTML_canvas = document.getElementById('codetagsHTML_canvas');
             let codetagsHTML_script = document.getElementById('codetagsHTML_script');
+
+            let cursor = stateVars.animationOption[0] === 'dragRotate' ? 'move' : 'default';
     
             let snippet_canvas =
               `<!-- canvas for Zdog illo -->
-    <canvas id="illo" style="background-color:${stateVars.bgColor[0]};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
+    <canvas id="illo" style="background-color:${stateVars.bgColor[0]}; cursor:${cursor};" width="${stateVars.canvas_w[0]}" height="${stateVars.canvas_h[0]}">
       <p>${stateVars.fallback[0]}</p>
     </canvas>`;
     
