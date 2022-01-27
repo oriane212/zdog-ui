@@ -10,6 +10,9 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import generateID from '../generateID';
 import fixCamelCase from '../fixCamelCase';
 import IlloToolbar from './IlloToolbar';
+import { IconButton } from '@material-ui/core';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import AddIcon from '@material-ui/icons/Add';
 
 
 const useStyles = makeStyles({
@@ -23,6 +26,20 @@ const useStyles = makeStyles({
     item: {
         color: 'rgba(0, 0, 0, 0.87)',
 /*         borderLeft: '1px dashed grey' */
+        
+    },
+    flexy: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 4,
+        '&:hover .itemActionsContainer': {
+            display: 'inline-flex'
+        }
+    },
+    itemAction: {
+        paddingRight: 12,
+        color: 'rgba(0, 0, 0, 0.5)',
     }
 });
 
@@ -89,7 +106,7 @@ export default function IlloExplorer(props) {
         if (childrenArray.length !== 0) {
             let treeitems = childrenArray.map((shape, i) => {
                 let pos = `${p}_${i}`;
-                let item = (<TreeItem onLabelClick={handleSelect} onIconClick={handleToggle} className={classes.item} key={generateID()} nodeId={pos} label={fixCamelCase(shape.shapeClass)}>
+                let item = (<TreeItem onLabelClick={handleSelect} onIconClick={handleToggle} className={classes.item} key={generateID()} nodeId={pos} label={<div className={classes.flexy}>{fixCamelCase(shape.shapeClass)} <div className='itemActionsContainer'><AddIcon className={classes.itemAction} fontSize='small'/><DeleteOutlinedIcon className={classes.itemAction} fontSize='small'/></div></div>}>
                     {createTree(shape.children, pos)}
                 </TreeItem>);
                 return item;
@@ -102,11 +119,19 @@ export default function IlloExplorer(props) {
 
     let toptreelevel = addedShapes[0].map((shape, i) => {
         let item =
-            (<TreeItem onLabelClick={handleSelect} onIconClick={handleToggle} className={classes.item} key={generateID()} nodeId={i.toString()} label={fixCamelCase(shape.shapeClass)}>
+            (<TreeItem onLabelClick={handleSelect} onIconClick={handleToggle} className={classes.item} key={generateID()} nodeId={i.toString()} label={<div className={classes.flexy}>{fixCamelCase(shape.shapeClass)} <div className='itemActionsContainer'><AddIcon className={classes.itemAction} fontSize='small'/><DeleteOutlinedIcon className={classes.itemAction} fontSize='small'/></div></div>}>
                 {createTree(shape.children, i.toString())}
             </TreeItem>);
         return item;
     })
+
+  /*   let itemActions = (
+        <div className='itemActions'>
+            <IconButton className={classes.itemBtn} onClick={handleDelete} aria-label="delete shape">
+                <DeleteOutlinedIcon fontSize="small" />
+            </IconButton>
+        </div>
+    ) */
 
     useEffect(() => {
         checkParentExpanded();
@@ -134,8 +159,9 @@ export default function IlloExplorer(props) {
                 selected={selectedNodeId[0]}
                 onNodeToggle={handleToggle}
                 onNodeSelect={handleSelect}
+                
             >
-                <TreeItem onLabelClick={handleSelect} onIconClick={handleToggle} className={classes.item} nodeId="canvasnode" label="Canvas">
+                <TreeItem onLabelClick={handleSelect} onIconClick={handleToggle} className={classes.item} nodeId="canvasnode" label={<div className={classes.flexy}>Canvas <div className='itemActionsContainer'><AddIcon className={classes.itemAction} fontSize='small'/><DeleteOutlinedIcon className={classes.itemAction} fontSize='small'/></div></div>}>
                     {toptreelevel}
                 </TreeItem>
             </TreeView>

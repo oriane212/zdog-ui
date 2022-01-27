@@ -62,6 +62,10 @@ div.toplevelactions {
     display: none;
 }
 
+.itemActionsContainer {
+    display: none;
+}
+
 section.illoExplorer {
     grid-area: illoExplorer;
     background-color: #fbfbfb;
