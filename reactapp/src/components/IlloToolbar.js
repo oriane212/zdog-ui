@@ -19,9 +19,9 @@ const useStyles = makeStyles({
     disabled: {
         color: 'grey'
     },
-    confirmDialog: {
+    /* confirmDialog: {
         padding: 40
-    },
+    }, */
 });
 
 export default function IlloToolbar(props) {
@@ -35,15 +35,15 @@ export default function IlloToolbar(props) {
 
     const classes = useStyles();
 
-    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    /* const [confirmDialogOpen, setConfirmDialogOpen] = useState(false); */
     const [confirmCreateNewDialogOpen, setConfirmCreateNewDialogOpen] = useState(false);
 
-    function handleDelete() {
+    /* function handleDelete() {
         console.log('hello');
         setConfirmDialogOpen(true);
-    }
+    } */
 
-    function handleConfirm() {
+    /* function handleConfirm() {
         let flattened = copyShapes();
 
         let nodeId = selectedNodeId[0];
@@ -82,18 +82,18 @@ export default function IlloToolbar(props) {
 
         addedShapes[1](flattened);
         handleClose();
-    }
+    } */
 
-    function handleClose() {
+    /* function handleClose() {
         setConfirmDialogOpen(false);
-    }
+    } */
 
-    function copyShapes() {
+    /* function copyShapes() {
         let newshapearry = [];
         newshapearry.push(addedShapes[0]);
         let flattened = newshapearry.flat();
         return flattened;
-    }
+    } */
 
     function handleCreateNew() {
         console.log('create new clicked');
@@ -142,7 +142,8 @@ export default function IlloToolbar(props) {
                         </Container>
                 </Dialog>
 
-                <ButtonGroup id="btngrp">
+                {/* <ButtonGroup id="btngrp">
+
                     <div>
                         <IconButton className={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode') ? classes.disabled : ''} onClick={handleDelete} aria-label="delete" disabled={(selectedNodeId[0] === '' || selectedNodeId[0] === 'canvasnode')}>
                             <DeleteOutlinedIcon fontSize="small" />
@@ -162,7 +163,7 @@ export default function IlloToolbar(props) {
 
                     <AddShapeMenu selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
             
-                </ButtonGroup>
+                </ButtonGroup> */}
 
                 <IconButton id="getsourcecode" onClick={getSourceCode} aria-label="Source code">
                             <CodeIcon fontSize="small" />
