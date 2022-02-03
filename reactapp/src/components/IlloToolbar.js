@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../zdogui.css';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-import { Button, ButtonGroup, Container, Dialog, IconButton, Typography } from '@material-ui/core';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
-import AddShapeMenu from './AddShapeMenu';
+import { Button, Container, Dialog, IconButton, Typography } from '@material-ui/core';
 
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import CodeIcon from '@mui/icons-material/Code';
@@ -19,9 +16,9 @@ const useStyles = makeStyles({
     disabled: {
         color: 'grey'
     },
-    /* confirmDialog: {
+    confirmDialog: {
         padding: 40
-    }, */
+    },
 });
 
 export default function IlloToolbar(props) {
@@ -124,10 +121,17 @@ export default function IlloToolbar(props) {
     return (
             <div className="toplevelactions">
 
+           
+            
+
                 <IconButton id="createnew" onClick={handleCreateNew} aria-label="Create new illustration">
                     <NoteAddOutlinedIcon fontSize="small" />
                 </IconButton>
 
+                <IconButton id="getsourcecode" onClick={getSourceCode} aria-label="Source code">
+                            <CodeIcon fontSize="small" />
+                </IconButton>
+            
                 <Dialog onClose={handleCloseCreateNewDialog} open={confirmCreateNewDialogOpen}>
                         <Container className={classes.confirmDialog}>
                             <Typography>Starting a new Zdog Illustration will delete any work you've done so far! 
@@ -165,9 +169,6 @@ export default function IlloToolbar(props) {
             
                 </ButtonGroup> */}
 
-                <IconButton id="getsourcecode" onClick={getSourceCode} aria-label="Source code">
-                            <CodeIcon fontSize="small" />
-                </IconButton>
 
             </div>
     )

@@ -36,6 +36,7 @@ import SourceCodeDialog from './components/SourceCodeDialog';
 import IlloExplorer from './components/IlloExplorer';
 
 import { illoPresets } from './illoPresets';
+import IlloToolbar from './components/IlloToolbar';
 
 /* Zdog shape instances */
 const zdogDefaultShapes = {
@@ -320,6 +321,8 @@ function App(props) {
       {/*     <IconButton>
             <CreateNewFolderIcon fontSize="small" />
           </IconButton> */}
+
+          <IlloToolbar setPresets={setPresets} selectedNodeId={selectedNodeId} setOpen={setOpen} />
 
           <div>
 

@@ -21,11 +21,12 @@ const useStyles = makeStyles({
         padding: 16,
         overflowX: 'scroll',
         overflowY: 'scroll',
-        height: window.innerHeight - 185 /* 185 is (appbar + actionsbar heights) + additional 33px offset needed for bottom horizontal scroll bar to show */
-
+        /* height: window.innerHeight - 185 */ /* 185 is (appbar + actionsbar heights) + additional 33px offset needed for bottom horizontal scroll bar to show */
+        height: window.innerHeight - 114 // adjusted after removing actionsbar
     },
     item: {
         color: 'rgba(0, 0, 0, 0.87)',
+        minWidth: 260
         /*         borderLeft: '1px dashed grey' */
 
     },
@@ -262,7 +263,7 @@ export default function IlloExplorer(props) {
 
             <div id='invisibleAnchorEl'> </div>
 
-            <IlloToolbar setPresets={setPresets} setOpen={setOpen} stateVars={stateVars} addedShapes={addedShapes} selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} />
+            {/* <IlloToolbar setPresets={setPresets} setOpen={setOpen} stateVars={stateVars} addedShapes={addedShapes} selectedNodeId={selectedNodeId} addNewZdogShape={addNewZdogShape} /> */}
 
             <TreeView
                 className={classes.root}

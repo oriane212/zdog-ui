@@ -20,18 +20,19 @@ main {
 }
 
 div.toplevelactions {
-    background-color: #fbfbfb;
+    /* background-color: #fbfbfb; */
     display: flex;
     justify-content: space-around;
     /* display: grid;
     grid-template-columns: 0.65fr 0.35fr;
     grid-template-areas: '. btngrp'; */
-    padding: 6px;
+
+    /* padding: 6px;
     position: fixed;
     width: 287px;
     z-index: 100;
     border-bottom: 1px solid #ededed;
-    border-right: 1px solid #ededed;
+    border-right: 1px solid #ededed; */
 }
 
 /* #addbtn {
@@ -70,20 +71,22 @@ section.illoExplorer {
     grid-area: illoExplorer;
     background-color: #fbfbfb;
     /* padding: 24px; */
-    width: 300px;
+    width: 400px;
     height: 100%;
     position: fixed;
 }
 
 #invisibleAnchorEl {
     position: absolute;
-    left: 300px;
-    top: 82px;
+    /* left: 300px;
+    top: 82px; */
+    left: 385px;
+    top: 24px;
 }
 
 ul[role="tree"] {
-    position: unset;
-    margin-top: 56px;
+    /* position: unset;
+    margin-top: 56px; */
     /* height and overflow in component styles */
 }
 
@@ -127,7 +130,7 @@ section.results {
     /* margin-top: 24px; */
     position: fixed;
     top: 120px;
-    left: 324px;
+    left: 424px;
     /* margin: 24px; */
 }
 
