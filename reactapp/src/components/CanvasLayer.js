@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'block',
         marginTop: 4,
         marginBottom: 6,
-        marginLeft: 12
+        marginLeft: 12,
+        color: '#626262'
     },
     checkbox: {
         'padding-bottom': 10
@@ -193,21 +194,21 @@ function CanvasLayer(props) {
                     <FormControl className={classes.inlineParameterCheckbox}>
                         <FormControlLabel
                             label="x"
-                            control={<Checkbox className={classes.checkbox} checked={easeIO.x} onChange={() => { updateEaseIO("easeIO_x", !easeIO.x); checkCursorFocus(); }} size="small" name="easeIO_x" id="easeIO_x" color="primary" />}
+                            control={<Checkbox className={classes.checkbox} checked={easeIO.x} onChange={() => { updateEaseIO("easeIO_x", !easeIO.x); checkCursorFocus(); }} size="small" name="easeIO_x" id="easeIO_x" color="#4c4c4c" />}
                         />
                     </FormControl>
 
                     <FormControl className={classes.inlineParameterCheckbox}>
                         <FormControlLabel
                             label="y"
-                            control={<Checkbox className={classes.checkbox} checked={easeIO.y} onChange={() => { updateEaseIO("easeIO_y", !easeIO.y); checkCursorFocus(); }} size="small" name="easeIO_y" id="easeIO_y" color="primary" />}
+                            control={<Checkbox className={classes.checkbox} checked={easeIO.y} onChange={() => { updateEaseIO("easeIO_y", !easeIO.y); checkCursorFocus(); }} size="small" name="easeIO_y" id="easeIO_y" color="#4c4c4c" />}
                         />
                     </FormControl>
 
                     <FormControl className={classes.inlineParameterCheckbox}>
                         <FormControlLabel
                             label="z"
-                            control={<Checkbox className={classes.checkbox} checked={easeIO.z} onChange={() => { updateEaseIO("easeIO_z", !easeIO.z); checkCursorFocus(); }} size="small" name="easeIO_z" id="easeIO_z" color="primary" />}
+                            control={<Checkbox className={classes.checkbox} checked={easeIO.z} onChange={() => { updateEaseIO("easeIO_z", !easeIO.z); checkCursorFocus(); }} size="small" name="easeIO_z" id="easeIO_z" color="#4c4c4c" />}
                         />
                     </FormControl>
                 </div>
@@ -289,17 +290,17 @@ function CanvasLayer(props) {
                     <FormControlLabel
                         value="none"
                         label="None"
-                        control={<Radio size="small" color="primary" />}
+                        control={<Radio size="small" color="#4c4c4c" />}
                     />
                     <FormControlLabel
                         value="dragRotate"
                         label="Drag Rotate"
-                        control={<Radio size="small" color="primary" />}
+                        control={<Radio size="small" color="#4c4c4c" />}
                     />
                     <FormControlLabel
                         value="animate"
                         label="Animate"
-                        control={<Radio size="small" color="primary" />}
+                        control={<Radio size="small" color="#4c4c4c" />}
                     />
                 </RadioGroup>
             </FormControl>

@@ -9,23 +9,23 @@ const tau = Zdog.TAU;
 const marks_rotate = [
     {
         value: 0,
-        label: '0',
+        label: '0°',
     },
     {
         value: tau / 12,
-        label: '30',
+        label: '30°',
     },
     {
         value: tau / 4,
-        label: '90',
+        label: '90°',
     },
     {
         value: tau / 2,
-        label: '180',
+        label: '180°',
     },
     {
         value: ((tau / 4) * 3),
-        label: '270',
+        label: '270°',
     },
     {
         value: tau
@@ -50,6 +50,11 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 'small',
         'margin-bottom': 14,
         marginTop: 24
+    },
+    unit: {
+        fontSize: 10,
+        marginLeft: 6,
+        color: '#626262'
     }
 }));
 
@@ -72,9 +77,9 @@ function RotateSliders(props) {
             <ParameterSlider
                 key={i}
                 id={id}
-                label={`${axis} = ${Math.round((axisVal) * (180 / Math.PI))}`}
+                label={ <>{`${axis} = ${Math.round((axisVal) * (180 / Math.PI))}°`} <span className={classes.unit}>{`${axisVal.toFixed(2)} radians`}</span></>}
                 value={axisVal}
-                min={0} max={tau} step={tau / 72} marks={marks_rotate}
+                min={0} max={tau} step={tau / 360} marks={marks_rotate}
                 onChange={(nodeId === 'canvasnode') ? ((e, v) => rotateData[`rotate_${axis}`][1](v)) : ((e, v) => updateShapes(e, 'vector', id, v))}
             />
         )
@@ -84,7 +89,7 @@ function RotateSliders(props) {
     return (
 
         <div className={classes.parameterSection}>
-                <p className={classes.label}><b>Rotation</b></p>
+                <p className={classes.label}>Rotate</p>
                 {rotateSliders}
         </div>
     )

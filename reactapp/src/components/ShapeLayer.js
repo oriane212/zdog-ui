@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../zdogui.css';
-import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, Typography, Slider } from '@material-ui/core';
+import { FormControl, FormControlLabel, Input, InputLabel, Checkbox, makeStyles, Typography, Slider, InputAdornment } from '@material-ui/core';
 
 import Zdog from 'zdog';
 import Face from './Face';
@@ -99,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
     disabledlabel: {
         fontSize: 'small',
         color: 'darkgray'
+    },
+    unit: {
+        fontSize: 'small'
     }
 }));
 
@@ -117,14 +120,13 @@ function ShapeLayer(props) {
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
     const basicRefs = {
-        "stroke": useRef(),
-        "fill": useRef(),
-        "closed": useRef(),
-        "color": useRef(),
-        "backface": useRef(),
         "translate_x": useRef(),
         "translate_y": useRef(),
         "translate_z": useRef(),
+        "fill": useRef(),
+        "color": useRef(),
+        "backface": useRef(),
+        "closed": useRef(),
     }
 
     const shapeRefs = {
@@ -133,17 +135,32 @@ function ShapeLayer(props) {
         "depth": useRef(),
         "diameter": useRef(),
         "length": useRef(),
-        "cornerRadius": useRef(),
         "radius": useRef(),
         "sides": useRef(),
+        "cornerRadius": useRef(),
+        "quarters": useRef(),
+        "stroke": useRef()
+    }
+
+    /* const shapeRefs = { */
+    /*  "width": useRef(),
+     "height": useRef(),
+     "depth": useRef(),
+     "diameter": useRef(),
+     "length": useRef(), */
+
+    /* "radius": useRef(), */
+
+    /* "path": useRef(), */
+    //}
+
+    const faceRefs = {
         "frontFace": useRef(),
         "rearFace": useRef(),
         "topFace": useRef(),
         "bottomFace": useRef(),
         "leftFace": useRef(),
         "rightFace": useRef(),
-        "quarters": useRef(),
-        "path": useRef()
     }
 
     const classes = useStyles();
@@ -218,10 +235,10 @@ function ShapeLayer(props) {
                 if (e.target.value.length === 1 && e.target.value === '-') {
                     emptyOrNegative.current = ['-', axis];
                     val = 0; // not shown to user
-                } else if (e.target.value.length === 0){
+                } else if (e.target.value.length === 0) {
                     emptyOrNegative.current = ['', axis];
                     val = 0; // not shown to user
-                } else if (e.target.value[e.target.value.length-1] === '.') {
+                } else if (e.target.value[e.target.value.length - 1] === '.') {
                     emptyOrNegative.current = [e.target.value, axis];
                     val = Number(e.target.value.slice(0, -1));
                 }
@@ -229,7 +246,7 @@ function ShapeLayer(props) {
                     val = Number(e.target.value);
                     emptyOrNegative.current = [false, false];
                 }
-                
+
             } else if (property === 'rotate') {
                 val = Number(v);
             }
@@ -288,13 +305,19 @@ function ShapeLayer(props) {
                     });
                 } else if (controlType === 'textinput') {
 
-                    copyOfShape.data[property] = e.target.value;
-                    cursorFocus[1](
-                        {
-                            'id': e.target.id,
-                            'cursorPos': e.target.selectionStart
-                        }
-                    );
+                    if (property !== 'sides' || (property === 'sides' && e.target.value.length > 0)) {
+                        copyOfShape.data[property] = e.target.value;
+                        cursorFocus[1](
+                            {
+                                'id': e.target.id,
+                                'cursorPos': e.target.selectionStart
+                            }
+                        );
+                    } /* else {
+                        validSides.current = false;
+                    } */
+
+                    
                 } else if (controlType === 'color') {
 
                     copyOfShape.data[property] = e.target.value;
@@ -316,13 +339,14 @@ function ShapeLayer(props) {
     }
 
     function createColorControls() {
+
         let cylinderFrontFace = (
             <FormControl className={classes.parameter}>
                 <label htmlFor={'frontFace_' + index} className={classes.labelsm}>Front Face</label>
-                <input type="color" id={'frontFace_' + index} value={copyOfShape.data.frontFace} onChange={(e) => updateShapes(e, 'color', `frontFace_${index}`, '')} inputref={shapeRefs['frontFace']}></input>
+                <input type="color" id={'frontFace_' + index} value={copyOfShape.data.frontFace} onChange={(e) => updateShapes(e, 'color', `frontFace_${index}`, '')} inputref={faceRefs['frontFace']}></input>
             </FormControl>
         )
-    
+
         let colorControls = (
             <React.Fragment>
                 <FormControl className={classes.parameter}>
@@ -341,58 +365,52 @@ function ShapeLayer(props) {
     }
 
 
-    let colorControls = '';
-
-    let shapeSpecificControls = [];
-    let faceControls = [];
-    let faceContainer = (
-        <div className={classes.parameterGroup}>
-            <p className={classes.label}>Faces</p>
-            {faceControls}
-        </div>
-    );
-
-    if (selectedNodeId[0] !== 'canvasnode') {
+    /* if (selectedNodeId[0] !== 'canvasnode') {
         createControls();
         colorControls = createColorControls();
-    }
+    } */
 
-    function createControls() {
-
-        Object.keys(shapeRefs).forEach((property) => {
-            if (copyOfShape.data[property] !== undefined) {
-                if (property.includes('Face') && (copyOfShape.shapeClass === 'Box')) {
-                    let side = property.split('F')[0];
-                    let faceComp = <Face side={side} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus} shapeRefs={shapeRefs} />
-                    faceControls.push(faceComp);
-                } else if (property === 'quarters' || property === 'sides') {
-                    let min = (property === 'quarters') ? 1 : 3;
-                    let max = (property === 'quarters') ? 4 : 12;
-                    let id = `${property}_${index}`;
-                    let slider = (
-                        <ParameterSlider
-                            id={id}
-                            label={fixCamelCase(property)}
-                            value={copyOfShape.data[property]}
-                            min={min} max={max} step={1} marks={['']}
-                            onChange={(e, v) => updateShapes(e, 'slider', id, v)}
-                        />
-                    )
-                    shapeSpecificControls.push(slider);
-                } else if (property === 'path') {
-                    let path = <Path checkCursorFocus={props.checkCursorFocus} cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened}/>
-                    shapeSpecificControls.push(path);
-                } else if (property !== 'frontFace') {
-                    let spi = <SingleParameterInput checkValueOnBlur={checkValueOnBlur} parameter={property} copyOfShape={copyOfShape} updateShapes={updateShapes} paramRef={shapeRefs[property]} />
-                    shapeSpecificControls.push(spi);
-                }
-            }
+    function createBoxFaceControls() {
+        let faceControls = [];
+        Object.keys(faceRefs).forEach((property) => {
+            let side = property.split('F')[0];
+            let faceComp = <Face side={side} copyOfShape={copyOfShape} updateShapes={updateShapes} cursorFocus={cursorFocus} refocus={refocus} faceRefs={faceRefs} />
+            faceControls.push(faceComp);
         })
 
-        if (faceControls.length !== 0) {
-            shapeSpecificControls.push(faceContainer);
-        }
+        let faceContainer = (
+            <div className={classes.parameterGroup}>
+                <p className={classes.label}>Faces</p>
+                {faceControls}
+            </div>
+        );
 
+        return faceContainer;
+    }
+
+    function createPath() {
+        let closed = ((
+            <FormControl className={classes.parameterCheckbox}>
+                <FormControlLabel
+                    label="Closed"
+                    control={<Checkbox inputRef={basicRefs['closed']} checked={copyOfShape.data.closed} onChange={(e) => updateShapes(e, 'checkbox', `closed_${index}`, '')} size="small" id={'closed_' + index} color="#4c4c4c" className={classes.checkbox} />}
+                />
+            </FormControl>));
+        let path = <Path checkCursorFocus={props.checkCursorFocus} cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened} />
+
+        return (<> {closed, path} </>);
+    }
+
+    function createShapeControls() {
+        let spis = [];
+        Object.keys(shapeRefs).forEach((property) => {
+            if (copyOfShape.data[property] !== undefined) {
+                let spi = <SingleParameterInput cursorFocus={cursorFocus} checkValueOnBlur={checkValueOnBlur} parameter={property} copyOfShape={copyOfShape} addedShapes={props.addedShapes} /* updateShapes={updateShapes} */ paramRef={shapeRefs[property]} />;
+                spis.push(spi);
+            }
+        })
+        let container = <> {spis} </>;
+        return container;
     }
 
     function refocus(cursorFocus, shapeRefs) {
@@ -432,10 +450,10 @@ function ShapeLayer(props) {
                 e.target.value = 0;
                 updateShapes(e, type, id, v);
             } else if (e.target.value[0] === '0' && e.target.value.length > 1) {
-                if (e.target.value[1] !== '.' || isNaN(e.target.value[2]) ) {
+                if (e.target.value[1] !== '.' || isNaN(e.target.value[2])) {
                     e.target.value = 0;
                     updateShapes(e, type, id, v);
-                } else if (e.target.value[e.target.value.length-1] === '.') {
+                } else if (e.target.value[e.target.value.length - 1] === '.') {
                     e.target.value = e.target.value.slice(0, -1);
                     updateShapes(e, type, id, v);
                 }
@@ -443,7 +461,7 @@ function ShapeLayer(props) {
         } else if (e.target.value === '-' || e.target.value.length === 0) {
             e.target.value = 0;
             updateShapes(e, type, id, v);
-        } else if (e.target.value[e.target.value.length-1] === '.') {
+        } else if (e.target.value[e.target.value.length - 1] === '.') {
             e.target.value = e.target.value.slice(0, -1);
             updateShapes(e, type, id, v);
         }
@@ -460,47 +478,17 @@ function ShapeLayer(props) {
 
                 <div>
 
-                    {(copyOfShape.shapeClass !== 'Box' && copyOfShape.shapeClass !== 'Group') ? colorControls : ''}
-
-                    {(copyOfShape.shapeClass !== 'Group') ? (
-
-                        <React.Fragment>
-
-                        <FormControl className={classes.parameterCheckbox}>
-                        <FormControlLabel
-                            label="Fill"
-                            control={<Checkbox inputRef={basicRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`, '')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="primary" className={classes.checkbox} />}
-                        />
-                        </FormControl>
-
-                        {copyOfShape.shapeClass === 'Shape' ? (<FormControl className={classes.parameterCheckbox}>
-                        <FormControlLabel
-                            label="Closed"
-                            control={<Checkbox inputRef={basicRefs['closed']} checked={copyOfShape.data.closed} onChange={(e) => updateShapes(e, 'checkbox', `closed_${index}`, '')} size="small" id={'closed_' + index} color="primary" className={classes.checkbox} />}
-                        />
-                        </FormControl>) : ''}
-                        
-                        
-                        <FormControl className={classes.parameter}>
-                        <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
-                        <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} onBlur={(e) => checkValueOnBlur(e, 'textinput', `stroke_${index}`, '')} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} />
-                    </FormControl>
-
-                    </React.Fragment>
-
-                    ) : ''}
-                    
+                    <RotateSliders nodeId={selectedNodeId[0]} rotateData={copyOfShape.data.rotate} updateShapes={updateShapes} />
 
                     <div className={classes.parameter}>
-
                         <p className={classes.label}>Translate</p>
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
-                            <Input inputRef={basicRefs['translate_x']} id={'translate_x_' + index} 
-                            value={emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] : copyOfShape.data.translate.x} 
-                            onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_x_${index}`, '')}
-                            disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
+                            <Input inputRef={basicRefs['translate_x']} id={'translate_x_' + index}
+                                value={emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] : copyOfShape.data.translate.x}
+                                onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_x_${index}`, '')}
+                                disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
                         </FormControl>
 
                         <FormControl className={classes.textField}>
@@ -512,12 +500,37 @@ function ShapeLayer(props) {
                             <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
                             <Input inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] : copyOfShape.data.translate.z} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_z_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
                         </FormControl>
-
                     </div>
 
-                    <RotateSliders nodeId={selectedNodeId[0]} rotateData={copyOfShape.data.rotate} updateShapes={updateShapes} />
 
-                    {shapeSpecificControls}
+                    {createShapeControls()}
+
+                    {(copyOfShape.shapeClass === 'Shape') ? createPath() : ''}
+
+
+                    {/* {(copyOfShape.shapeClass !== 'Group') ? (
+                        <FormControl className={classes.parameter}>
+                            <InputLabel htmlFor={'stroke_' + index}>Stroke</InputLabel>
+                            <Input inputRef={basicRefs['stroke']} id={'stroke_' + index} value={copyOfShape.data.stroke} onBlur={(e) => checkValueOnBlur(e, 'textinput', `stroke_${index}`, '')} disabled={false} onChange={(e) => { updateShapes(e, 'textinput', `stroke_${index}`, ''); console.log(e.target.selectionStart) }} endAdornment={<InputAdornment position="end"><p className={classes.unit}>px</p></InputAdornment>} />
+                        </FormControl>
+                    ) : ''} */}
+
+
+                    {/*    {shapeSpecificControls} */}
+
+
+                    {(copyOfShape.shapeClass !== 'Group') ? (
+                        <FormControl className={classes.parameterCheckbox}>
+                            <FormControlLabel
+                                label="Fill"
+                                control={<Checkbox inputRef={basicRefs['fill']} checked={copyOfShape.data.fill} onChange={(e) => updateShapes(e, 'checkbox', `fill_${index}`, '')} size="small" /* name={'fill_' + index} */ id={'fill_' + index} color="#4c4c4c" className={classes.checkbox} />}
+                            />
+                        </FormControl>
+                    ) : ''}
+
+                    {(copyOfShape.shapeClass !== 'Box' && copyOfShape.shapeClass !== 'Group') ? createColorControls() : ''}
+
+                    {(copyOfShape.shapeClass === 'Box') ? createBoxFaceControls() : ''}
 
                 </div>
 

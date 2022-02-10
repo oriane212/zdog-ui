@@ -38,7 +38,7 @@ function Face(props) {
 
     let cursorFocus = props.cursorFocus;
 
-    let shapeRefs = props.shapeRefs;
+    let faceRefs = props.faceRefs;
 
     const classes = useStyles();
 
@@ -46,10 +46,10 @@ function Face(props) {
 
     let label = (side[0].toUpperCase() + side.slice(1));
 
-    let paramRef = shapeRefs[propname];
+    let paramRef = faceRefs[propname];
 
     useEffect(() => {
-        props.refocus(cursorFocus, shapeRefs);
+        props.refocus(cursorFocus, faceRefs);
     }, [])
 
 
@@ -59,7 +59,7 @@ function Face(props) {
             <FormControl className={classes.inlineCheckbox}>
                 <FormControlLabel
                     label={label}
-                    control={<Checkbox checked={(copyOfShape.faces[propname] === true) ? true : false} onChange={(e) => updateShapes(e, 'checkbox_face', `${propname}_${index}`, '')} size="small" color="primary" className={classes.checkboxFace} />}
+                    control={<Checkbox checked={(copyOfShape.faces[propname] === true) ? true : false} onChange={(e) => updateShapes(e, 'checkbox_face', `${propname}_${index}`, '')} size="small" color="#4c4c4c" className={classes.checkboxFace} />}
                 />
             </FormControl>
 

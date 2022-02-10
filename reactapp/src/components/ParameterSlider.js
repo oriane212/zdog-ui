@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
     slider: {
         marginBottom: 36,
         display: 'block',
-        fontSize: 'small'
+        fontSize: 'small',
+        color: "#4c4c4c"
     },
     label: {
         fontSize: 'small',
