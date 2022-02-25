@@ -45,7 +45,7 @@ function SingleParameterInput(props) {
     let flattened = copyShapes();
 
     function spiUpdateShapes(e, property) {
-        if (property !== 'sides' || (property === 'sides' && e.target.value.length > 0)) {
+        if (property !== 'sides') {
             copyOfShape.data[property] = e.target.value;
             cursorFocus[1](
                 {
@@ -53,13 +53,35 @@ function SingleParameterInput(props) {
                     'cursorPos': e.target.selectionStart
                 }
             );
-            validSides[1](true);
-        } else {
-            validSides[1](false);
+            setShapes(flattened);
+            //validSides[1](true);
+        } else if (property === 'sides') {
+            if (e.target.value === '0' || e.target.value.length < 1 || isNaN(Number(e.target.value)) || e.target.value.includes('-')) {
+                console.log('aaaa');
+                validSides[1](false);
+            } else {
+                console.log('bbbb');
+                validSides[1](true);
+                copyOfShape.data[property] = e.target.value;
+                cursorFocus[1](
+                    {
+                        'id': e.target.id,
+                        'cursorPos': e.target.selectionStart
+                    }
+                );
+                setShapes(flattened);
+            }
         }
 
-        if (validSides[0]) {
+
+        /* if (validSides[0]) {
             setShapes(flattened);
+        } */
+    }
+
+    function sides(parameter) {
+        if (parameter === 'sides') {
+            validSides[1](true);
         }
     }
 
@@ -70,7 +92,7 @@ function SingleParameterInput(props) {
         if (parameter !== 'quarters') {
             spi = (<FormControl className={classes.parameter}>
                 <InputLabel htmlFor={parameter + '_' + index}>{label}</InputLabel>
-                <Input inputRef={paramRef} id={parameter + '_' + index} value={(validSides[0]) ? copyOfShape.data[parameter] : ''} onBlur={(e) => checkValueOnBlur(e, 'textinput', `${parameter}_${index}`, '')} disabled={false} onChange={(e) => spiUpdateShapes(e, parameter)} />
+                <Input inputRef={paramRef} id={parameter + '_' + index} value={(validSides[0]) ? copyOfShape.data[parameter] : ''} onBlur={(e) => {checkValueOnBlur(e, 'textinput', `${parameter}_${index}`, ''); sides(parameter);}} disabled={false} onChange={(e) => spiUpdateShapes(e, parameter)} />
             </FormControl>);
         }
         return spi;

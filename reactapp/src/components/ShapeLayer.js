@@ -119,6 +119,20 @@ function ShapeLayer(props) {
 
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
+    /* rules for checkValueOnBlur depend on specific property and what Zdog API accepts, not type of input (ie., single, vector) 
+    
+    conditions:
+    - empty
+    - decimal ('.', '0.', '1.', '..')
+    - negative
+
+    also rules for valid inputs before onBlur - what error/warning does user see?
+    - negative
+    - decimal
+    - NaN
+
+    */
+
     const basicRefs = {
         "translate_x": useRef(),
         "translate_y": useRef(),
@@ -129,6 +143,11 @@ function ShapeLayer(props) {
         "closed": useRef(),
     }
 
+    // properties for VectorParameterInputs
+    // translate x, y, z (move from basicRefs)
+    // scale x, y, z (add)
+
+    // properties for SingleParameterInputs
     const shapeRefs = {
         "width": useRef(),
         "height": useRef(),
@@ -138,7 +157,7 @@ function ShapeLayer(props) {
         "radius": useRef(),
         "sides": useRef(),
         "cornerRadius": useRef(),
-        "quarters": useRef(),
+        "quarters": useRef(), // need to create menu with option 1 to 4
         "stroke": useRef()
     }
 
@@ -305,7 +324,7 @@ function ShapeLayer(props) {
                     });
                 } else if (controlType === 'textinput') {
 
-                    if (property !== 'sides' || (property === 'sides' && e.target.value.length > 0)) {
+                    //if (property !== 'sides' || (property === 'sides' && e.target.value.length > 0)) {
                         copyOfShape.data[property] = e.target.value;
                         cursorFocus[1](
                             {
@@ -313,7 +332,9 @@ function ShapeLayer(props) {
                                 'cursorPos': e.target.selectionStart
                             }
                         );
-                    } /* else {
+                    //} 
+                    
+                    /* else {
                         validSides.current = false;
                     } */
 
@@ -447,7 +468,7 @@ function ShapeLayer(props) {
     function checkValueOnBlur(e, type, id, v) {
         if (type === 'textinput') {
             if (isNaN(e.target.value) || (e.target.value.includes('-')) || e.target.value.length === 0) {
-                e.target.value = 0;
+                id.includes('sides_') ? e.target.value = 3 : e.target.value = 0;
                 updateShapes(e, type, id, v);
             } else if (e.target.value[0] === '0' && e.target.value.length > 1) {
                 if (e.target.value[1] !== '.' || isNaN(e.target.value[2])) {

@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
         display: 'block',
         margin: 12
     },
+    inline_parameter: {
+        display: 'inline-flex',
+        margin: 12,
+        width: '40%'
+    },
     parameterSubGroup: {
         display: 'block',
         margin: 12,
@@ -258,19 +263,19 @@ function CanvasLayer(props) {
                 />
             </FormControl>
 
-            <FormControl className={classes.parameter}>
+            <FormControl className={classes.inline_parameter}>
                 <InputLabel htmlFor="canvas_w">Width</InputLabel>
                 <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
                     (e) => { setCanvas_w(e.target.value); checkCursorFocus(); }
                 } onBlur={ (e) => {checkValueOnBlur(e, setCanvas_w)}} />
             </FormControl>
 
-            <FormControl className={classes.parameter}>
+            <FormControl className={classes.inline_parameter}>
                 <InputLabel htmlFor="canvas_h">Height</InputLabel>
                 <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => { setCanvas_h(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setCanvas_h)}} />
             </FormControl>
 
-            <FormControl className={classes.parameter}>
+            <FormControl className={classes.inline_parameter}>
                 <InputLabel htmlFor="zoom">Zoom</InputLabel>
                 <Input id="zoom" value={zoom} onChange={(e) => { setZoom(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setZoom)}} />
             </FormControl>
