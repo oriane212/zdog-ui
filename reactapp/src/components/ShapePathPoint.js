@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
         '&:hover .deletePtBtnContainer': {
             display: 'inline-flex',
         }
+    },
+    lightBottomBorder: {
+        '&:before': {
+            'border-bottom': '1px solid rgba(0, 0, 0, 0.12)'
+        }
     }
 }));
 
@@ -168,7 +173,7 @@ export default function ShapePathPoint(props) {
             
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_x'}>x</InputLabel>
-                <Input inputRef={ppRefs['x']} id={baseid + '_x'}
+                <Input className={classes.lightBottomBorder} inputRef={ppRefs['x']} id={baseid + '_x'}
                     value={(emptyOrNegative[0][2] === `${baseid}_x` && emptyOrNegative[0][1] === 'x') ? emptyOrNegative[0][0] : pp.x}
                     onBlur={(e) => checkValueOnBlur(e, 'x')}
                     disabled={false} onChange={(e) => updatePathPoint(e, 'x')} />
@@ -177,12 +182,12 @@ export default function ShapePathPoint(props) {
 
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_y'}>y</InputLabel>
-                <Input inputRef={ppRefs['y']} id={baseid + '_y'} value={(emptyOrNegative[0][2] === `${baseid}_y` && emptyOrNegative[0][1] === 'y') ? emptyOrNegative[0][0] : pp.y} onBlur={(e) => checkValueOnBlur(e, 'y')} disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
+                <Input className={classes.lightBottomBorder} inputRef={ppRefs['y']} id={baseid + '_y'} value={(emptyOrNegative[0][2] === `${baseid}_y` && emptyOrNegative[0][1] === 'y') ? emptyOrNegative[0][0] : pp.y} onBlur={(e) => checkValueOnBlur(e, 'y')} disabled={false} onChange={(e) => updatePathPoint(e, 'y')} />
             </FormControl>
 
             <FormControl className={classes.textField}>
                 <InputLabel htmlFor={baseid + '_z'}>z</InputLabel>
-                <Input inputRef={ppRefs['z']} id={baseid + '_z'} value={(emptyOrNegative[0][2] === `${baseid}_z` && emptyOrNegative[0][1] === 'z') ? emptyOrNegative[0][0] : pp.z} onBlur={(e) => checkValueOnBlur(e, 'z')} disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
+                <Input className={classes.lightBottomBorder} inputRef={ppRefs['z']} id={baseid + '_z'} value={(emptyOrNegative[0][2] === `${baseid}_z` && emptyOrNegative[0][1] === 'z') ? emptyOrNegative[0][0] : pp.z} onBlur={(e) => checkValueOnBlur(e, 'z')} disabled={false} onChange={(e) => updatePathPoint(e, 'z')} />
             </FormControl>
 
         </div>

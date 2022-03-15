@@ -12,7 +12,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 36,
         display: 'block',
         fontSize: 'small',
-        color: "#4c4c4c"
+        color: "#4c4c4c",
+        /* '> .MuiSlider-rail': {
+            opacity: 0.18
+        } */
     },
     label: {
         fontSize: 'small',

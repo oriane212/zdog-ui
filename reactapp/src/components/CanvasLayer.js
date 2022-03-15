@@ -98,10 +98,12 @@ const useStyles = makeStyles((theme) => ({
         'margin-bottom': 14,
         marginTop: 12,
         fontWeight: 'bold'
+    },
+    lightBottomBorder: {
+        '&:before': {
+            'border-bottom': '1px solid rgba(0, 0, 0, 0.12)'
+        }
     }
-    /* mediumFont: {
-        fontSize: 16
-    } */
 }));
 
 function CanvasLayer(props) {
@@ -255,6 +257,7 @@ function CanvasLayer(props) {
                 <InputLabel htmlFor="fallback">Fallback Text {<Tooltip className={classes.mediumFont} title={<Typography variant="body2">Alternative text added inside the canvas tags. Useful for assistive technology users (eg. screen readers) or browsers which don't support canvas rendering.</Typography>}><HelpIcon fontSize='inherit' /></Tooltip>}</InputLabel>
 
                 <Input
+                    className={classes.lightBottomBorder}
                     id="fallback"
                     multiline
                     maxRows={8}
@@ -265,19 +268,19 @@ function CanvasLayer(props) {
 
             <FormControl className={classes.inline_parameter}>
                 <InputLabel htmlFor="canvas_w">Width</InputLabel>
-                <Input id="canvas_w" value={canvas_w} disabled={false} onChange={
+                <Input className={classes.lightBottomBorder} id="canvas_w" value={canvas_w} disabled={false} onChange={
                     (e) => { setCanvas_w(e.target.value); checkCursorFocus(); }
                 } onBlur={ (e) => {checkValueOnBlur(e, setCanvas_w)}} />
             </FormControl>
 
             <FormControl className={classes.inline_parameter}>
                 <InputLabel htmlFor="canvas_h">Height</InputLabel>
-                <Input id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => { setCanvas_h(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setCanvas_h)}} />
+                <Input className={classes.lightBottomBorder} id="canvas_h" value={canvas_h} disabled={false} onChange={(e) => { setCanvas_h(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setCanvas_h)}} />
             </FormControl>
 
             <FormControl className={classes.inline_parameter}>
                 <InputLabel htmlFor="zoom">Zoom</InputLabel>
-                <Input id="zoom" value={zoom} onChange={(e) => { setZoom(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setZoom)}} />
+                <Input className={classes.lightBottomBorder} id="zoom" value={zoom} onChange={(e) => { setZoom(e.target.value); checkCursorFocus(); }} onBlur={ (e) => {checkValueOnBlur(e, setZoom)}} />
             </FormControl>
 
 

@@ -102,6 +102,11 @@ const useStyles = makeStyles((theme) => ({
     },
     unit: {
         fontSize: 'small'
+    },
+    lightBottomBorder: {
+        '&:before': {
+            'border-bottom': '1px solid rgba(0, 0, 0, 0.12)'
+        }
     }
 }));
 
@@ -506,7 +511,7 @@ function ShapeLayer(props) {
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_x_' + index}>x</InputLabel>
-                            <Input inputRef={basicRefs['translate_x']} id={'translate_x_' + index}
+                            <Input className={classes.lightBottomBorder} inputRef={basicRefs['translate_x']} id={'translate_x_' + index}
                                 value={emptyOrNegative.current[1] === 'x' ? emptyOrNegative.current[0] : copyOfShape.data.translate.x}
                                 onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_x_${index}`, '')}
                                 disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_x_${index}`, '')} />
@@ -514,12 +519,12 @@ function ShapeLayer(props) {
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_y_' + index}>y</InputLabel>
-                            <Input inputRef={basicRefs['translate_y']} id={'translate_y_' + index} value={emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] : copyOfShape.data.translate.y} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_y_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
+                            <Input className={classes.lightBottomBorder} inputRef={basicRefs['translate_y']} id={'translate_y_' + index} value={emptyOrNegative.current[1] === 'y' ? emptyOrNegative.current[0] : copyOfShape.data.translate.y} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_y_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_y_${index}`, '')} />
                         </FormControl>
 
                         <FormControl className={classes.textField}>
                             <InputLabel htmlFor={'translate_z_' + index}>z</InputLabel>
-                            <Input inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] : copyOfShape.data.translate.z} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_z_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
+                            <Input className={classes.lightBottomBorder} inputRef={basicRefs['translate_z']} id={'translate_z_' + index} value={emptyOrNegative.current[1] === 'z' ? emptyOrNegative.current[0] : copyOfShape.data.translate.z} onBlur={(e) => checkValueOnBlur(e, 'vector', `translate_z_${index}`, '')} disabled={false} onChange={(e) => updateShapes(e, 'vector', `translate_z_${index}`, '')} />
                         </FormControl>
                     </div>
 

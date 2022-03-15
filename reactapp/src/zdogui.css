@@ -48,7 +48,7 @@ div.toplevelactions {
 }
 
 #addToPathBtn {
-    background-color: #b7b6d5;
+    background-color: #99928b;
     color: white;
     width: 24px;
     height: 24px;
@@ -56,7 +56,7 @@ div.toplevelactions {
 }
 
 #addToPathBtn:hover {
-    background-color: #4051b5;
+    background-color: #57524e;
 }
 
 .deleteSegmentBtnContainer {
