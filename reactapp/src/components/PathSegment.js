@@ -21,14 +21,16 @@ const useStyles = makeStyles((theme) => ({
         width: 55,
     },
     ptBtn: {
-        width: 36,
-        height: 36
+        width: 28,
+        height: 28
     },
     pathSegmentHeader: {
         display: 'flex',
         'align-items': 'center',
+        justifyContent: 'space-between',
         height: 44,
-        marginTop: 10
+        marginTop: 10,
+        width: 170
     },
     pathSegmentContainer: {
         '&:hover .deleteSegmentBtnContainer': {

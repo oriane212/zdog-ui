@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton, makeStyles, Menu, MenuItem } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, IconButton, makeStyles, Menu, MenuItem } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import '../zdogui.css';
 import PathSegment from './PathSegment';
@@ -15,13 +15,28 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 42,
         fontSize: 'small'
     },
+    sectionHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
     label: {
         fontSize: 'small',
-        'margin-bottom': 14,
-        marginTop: 24
+        width: 85
+        /* 'margin-bottom': 14,
+        marginTop: 24 */
     },
     smallFont: {
         fontSize: '0.8rem'
+    },
+    checkbox: {
+        'padding-bottom': 10
+    },
+    parameterCheckbox: {
+        /* display: 'block', */
+        /* 'margin-left': 12, */
+        'margin-top': 3,
+        'margin-bottom': 3
     }
 }));
 
@@ -83,6 +98,15 @@ export default function Path(props) {
         console.log(v);
     }
 
+    function updateShapes_checkbox(property) {
+        copyOfShape.data[property] = !copyOfShape.data[property];
+            cursorFocus[1]({
+                'id': '',
+                'cursorPos': 0
+            });
+        addedShapes[1](flattened);
+    }
+
     function createPathSegments() {
         let segments = [];
         copyOfShape.data.path.forEach((item, i) => {
@@ -111,15 +135,28 @@ export default function Path(props) {
 
     return (
         <div className={classes.parameterSection}>
-            <p className={classes.label}><b>Path</b></p>
+            <div className={classes.sectionHeader}>
+                <p className={classes.label}><b>Path</b></p>
+
+                <IconButton id='addToPathBtn' onClick={handleAddToPathClick}>
+                    <AddIcon fontSize="small" />
+                </IconButton>
+
+                <FormControl className={classes.parameterCheckbox}>
+                    <FormControlLabel
+                        label="Closed"
+                        control={<Checkbox /* inputRef={basicRefs['closed']} */ checked={copyOfShape.data.closed} onChange={(e) => updateShapes_checkbox('closed')} size="small" id={'closed_'/*  + index */} color="#4c4c4c" /* className={classes.checkbox} */ />}
+                    />
+                </FormControl>
+            </div>
+            
             {/* <div id="pathpoints">
                 <ShapePathPoint emptyOrNegative={emptyOrNegative} checkCursorFocus={props.checkCursorFocus} pathindex={0} pathSegment='line' segmentIndex= '-' label='start point' cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={addedShapes} flattened={flattened} />
                 {copyOfShape.data.path.length > 1 ? createPathPointFields(copyOfShape.data.path) : ''}
             </div> */}
+
             {createPathSegments()}
-            <IconButton id='addToPathBtn' onClick={handleAddToPathClick}>
-                <AddIcon fontSize="small" />
-            </IconButton>
+            
             <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}

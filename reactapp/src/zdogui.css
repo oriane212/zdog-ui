@@ -48,15 +48,16 @@ div.toplevelactions {
 }
 
 #addToPathBtn {
-    background-color: #99928b;
-    color: white;
+    /* background-color: #99928b; */
+    color: #5c5c5c;
     width: 24px;
     height: 24px;
-    margin-top: 16px;
+    /* margin-top: 16px; */
 }
 
 #addToPathBtn:hover {
-    background-color: #57524e;
+  /*   background-color: #57524e; */
+    color: #424242;
 }
 
 .deleteSegmentBtnContainer {
@@ -285,6 +286,8 @@ input[type='color'] {
     background-color: #fff4e7;
     padding: 0;
     cursor: pointer;
+    width: 36px;
+    height: 24px;
 }
 
 div.editorHeader {

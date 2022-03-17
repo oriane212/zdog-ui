@@ -145,7 +145,7 @@ function ShapeLayer(props) {
         "fill": useRef(),
         "color": useRef(),
         "backface": useRef(),
-        "closed": useRef(),
+        /* "closed": useRef(), */
     }
 
     // properties for VectorParameterInputs
@@ -415,16 +415,17 @@ function ShapeLayer(props) {
     }
 
     function createPath() {
-        let closed = ((
-            <FormControl className={classes.parameterCheckbox}>
+        let closed = (
+            {/* <FormControl className={classes.parameterCheckbox}>
                 <FormControlLabel
                     label="Closed"
                     control={<Checkbox inputRef={basicRefs['closed']} checked={copyOfShape.data.closed} onChange={(e) => updateShapes(e, 'checkbox', `closed_${index}`, '')} size="small" id={'closed_' + index} color="#4c4c4c" className={classes.checkbox} />}
                 />
-            </FormControl>));
+            </FormControl> */}
+            );
         let path = <Path checkCursorFocus={props.checkCursorFocus} cursorFocus={cursorFocus} copyOfShape={copyOfShape} addedShapes={props.addedShapes} flattened={flattened} />
 
-        return (<> {closed, path} </>);
+        return path;
     }
 
     function createShapeControls() {
@@ -531,7 +532,7 @@ function ShapeLayer(props) {
 
                     {createShapeControls()}
 
-                    {(copyOfShape.shapeClass === 'Shape') ? createPath() : ''}
+                    
 
 
                     {/* {(copyOfShape.shapeClass !== 'Group') ? (
@@ -556,7 +557,11 @@ function ShapeLayer(props) {
 
                     {(copyOfShape.shapeClass !== 'Box' && copyOfShape.shapeClass !== 'Group') ? createColorControls() : ''}
 
+                    {(copyOfShape.shapeClass === 'Shape') ? createPath() : ''}
+
                     {(copyOfShape.shapeClass === 'Box') ? createBoxFaceControls() : ''}
+
+
 
                 </div>
 
